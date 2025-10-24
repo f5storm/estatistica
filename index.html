@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo: Probabilidade e Binômio de Newton</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* == Cores do Tema (Base) == */
+            --probabilidade-color: #4f46e5;      /* Indigo-600 */
+            --binomio-color: #059669;     /* Emerald-600 */
+            --conceitos-color: #d97706;         /* Amber-600 */
+
+            /* == MODO ESCURO == */
+
+            /* Glow/Highlight Colors for dark theme */
+            --probabilidade-glow: rgba(79, 70, 229, 0.2);
+            --binomio-glow: rgba(5, 150, 105, 0.2);
+            --conceitos-glow: rgba(217, 119, 6, 0.2);
+            
+            /* Theme Border Colors for dark theme */
+            --probabilidade-border: rgba(99, 102, 241, 0.4); /* Indigo-400 */
+            --binomio-border: rgba(52, 211, 153, 0.4); /* Emerald-400 */
+            --conceitos-border: rgba(245, 158, 11, 0.4); /* Amber-400 */
+
+            /* Dark Theme Palette */
+            --bg-main: #111827; /* gray-900 */
+            --text-primary: #f3f4f6; /* gray-100 */
+            --text-secondary: #9ca3af; /* gray-400 */
+        }
+
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            color: var(--text-primary); /* Alterado */
+            overflow-x: hidden;
+            background-color: var(--bg-main); /* Alterado */
+            transition: background-color 0.5s ease-in-out;
+        }
+        
+        /* == Background color flash for Quiz (Dark) == */
+        body.correct-bg { background-color: #062e1e; } /* emerald-950 */
+        body.incorrect-bg { background-color: #450a0a; } /* red-950 */
+
+        /* Animated background shapes (Sem alteração, já usam opacidade) */
+        .background-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: -2;
+        }
+        .light-bubble {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.15; 
+            animation: moveBubble 35s infinite alternate;
+        }
+        .light-bubble.b1 { width: 45vw; height: 45vw; top: 5%; left: -10%; background: var(--probabilidade-color); animation-duration: 40s; }
+        .light-bubble.b2 { width: 45vw; height: 45vw; top: 40%; left: 70%; background: var(--conceitos-color); animation-duration: 35s; }
+        .light-bubble.b3 { width: 50vw; height: 50vw; top: 60%; left: 10%; background: var(--binomio-color); animation-duration: 45s; }
+
+        @keyframes moveBubble {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(15vw, -20vh) scale(1.2); }
+        }
+        
+        /* Dynamic background glows (Sem alteração) */
+        .dynamic-bg-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 150vmax;
+            height: 150vmax;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: -1;
+        }
+        #bg-probabilidade { background-color: var(--probabilidade-color); }
+        #bg-binomio-newton { background-color: var(--binomio-color); }
+
+        .section-container {
+            width: 100%;
+            padding: 7rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+        
+        #hero { 
+            min-height: 90vh; 
+            padding-top: 2rem; 
+            padding-bottom: 2rem;
+        }
+        #hero h1 { 
+            font-size: clamp(2.8rem, 7vw, 5rem); 
+            font-weight: 800; 
+            letter-spacing: -0.05em; 
+            text-shadow: 0 0 20px rgba(255,255,255,0.05); /* Alterado */
+        }
+        #hero p { 
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem); 
+            max-width: 650px; 
+            color: var(--text-secondary);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* == Cards (Dark Glass) == */
+        .section-header-card {
+            position: relative;
+            background: rgba(31, 41, 55, 0.35); /* gray-800 com opacidade */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda clara sutil */
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); /* Sombra mais escura */
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+            overflow: hidden;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .section-header-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-header-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.15); /* Destaque interno claro */
+            z-index: 1;
+        }
+        .section-header-card > * {
+             position: relative;
+             z-index: 2;
+        }
+        .section-header-card .section-title {
+            margin-bottom: 1rem;
+        }
+        #hero .section-header-card { margin-bottom: 0; } 
+
+        .section-title { font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 800; letter-spacing: -0.04em; color: var(--text-primary); position: relative; }
+        .section-subtitle { 
+            font-size: clamp(1rem, 2vw, 1.2rem); 
+            max-width: 700px; 
+            color: var(--text-secondary); 
+            margin-bottom: 0;
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+        .topics-grid {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        /* == Topic Cards (Dark Glass) == */
+        .topic-card {
+            position: relative;
+            background: rgba(31, 41, 55, 0.35); /* gray-800 com opacidade */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .topic-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .topic-card:nth-child(1) { transition-delay: 0.05s; }
+        .topic-card:nth-child(2) { transition-delay: 0.1s; }
+        .topic-card:nth-child(3) { transition-delay: 0.15s; }
+        .topic-card:nth-child(4) { transition-delay: 0.2s; }
+        .topic-card:nth-child(5) { transition-delay: 0.25s; }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.15);
+            transition: box-shadow 0.4s ease;
+            z-index: 1;
+        }
+        
+        .topic-card:hover::before { 
+            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+        }
+        
+        .topic-card > div {
+            position: relative;
+            z-index: 2;
+        }
+
+        .topic-card:hover { 
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.15); 
+        }
+        
+        .topic-card .summary { 
+            color: var(--text-primary); /* Alterado */
+            text-shadow: none;
+            font-size: 1.125rem; 
+            font-weight: 600; 
+            padding: 1.5rem; 
+            cursor: pointer; 
+            outline: none; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .topic-card .summary::after { 
+            content: '+'; 
+            font-size: 1.5rem; 
+            font-weight: 400; 
+            color: var(--text-secondary);
+            text-shadow: none;
+            transition: transform 0.3s ease-in-out; 
+        }
+        .topic-card.is-open > .summary::after { transform: rotate(45deg); }
+        .topic-card.is-open > .summary { 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Alterado */
+        }
+        
+        .topic-content-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .topic-content { 
+            padding: 1.5rem; 
+            font-size: 0.95rem; 
+            color: var(--text-secondary);
+            text-shadow: none;
+            line-height: 1.7;
+        }
+        .topic-content code {
+            font-family: 'monospace';
+            background-color: rgba(255,255,255,0.1); /* Alterado */
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-primary); /* Alterado */
+        }
+        
+        /* Fundo de exemplo (Dark) */
+        .topic-content .bg-indigo-50,
+        .topic-content .bg-amber-50,
+        .topic-content .bg-emerald-50 {
+            background-color: #1f2937 !important; /* gray-800 */
+            color: var(--text-primary);
+        }
+
+        .image-bubble {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05); /* Alterado */
+            border-radius: 1.25rem;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .image-bubble:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .image-bubble svg {
+            width: 100%;
+            height: auto;
+            border-radius: 0.75rem;
+            display: block;
+        }
+        
+        #probabilidade .topic-card.is-open {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15), inset 0 0 0 2px var(--probabilidade-border);
+        }
+        #binomio-newton .topic-card.is-open {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15), inset 0 0 0 2px var(--binomio-border);
+        }
+        
+        #probabilidade .topic-card.is-open:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2), inset 0 0 0 2px rgba(99, 102, 241, 0.6);
+        }
+        #binomio-newton .topic-card.is-open:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2), inset 0 0 0 2px rgba(52, 211, 153, 0.6);
+        }
+        
+        /* == Termos (Dark) == */
+        .term { 
+            text-decoration: none; 
+            cursor: pointer; 
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 0.6rem;
+            transition: all 0.2s ease-in-out;
+            text-shadow: none;
+        }
+        #probabilidade .term { background-color: var(--probabilidade-glow); color: #a5b4fc; } /* indigo-300 */
+        #binomio-newton .term { background-color: var(--binomio-glow); color: #6ee7b7; } /* emerald-300 */
+        .term:hover { 
+            filter: brightness(1.25); 
+        }
+
+        /* == Modal Styling (Dark) == */
+        #modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(17, 24, 39, 0.5); /* gray-900 com opacidade */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+            z-index: 1000;
+        }
+        #modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.4s ease;
+        }
+        
+        #modal-content {
+            background: rgba(31, 41, 55, 0.55); /* gray-800 com opacidade */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            border-radius: 2rem;
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            transform: scale(0.95);
+            transition: transform 0.4s ease;
+            overflow: hidden; 
+        }
+        
+        #modal-content.image-modal {
+             max-width: 650px;
+        }
+        
+        #modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+
+        #modal-overlay.visible #modal-content { 
+            transform: scale(1);
+        }
+        
+        #modal-content.theme-probabilidade { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 0 0 2px var(--probabilidade-border); }
+        #modal-content.theme-binomio-newton { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 0 0 2px var(--binomio-border); }
+        #modal-content.theme-conceitos { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 0 0 2px var(--conceitos-border); }
+        
+        #modal-header, #modal-description {
+            position: relative;
+            z-index: 2;
+        }
+
+        #modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Alterado */
+            background: transparent;
+            text-align: center;
+            padding: 1.5rem 3.5rem;
+        }
+        
+        #modal-title { 
+            font-size: 1.75rem; 
+            font-weight: 700; 
+            text-shadow: none;
+        }
+        #modal-header.theme-probabilidade #modal-title { color: #c7d2fe; } /* indigo-200 */
+        #modal-header.theme-binomio-newton #modal-title { color: #a7f3d0; } /* emerald-200 */
+        #modal-header.theme-conceitos #modal-title { color: #fcd34d; } /* amber-300 */
+        
+        #modal-description { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; padding: 1.5rem 2rem 2rem 2rem; }
+        
+        /* Botões de confirmação (Dark) */
+        .modal-button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+        .modal-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        .modal-button-confirm {
+            background-color: var(--probabilidade-color);
+            color: white;
+        }
+        .modal-button-confirm:hover {
+            filter: brightness(1.1);
+        }
+        .modal-button-cancel {
+            background-color: rgba(255,255,255,0.1); /* Alterado */
+            color: var(--text-secondary);
+        }
+        .modal-button-cancel:hover {
+            background-color: rgba(255,255,255,0.15); /* Alterado */
+        }
+
+        #modal-image-container {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+        #modal-image-container svg {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            border-radius: 1rem;
+        }
+
+        #modal-close-btn {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: rgba(255,255,255,0.1); /* Alterado */
+            border: none;
+            border-radius: 50%;
+            width: 2.5rem; height: 2.5rem;
+            cursor: pointer; 
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            z-index: 3;
+        }
+        #modal-close-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); } /* Alterado */
+        
+        .footer-signature { text-align: center; padding: 4rem 1rem; background-color: transparent; color: #6b7280; } /* gray-500 */
+        ul { list-style-position: inside; padding-left: 0.5rem;}
+        li { margin-bottom: 0.5rem; }
+
+        /* == Quiz Styles (Dark) == */
+        #quiz-section {
+             background: rgba(0, 0, 0, 0.2); /* Alterado */
+             backdrop-filter: blur(15px);
+             -webkit-backdrop-filter: blur(15px);
+             border-top: 1px solid rgba(255, 255, 255, 0.1); /* Alterado */
+             padding-bottom: 4rem;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(31, 41, 55, 0.5); /* gray-800 com opacidade */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        #progress-bar-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(55, 65, 81, 0.4); /* gray-700 com opacidade */
+            border-radius: 9999px;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #progress-bar-fill {
+            height: 1.5rem;
+            background: linear-gradient(90deg, var(--binomio-color), var(--probabilidade-color));
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+        #progress-label {
+            text-align: center;
+            margin-top: 0.75rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        #question-counter-display {
+            position: absolute;
+            top: 2.5rem;
+            right: 2.5rem;
+            width: auto;
+            min-width: 44px;
+            height: 44px;
+            padding: 0 0.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            background-color: var(--text-secondary);
+        }
+        
+        #help-btn {
+            position: absolute;
+            top: 2.5rem;
+            left: 2.5rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.05); /* Alterado */
+            border: 2px solid var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #help-btn:hover {
+            transform: scale(1.1);
+            background-color: rgba(255,255,255,0.1); /* Alterado */
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+        
+        #quiz-question {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            padding: 0 96px; 
+            text-align: center;
+        }
+        
+        #quiz-options {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background-color: rgba(55, 65, 81, 0.7); /* gray-700 com opacidade */
+            border: 1px solid rgba(255,255,255,0.05); /* Alterado */
+            border-radius: 1rem;
+            padding: 1.25rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            will-change: transform, box-shadow;
+            color: var(--text-primary);
+        }
+
+        .quiz-option:hover {
+            transform: translateY(-3px);
+            background-color: #4b5563; /* gray-600 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.15);
+        }
+        
+        .quiz-option.disabled { cursor: not-allowed; opacity: 0.7; }
+        .quiz-option.correct-answer {
+            border-color: #22c55e;
+            background-color: #064e3b; /* emerald-900 */
+            color: #d1fae5; /* emerald-100 */
+            font-weight: 600;
+        }
+        .quiz-option.incorrect-answer {
+            border-color: #ef4444;
+            background-color: #7f1d1d; /* red-900 */
+            color: #fee2e2; /* red-100 */
+            font-weight: 600;
+        }
+        
+        /* == Botões (Dark) == */
+        #quiz-start-btn, #restart-quiz-btn {
+            background: rgba(55, 65, 81, 0.4); /* gray-700 com opacidade */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            font-weight: 700;
+            padding: 1rem 2.5rem;
+            border-radius: 1rem;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: var(--text-primary); /* Alterado */
+        }
+        
+        #quiz-start-btn:disabled { 
+            cursor: not-allowed; 
+            background: rgba(55, 65, 81, 0.2);
+            color: #6b7280; /* gray-500 */
+        }
+
+        #restart-quiz-btn {
+            color: #a5b4fc; /* indigo-300 */
+            margin-top: 2rem;
+        }
+        
+        #reset-progress-btn {
+            color: #9ca3af; /* gray-400 */
+            background: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        #quiz-start-btn:hover, #restart-quiz-btn:hover {
+            transform: scale(1.05);
+            background: rgba(55, 65, 81, 0.6); /* gray-700 */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        #reset-progress-btn:hover {
+             color: var(--text-primary);
+             text-decoration: underline;
+        }
+        
+        #quiz-results { text-align: center; }
+        
+        #quiz-results h3 {
+             font-size: 2rem;
+             font-weight: 700;
+             margin-bottom: 1.5rem;
+        }
+
+        #quiz-percentage {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            width: 150px;
+            height: 150px;
+            background: rgba(55, 65, 81, 0.4); /* gray-700 com opacidade */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .results-stats {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .stat-correct, .stat-incorrect {
+            font-weight: 600;
+            color: var(--text-primary);
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .stat-correct { background-color: rgba(34, 197, 94, 0.25); }
+        .stat-incorrect { background-color: rgba(239, 68, 68, 0.25); }
+        
+        #missed-topics-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        .missed-topic-bubble {
+            background-color: #374151; /* gray-700 */
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .missed-topic-bubble:hover {
+            background-color: #4b5563; /* gray-600 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .missed-topic-bubble.visited-topic {
+            border-color: #22c55e;
+            background-color: #064e3b; /* emerald-900 */
+            color: #a7f3d0; /* emerald-200 */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <div class="light-bubble b1"></div>
+        <div class="light-bubble b2"></div>
+        <div class="light-bubble b3"></div>
+        <div class="dynamic-bg-glow" id="bg-probabilidade"></div>
+        <div class="dynamic-bg-glow" id="bg-binomio-newton"></div>
+    </div>
+
+    <section id="hero" class="section-container">
+        <div class="section-header-card">
+            <h1>Probabilidade e Binômio</h1>
+            <p class="mt-4">Uma jornada interativa pelos conceitos fundamentais de probabilidade e a expansão do Binômio de Newton.</p>
+        </div>
+    </section>
+    
+    <section id="probabilidade" class="section-container">
+        <div class="section-header-card">
+            <h2 class="section-title">Tópico Principal: Probabilidade</h2>
+            <p class="section-subtitle">A probabilidade é o ramo da matemática que estuda a chance de um determinado <span class="term" data-description="Qualquer resultado ou conjunto de resultados de um experimento (ex: 'tirar um número par', 'obter cara').">evento</span> ocorrer. A maioria das questões usa a <span class="term" data-description="A definição de probabilidade onde todos os resultados possíveis (Total de Casos) têm a mesma chance de ocorrer.">Definição Clássica (Laplace)</span>.</p>
+        </div>
+        <div class="topics-grid">
+            <div class="topic-card" id="topic-formula-basica">
+                <div class="summary">Conceito-Chave: A Fórmula Básica</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Toda questão de probabilidade simples se resume a uma fração:</p>
+                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                            P(Evento) = <br>
+                            <span class="text-lg"><span class="term" data-description="O número de resultados que satisfazem o evento desejado. É 'o que eu quero que aconteça'.">Casos Favoráveis</span> (O que eu QUERO)</span>
+                            <br> / <br> 
+                            <span class="text-lg"><span class="term" data-description="O número total de resultados possíveis em um experimento. Também chamado de 'Espaço Amostral'. É 'tudo o que pode acontecer'.">Total de Casos</span> (TUDO o que PODE)</span>
+                        </p>
+                        <p class="font-semibold text-gray-300">Exemplo (Urna com Bolas):</p>
+                        <p><span class="term" data-description="Um recipiente (geralmente opaco) usado em sorteios para conter bolas, bilhetes ou números.">Urna</span> com 10 bolas (1 a 10). Qual a P(tirar um número <span class="term" data-description="Um número inteiro que é divisível por 2 (ex: 2, 4, 6, 8, 10).">par</span> OU <span class="term" data-description="Um número natural maior que 1 que tem apenas dois divisores: 1 e ele mesmo (ex: 2, 3, 5, 7).">primo</span>)?</p>
+                        <ul>
+                            <li><strong>Total de Casos:</strong> 10 bolas {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}</li>
+                            <li><strong>Casos Favoráveis:</strong>
+                                <ul>
+                                    <li>Pares: {2, 4, 6, 8, 10} -> 5 números</li>
+                                    <li>Primos: {2, 3, 5, 7} -> 4 números</li>
+                                </ul>
+                            </li>
+                            <li><strong>Cuidado (<span class="term" data-description="A probabilidade de um evento A *ou* um evento B ocorrer. Envolve somar os casos, mas subtraindo a interseção (elementos em comum) para não contar duas vezes.">União "OU"</span>):</strong> O '2' está nas duas listas. Não podemos contá-lo duas vezes.</li>
+                            <li><strong><span class="term" data-description="Criar um novo conjunto que contém todos os elementos únicos de dois ou mais conjuntos.">Unindo os conjuntos</span>:</strong> {2, 3, 4, 5, 6, 7, 8, 10} -> 8 números.</li>
+                            <li><strong>Probabilidade:</strong> P = 8 / 10 = 4 / 5 = 80%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-card" id="topic-evento-complementar">
+                <div class="summary">O "Macete" do "Pelo Menos Um"</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p><strong>Identificação:</strong> O enunciado pede "pelo menos um", "ao menos um" ou "no mínimo um".</p>
+                        <p><strong>Conceito:</strong> Quase sempre, é muito mais fácil calcular a probabilidade do contrário (o <span class="term" data-description="O evento complementar de A é o evento em que A não ocorre. A probabilidade de A ocorrer é 1 menos a probabilidade de A não ocorrer. P(A) = 1 - P(não A).">evento complementar</span>) e subtrair o resultado de <span class="term" data-description="A probabilidade total de todos os eventos possíveis é 1 (ou 100%). P(A) + P(não A) = 1.">100% (ou 1)</span>.</p>
+                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                            P(pelo menos 1) = 1 - P(nenhum)
+                        </p>
+                        <p class="font-semibold text-gray-300">Exemplo (Lançamento de Moedas):</p>
+                        <p><span class="term" data-description="Lançar uma moeda 3 vezes. Cada lançamento tem 2 resultados (Cara/Coroa), então o total de casos é 2 × 2 × 2 = 2³ = 8.">Moeda 3x</span>. P(pelo menos duas caras)?</p>
+                        <ul>
+                            <li><strong>Total de Casos (<span class="term" data-description="Um diagrama usado para visualizar e listar todos os resultados possíveis de um experimento com múltiplas etapas (como lançar uma moeda 3x).">Árvore</span>):</strong> {CCC, CCK, CKC, CKK, KCC, KCK, KKC, KKK} -> 8 casos.</li>
+                            <li><strong>Favoráveis ("pelo menos 2 caras"):</strong> {CCC, CCK, CKC, KCC} -> 4 casos.</li>
+                            <li><strong>Probabilidade:</strong> P = 4 / 8 = 1/2.</li>
+                            <li>(Neste caso, a contagem direta foi fácil, mas o macete é vital para problemas maiores).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-card" id="topic-eventos-sucessivos">
+                <div class="summary">Eventos Sucessivos ("E") - Multiplicação</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p><strong>Identificação:</strong> Ocorrem várias coisas em sequência E uma não afeta a outra (<span class="term" data-description="Dois eventos são independentes se a ocorrência de um não afeta a probabilidade de ocorrência do outro. Ex: lançar uma moeda duas vezes.">eventos independentes</span>). Ex: lançar um dado duas vezes.</p>
+                        <p><strong>Conceito:</strong> A probabilidade de (A e B) acontecerem é o produto das suas probabilidades individuais.</p>
+                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                            P(A e B) = P(A) × P(B)
+                        </p>
+                        <p class="font-semibold text-gray-300">Exemplo (Lançamento de Dados):</p>
+                        <p><span class="term" data-description="Lançar um dado 2 vezes. Cada lançamento tem 6 resultados, então o total de casos é 6 × 6 = 6² = 36.">Dado 2x</span>. P(Primeiro > Segundo)?</p>
+                        <ul>
+                            <li><strong>Total de Casos:</strong> 6 × 6 = 36 casos. (Veja a tabela)</li>
+                            <li><strong>Casos Favoráveis:</strong> Conte na tabela: (2,1), (3,1), (3,2), (4,1), (4,2), (4,3), (5,1)...(5,4), (6,1)...(6,5). São 1+2+3+4+5 = 15 casos.</li>
+                            <li><strong>Probabilidade:</strong> P = 15 / 36 = 5 / 12.</li>
+                        </ul>
+                        <div class="image-bubble" id="svg-tabela-dados" data-img-svg="true" data-img-alt="Tabela de Lançamento de Dois Dados" data-img-description="Tabela 6x6 mostrando todos os 36 resultados possíveis ao lançar dois dados. Os casos favoráveis para 'Dado 1 > Dado 2' estão destacados.">
+                            <!-- SVG Tabela de Dados (Modo Escuro) -->
+                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="text-xs font-sans">
+                                <title>Tabela 6x6 - Lançamento de Dois Dados</title>
+                                <defs>
+                                    <rect id="cell" width="25" height="25" fill="#4b5563" stroke="#9ca3af" />
+                                    <rect id="fav-cell" width="25" height="25" fill="#1e3a8a" stroke="#60a5fa" />
+                                    <g id="headers" font-weight="bold" fill="#f3f4f6">
+                                        <text x="12.5" y="17.5" text-anchor="middle">1</text>
+                                        <text x="37.5" y="17.5" text-anchor="middle">2</text>
+                                        <text x="62.5" y="17.5" text-anchor="middle">3</text>
+                                        <text x="87.5" y="17.5" text-anchor="middle">4</text>
+                                        <text x="112.5" y="17.5" text-anchor="middle">5</text>
+                                        <text x="137.5" y="17.5" text-anchor="middle">6</text>
+                                    </g>
+                                </defs>
+                                <rect x="0" y="0" width="200" height="200" fill="#374151" />
+                                <text x="100" y="20" text-anchor="middle" font-weight="bold" font-size="14" fill="#f3f4f6">Dado 2</text>
+                                <text x="15" y="115" text-anchor="middle" font-weight="bold" font-size="14" transform="rotate(-90 15 115)" fill="#f3f4f6">Dado 1</text>
+                                <g transform="translate(30, 30)">
+                                    <g transform="translate(25, 0)"><use href="#headers"/></g>
+                                    <g transform="translate(0, 25)" writing-mode="vertical-rl" text-orientation="mixed"><use href="#headers"/></g>
+                                    <g transform="translate(25, 25)">
+                                        <use href="#cell" x="0" y="0"/> <use href="#cell" x="25" y="0"/> <use href="#cell" x="50" y="0"/> <use href="#cell" x="75" y="0"/> <use href="#cell" x="100" y="0"/> <use href="#cell" x="125" y="0"/>
+                                        <use href="#fav-cell" x="0" y="25"/> <use href="#cell" x="25" y="25"/> <use href="#cell" x="50" y="25"/> <use href="#cell" x="75" y="25"/> <use href="#cell" x="100" y="25"/> <use href="#cell" x="125" y="25"/>
+                                        <use href="#fav-cell" x="0" y="50"/> <use href="#fav-cell" x="25" y="50"/> <use href="#cell" x="50" y="50"/> <use href="#cell" x="75" y="50"/> <use href="#cell" x="100" y="50"/> <use href="#cell" x="125" y="50"/>
+                                        <use href="#fav-cell" x="0" y="75"/> <use href="#fav-cell" x="25" y="75"/> <use href="#fav-cell" x="50" y="75"/> <use href="#cell" x="75" y="75"/> <use href="#cell" x="100" y="75"/> <use href="#cell" x="125" y="75"/>
+                                        <use href="#fav-cell" x="0" y="100"/> <use href="#fav-cell" x="25" y="100"/> <use href="#fav-cell" x="50" y="100"/> <use href="#fav-cell" x="75" y="100"/> <use href="#cell" x="100" y="100"/> <use href="#cell" x="125" y="100"/>
+                                        <use href="#fav-cell" x="0" y="125"/> <use href="#fav-cell" x="25" y="125"/> <use href="#fav-cell" x="50" y="125"/> <use href="#fav-cell" x="75" y="125"/> <use href="#fav-cell" x="100" y="125"/> <use href="#cell" x="125" y="125"/>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="topic-card" id="topic-prob-condicional">
+                <div class="summary">Probabilidade Condicional ("Sabendo que...")</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p><strong>Identificação:</strong> O enunciado dá uma informação prévia que reduz o <span class="term" data-description="O conjunto de todos os resultados possíveis (o Espaço Amostral). Na probabilidade condicional, este conjunto é reduzido pela nova informação dada.">universo total</span>. Palavras-chave: "sabendo que", "dado que", "dentre os que...".</p>
+                        <p><strong>Conceito:</strong> O seu <span class="term" data-description="O número de baixo em uma fração. Na probabilidade, representa o 'Total de Casos'. Na condicional, este número diminui.">denominador</span> (Total de Casos) muda. O novo total não é mais tudo, mas sim o grupo que satisfaz a condição dada.</p>
+                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                           <span class="term" data-description="A probabilidade de um evento A ocorrer, dado que um evento B já ocorreu. A fórmula é P(A|B) = P(A e B) / P(B).">P(A | B)</span> = P(A e B) / P(B) <br>
+                           <span class="text-base">(Lê-se: Probabilidade de A, dado que B ocorreu)</span>
+                        </p>
+                        <p><strong>Macete (Mais fácil):</strong> P = Casos (A e B) juntos / Casos da CONDIÇÃO</p>
+                        <p class="font-semibold text-gray-300">Exemplo (Pesquisa de Votação):</p>
+                        <p>P(ser mulher OU ter votado na Opção 1)?</p>
+                        <ul>
+                            <li><strong>Total de Alunos:</strong> 30</li>
+                            <li><strong>P(Mulher):</strong> (4 + 10) / 30 = 14 / 30</li>
+                            <li><strong>P(Opção 1):</strong> 10 / 30</li>
+                            <li><strong>P(Mulher E Opção 1):</strong> 4 / 30 (A <span class="term" data-description="Representa os resultados que pertencem *simultaneamente* ao evento A e ao evento B. Neste caso, 'ser mulher' E 'votar na Opção 1'.">interseção</span>)</li>
+                            <li><strong><span class="term" data-description="A Regra da Soma: P(A ou B) = P(A) + P(B) - P(A e B). Usada para calcular a probabilidade da união de eventos.">P(M ou O1) =</span></strong> P(M) + P(O1) - P(M e O1)</li>
+                            <li><strong>P =</strong> (14/30) + (10/30) - (4/30) = 20 / 30 = 2/3</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-card" id="topic-graficos-tabelas">
+                <div class="summary">Interpretação de Gráficos e Tabelas</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Muitas questões são apenas a fórmula básica, mas os dados (Favoráveis e Total) vêm de uma tabela ou <span class="term" data-description="Uma representação visual de dados. O da Q1 é um gráfico de barras, onde a altura de cada barra representa uma porcentagem.">gráfico</span>, exigindo leitura atenta.</p>
+                        <p class="font-semibold text-gray-300">Exemplo (Gráfico de Conexão):</p>
+                        <p>P(Banda larga de pelo menos 1 Mbps)?</p>
+                        <ul>
+                            <li><strong>Total de Casos:</strong> 100% (todos os pesquisados).</li>
+                            <li><strong>Casos Favoráveis ("pelo menos 1 Mbps"):</strong>
+                                <ul>
+                                    <li>"Entre 1 e 2 Mbps": 20%</li>
+                                    <li>"Entre 2 e 4 Mbps": 15%</li>
+                                    <li>"Entre 4 e 8 Mbps": 5%</li>
+                                    <li>"Acima de 8 Mbps": 1%</li>
+                                </ul>
+                            </li>
+                            <li><strong>Soma dos Favoráveis:</strong> 20 + 15 + 5 + 1 = 41%</li>
+                            <li><strong>Probabilidade:</strong> P = 41% / 100% = 0,41</li>
+                        </ul>
+                        <div class="image-bubble" id="svg-grafico-q1" data-img-svg="true" data-img-alt="Gráfico da Questão 1 - Velocidade da Conexão" data-img-description="Gráfico de barras da Questão 1, mostrando os percentuais de domicílios por velocidade de conexão.">
+                           <!-- SVG Gráfico Q1 (Modo Escuro) -->
+                           <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" class="font-sans text-xs">
+                                <title>Gráfico Q1 - Velocidade de Conexão</title>
+                                <rect width="400" height="250" fill="#374151" />
+                                <line x1="50" y1="210" x2="380" y2="210" stroke="#9ca3af" stroke-width="2"/>
+                                <line x1="50" y1="210" x2="50" y2="30" stroke="#9ca3af" stroke-width="2"/>
+                                <g text-anchor="end" fill="#d1d5db">
+                                    <text x="45" y="215">0</text>
+                                    <text x="45" y="170">10</text><line x1="50" y1="170" x2="380" y2="170" stroke="#4b5563" stroke-width="1" stroke-dasharray="2"/>
+                                    <text x="45" y="125">20</text><line x1="50" y1="125" x2="380" y2="125" stroke="#4b5563" stroke-width="1" stroke-dasharray="2"/>
+                                    <text x="45" y="80">30</text><line x1="50" y1="80" x2="380" y2="80" stroke="#4b5563" stroke-width="1" stroke-dasharray="2"/>
+                                    <text x="45" y="35">40</text>
+                                </g>
+                                <g fill="#4f46e5" class="bar">
+                                    <rect x="60" y="62" width="25" height="148" fill="#a5b4fc"><title>34%</title></rect>
+                                    <rect x="90" y="125" width="25" height="85" fill="#4f46e5"><title>20%</title></rect>
+                                    <rect x="120" y="147" width="25" height="63" fill="#4f46e5"><title>15%</title></rect>
+                                    <rect x="150" y="190" width="25" height="20" fill="#4f46e5"><title>5%</title></rect>
+                                    <rect x="180" y="205" width="25" height="5" fill="#4f46e5"><title>1%</title></rect>
+                                    <rect x="210" y="190" width="25" height="20" fill="#a5b4fc"><title>5%</title></rect>
+                                    <rect x="240" y="190" width="25" height="20" fill="#a5b4fc"><title>5%</note></rect>
+                                    <rect x="270" y="181" width="25" height="29" fill="#a5b4fc"><title>6%</note></rect>
+                                    <rect x="300" y="107" width="25" height="103" fill="#a5b4fc"><title>24%</note></rect>
+                                </g>
+                                <g text-anchor="middle" fill="#f3f4f6" class="labels">
+                                    <text x="72.5" y="225">Até 1</text>
+                                    <text x="102.5" y="225">1-2</text>
+                                    <text x="132.5" y="225">2-4</text>
+                                    <text x="162.5" y="225">4-8</text>
+                                    <text x="192.5" y="225">>8</text>
+                                    <text x="222.5" y="225">...</text>
+                                    <text x="252.5" y="225">...</text>
+                                    <text x="282.5" y="225">Disc.</text>
+                                    <text x="312.5" y="225">Não Sabe</text>
+                                </g>
+                           </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- NOVO TÓPICO 1 -->
+            <div class="topic-card" id="topic-uniao-eventos">
+                <div class="summary">União de Eventos (A "Regra do OU")</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Frequentemente, queremos saber a probabilidade de um evento A <strong>OU</strong> um evento B ocorrer. Isso é chamado de <span class="term" data-description="A probabilidade de que *pelo menos um* de um conjunto de eventos ocorra. Representado por P(A ∪ B).">União de Eventos</span>.</p>
+                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                           P(A ou B) = P(A) + P(B) - P(A e B)
+                        </p>
+                        <ul>
+                            <li><strong>P(A e B)</strong> é a <span class="term" data-description="Os resultados que pertencem *tanto* ao evento A *quanto* ao evento B. É a sobreposição dos dois conjuntos.">Interseção</span>, ou seja, os resultados que estão nos dois eventos ao mesmo tempo. Subtraímos para não contá-los duas vezes.</li>
+                            <li><strong><span class="term" data-description="Dois eventos que não podem ocorrer ao mesmo tempo. A interseção entre eles é zero (P(A e B) = 0). Ex: Tirar 'par' e 'ímpar' em um dado.">Eventos Mutuamente Exclusivos</span>:</strong> Se A e B não podem acontecer juntos (ex: ser 'par' e 'ímpar'), a interseção é zero, e a fórmula vira P(A ou B) = P(A) + P(B).</li>
+                        </ul>
+                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Dado 1x):</p>
+                        <p>P(ser < 3 OU ser par)?</p>
+                        <ul>
+                            <li><strong>Total de Casos:</strong> 6 {1, 2, 3, 4, 5, 6}</li>
+                            <li><strong>P(A) (ser < 3):</strong> {1, 2} -> P(A) = 2/6</li>
+                            <li><strong>P(B) (ser par):</strong> {2, 4, 6} -> P(B) = 3/6</li>
+                            <li><strong><span class="term" data-description="O resultado que é '< 3' E 'par' ao mesmo tempo.">P(A e B)</span> (ser < 3 E par):</strong> {2} -> P(A e B) = 1/6</li>
+                            <li><strong>Probabilidade:</strong> (2/6) + (3/6) - (1/6) = 4/6 = 2/3</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- NOVO TÓPICO 2 -->
+            <div class="topic-card" id="topic-analise-combinatoria">
+                <div class="summary">Contando Casos (Análise Combinatória)</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Para problemas complexos, contar o <span class="term" data-description="O número de resultados que satisfazem o evento desejado. É 'o que eu quero que aconteça'.">Total de Casos</span> e os <span class="term" data-description="O número total de resultados possíveis em um experimento. Também chamado de 'Espaço Amostral'. É 'tudo o que pode acontecer'.">Casos Favoráveis</span> exige <span class="term" data-description="O ramo da matemática focado em contagem de grupos e arranjos (permutações, combinações, etc.).">Análise Combinatória</span>.</p>
+                        <p>Os dois conceitos principais são:</p>
+                        <ul>
+                            <li><strong><span class="term" data-description="C(n, p) = n! / (p! * (n-p)!). Usada para escolher 'p' itens de um total de 'n' onde a ORDEM NÃO IMPORTA (ex: escolher uma comissão).">Combinação</span>:</strong> A ordem NÃO importa. Usada para formar grupos, comissões, times, ou pegar cartas de um baralho.</li>
+                            <li><strong><span class="term" data-description="P(n) = n! ou A(n, p) = n! / (n-p)!. Usada quando a ORDEM IMPORTA (ex: formar uma fila, um pódio, uma senha).">Permutação/Arranjo</span>:</strong> A ordem IMPORTA. Usada para criar filas, pódios, senhas, ou anagramas.</li>
+                        </ul>
+                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Grupo de Pessoas):</p>
+                        <p>Grupo de 4 Homens e 4 Mulheres. P(escolher 3 pessoas e ser 1H e 2M)?</p>
+                        <ul>
+                            <li><strong>Total de Casos:</strong> Escolher 3 de 8 pessoas. A ordem não importa.
+                                <br>Total = <span class="term" data-description="C(8, 3) = 8! / (3! * 5!) = (8*7*6) / (3*2*1) = 56. Existem 56 grupos possíveis de 3 pessoas.">C(8, 3) = 56</span></li>
+                            <li><strong>Casos Favoráveis:</strong> Escolher 1H de 4 (<span class="term" data-description="C(4, 1) = 4. Existem 4 maneiras de escolher 1 homem.">C(4, 1)</span>) <strong>E</strong> Escolher 2M de 4 (<span class="term" data-description="C(4, 2) = 4! / (2! * 2!) = (4*3)/2 = 6. Existem 6 maneiras de escolher 2 mulheres.">C(4, 2)</span>).
+                                <br>Favoráveis = C(4, 1) × C(4, 2) = 4 × 6 = 24</li>
+                            <li><strong>Probabilidade:</strong> P = 24 / 56 = 3 / 7</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="binomio-newton" class="section-container">
+         <div class="section-header-card">
+            <h2 class="section-title">Tópico Secundário: Binômio de Newton</h2>
+            <p class="section-subtitle">Conceitos para encontrar termos específicos na <span class="term" data-description="O processo de reescrever uma potência, como (a+b)², na sua forma de soma, como a² + 2ab + b². O Binômio de Newton é a fórmula para (a+b)ⁿ.">expansão de (a + b)ⁿ</span> sem precisar expandir o binômio inteiro.</p>
+        </div>
+        <div class="topics-grid">
+            <div class="topic-card" id="topic-termo-geral">
+                <div class="summary">Conceito-Chave: A Fórmula do Termo Geral</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Esta <span class="term" data-description="Uma equação que permite calcular qualquer termo (T_p+1) de uma expansão binomial (a+b)^n sem precisar calcular todos os termos anteriores.">fórmula</span> é a "chave mestra" para todas as questões de binômio.</p>
+                        <div class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                            <p class="text-lg">T<sub>p+1</sub> = C(n, p) ⋅ a<sup>n-p</sup> ⋅ b<sup>p</sup></p>
+                        </div>
+                        <ul>
+                            <li><strong><span class="term" data-description="Representa o 'Termo' na posição 'p+1'. Por exemplo, T₁ é o primeiro termo (onde p=0), T₂ é o segundo (onde p=1), e assim por diante.">T<sub>p+1</sub></span>:</strong> É o termo que estamos procurando.</li>
+                            <li><strong><span class="term" data-description="O expoente total do binômio, (a+b)ⁿ. Indica o número de vezes que o binômio é multiplicado por si mesmo.">n</span>:</strong> É o expoente de fora do parêntese.</li>
+                            <li><strong><span class="term" data-description="O 'contador' que define a posição do termo. Vai de 0 até n. É sempre o expoente do segundo termo ('b').">p</span>:</strong> É o "contador" que vamos descobrir.</li>
+                            <li><strong><span class="term" data-description="O primeiro item dentro do parêntese do binômio (a+b)ⁿ.">a</span>:</strong> É o primeiro termo (ex: 5x).</li>
+                            <li><strong><span class="term" data-description="O segundo item dentro do parêntese do binômio (a+b)ⁿ.">b</span>:</strong> É o segundo termo (ex: 2).</li>
+                            <li><strong><span class="term" data-description="Também chamado de 'Número de Newton' ou C(n, p). Representa o número de formas de escolher 'p' elementos de um conjunto de 'n' elementos. Fórmula: n! / (p! * (n-p)!)">C(n, p):</span></strong> Coeficiente Binomial, calculado como <code>n! / (p! (n-p)!)</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-card" id="topic-como-usar">
+                <div class="summary">Como Usar a "Chave Mestra" (Exemplo)</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p><strong>Problema Exemplo:</strong> Coeficiente de x³ em (5x + 2)⁵.</p>
+                        <ol class="list-decimal list-outside ml-4 space-y-2">
+                            <li><strong>Identificar as partes:</strong>
+                                <ul>
+                                    <li>n = 5</li>
+                                    <li>a = 5x</li>
+                                    <li>b = 2</li>
+                                </ul>
+                            </li>
+                            <li><strong>Montar a fórmula:</strong>
+                                <p>T<sub>p+1</sub> = C(5, p) ⋅ (5x)<sup>5-p</sup> ⋅ (2)<sup>p</sup></p>
+                            </li>
+                            <li><strong>Isolar o x:</strong>
+                                <p>T<sub>p+1</sub> = C(5, p) ⋅ 5<sup>5-p</sup> ⋅ <strong>x<sup>5-p</sup></strong> ⋅ 2<sup>p</sup></p>
+                            </li>
+                            <li><strong>Achar o p:</strong> O problema quer x³. Então, o <span class="term" data-description="O número 'pequeno' escrito acima e à direita de uma base (como o '3' em x³). Indica quantas vezes a base é multiplicada por ela mesma.">expoente</span> do x deve ser 3.
+                                <p><code>5 - p = 3</code><br><code>p = 2</code></p>
+                            </li>
+                            <li><strong>Calcular o <span class="term" data-description="A parte numérica que multiplica as variáveis (como 'x') em um termo. No exemplo, 5000 é o coeficiente de x³.">Coeficiente</span>:</strong> Agora que sabemos p=2, colocamos de volta na parte numérica:
+                                <p>Coeficiente = C(5, 2) ⋅ 5<sup>5-2</sup> ⋅ 2<sup>2</sup></p>
+                                <p>Coeficiente = <span class="term" data-description="C(5, 2) = 5! / (2! * 3!) = (5 * 4 * 3 * 2 * 1) / ((2 * 1) * (3 * 2 * 1)) = (5 * 4) / 2 = 10">C(5, 2)</span> ⋅ 5³ ⋅ 2²</p>
+                                <p>C(5, 2) = 5! / (2! 3!) = (5 ⋅ 4) / 2 = 10</p>
+                                <p>Coeficiente = 10 ⋅ 125 ⋅ 4 = 5000</p>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-card" id="topic-macetes-binomio">
+                <div class="summary">"Macetes" Específicos do Binômio</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p class="font-semibold text-gray-300">Para achar o <span class="term" data-description="Em uma expansão (a+b)^n com 'n' par, há n+1 termos (um número ímpar), então existe um único termo central. O 'p' desse termo é p = n/2.">Termo Central</span> (Exemplo: Expoente Par)</p>
+                        <ul>
+                            <li>Problema: (x² - 1/x)⁸</li>
+                            <li>O expoente <strong>n=8</strong> é par. Um binômio de expoente 8 tem <span class="term" data-description="A expansão de (a+b)ⁿ sempre terá 'n' mais um termos. Ex: (a+b)² tem 3 termos (a², 2ab, b²).">n+1 = 9 termos</span>.</li>
+                            <li>O termo central é o 5º termo (T₅).</li>
+                            <li>Se queremos o T₅, então p+1 = 5, o que significa <strong>p = 4</strong>.</li>
+                            <li><strong>Macete:</strong> Para o termo central de um expoente <strong>n</strong> par, o <strong>p</strong> será sempre <strong>p = n / 2</strong>.</li>
+                            <li>Basta calcular a fórmula para n=8 e p=4.</li>
+                        </ul>
+                        <br>
+                        <p class="font-semibold text-gray-300">Para achar o <span class="term" data-description="É o termo da expansão que não contém a variável 'x', ou seja, onde o expoente de 'x' é zero (x⁰).">Termo Independente</span> (Exemplo: Expoente Zero)</p>
+                        <ul>
+                            <li>"Termo independente de x" significa o termo onde o expoente de x é zero (x⁰).</li>
+                            <li>O processo é o mesmo da Q27: isole o x, mas desta vez iguale o expoente final a <strong>zero</strong> para achar o <strong>p</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- NOVO TÓPICO 3 -->
+            <div class="topic-card" id="topic-triangulo-pascal">
+                <div class="summary">O Triângulo de Pascal</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>É um método visual para encontrar os <span class="term" data-description="Os números C(n, p) que multiplicam as variáveis na expansão do binômio.">coeficientes binomiais</span>, especialmente útil para expoentes (<strong>n</strong>) pequenos.</p>
+                        <p><strong>Construção:</strong>
+                           <ol class="list-decimal list-outside ml-4">
+                               <li>Começa com '1' no topo (linha n=0).</li>
+                               <li>Cada nova linha começa e termina com '1'.</li>
+                               <li>Cada número no meio da linha é a <strong>soma dos dois números logo acima</strong> dele.</li>
+                           </ol>
+                        </p>
+                        <p>Esta regra de soma é chamada de <span class="term" data-description="A fórmula C(n, p) = C(n-1, p-1) + C(n-1, p), que é a base da construção do Triângulo de Pascal.">Relação de Stifel</span>.</p>
+                         <div class="image-bubble" id="svg-triangulo-pascal" data-img-svg="true" data-img-alt="Triângulo de Pascal" data-img-description="Triângulo de Pascal mostrando os coeficientes binomiais até a linha 5. Cada número é a soma dos dois números acima dele.">
+                           <!-- SVG Triângulo de Pascal (Modo Escuro) -->
+                           <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" class="font-sans" fill="#f3f4f6">
+                                <title>Triângulo de Pascal</title>
+                                <rect width="200" height="150" fill="#374151" />
+                                <g text-anchor="middle" font-family="monospace" font-size="16" font-weight="bold">
+                                    <text x="100" y="20">1</text>
+                                    <text x="90" y="45">1</text> <text x="110" y="45">1</text>
+                                    <text x="80" y="70">1</text> <text x="100" y="70">2</text> <text x="120" y="70">1</text>
+                                    <text x="70" y="95">1</text> <text x="90" y="95">3</text> <text x="110" y="95">3</text> <text x="130" y="95">1</text>
+                                    <text x="60" y="120">1</text> <text x="80" y="120">4</text> <text x="100" y="120">6</text> <text x="120" y="120">4</text> <text x="140" y="120">1</text>
+                                </g>
+                                <g text-anchor="end" font-size="10" fill="#9ca3af" font-style="italic">
+                                     <text x="50" y="20">n=0</text>
+                                     <text x="50" y="45">n=1</text>
+                                     <text x="50" y="70">n=2</text>
+                                     <text x="50" y="95">n=3</text>
+                                     <text x="50" y="120">n=4</text>
+                                </g>
+                           </svg>
+                        </div>
+                        <p class="mt-4"><strong>Exemplo:</strong> Para (a+b)⁴ (linha n=4), os coeficientes são <strong>1, 4, 6, 4, 1</strong>.</p>
+                        <p>Expansão: <strong>1</strong>a⁴ + <strong>4</strong>a³b + <strong>6</strong>a²b² + <strong>4</strong>ab³ + <strong>1</strong>b⁴</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- NOVO TÓPICO 4 -->
+            <div class="topic-card" id="topic-soma-coeficientes">
+                <div class="summary">Macete: Soma dos Coeficientes</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Para encontrar a <strong>soma de todos os coeficientes</strong> de uma expansão binomial (como em (ax + by)ⁿ), existe um truque muito simples:</p>
+                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                           Basta substituir todas as <span class="term" data-description="As letras da expressão, como 'x' ou 'y', que representam valores desconhecidos.">variáveis</span> por 1.
+                        </p>
+                        <p class="font-semibold text-gray-300">Exemplo 1 (Soma = 0):</p>
+                        <p>Qual a soma dos coeficientes de (x - 1)⁵?</p>
+                        <ul>
+                            <li>Substitua a variável (x) por 1.</li>
+                            <li>(1 - 1)⁵ = 0⁵ = <strong>0</strong>.</li>
+                            <li>A soma de todos os coeficientes é 0.</li>
+                        </ul>
+                        <p class="font-semibold text-gray-300 mt-4">Exemplo 2 (Soma > 0):</p>
+                        <p>Qual a soma dos coeficientes de (2x + y)³?</p>
+                        <ul>
+                            <li>Substitua as variáveis (x e y) por 1.</li>
+                            <li>(2⋅1 + 1)³ = (2 + 1)³ = 3³ = <strong>27</strong>.</li>
+                            <li>(Verificação: (2x+y)³ = <strong>8</strong>x³ + <strong>12</strong>x²y + <strong>6</strong>xy² + <strong>1</strong>y³. Soma = 8+12+6+1 = 27)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="quiz-section" class="section-container">
+        <div class="section-header-card">
+            <h2 class="section-title">Teste seu Conhecimento</h2>
+            <p class="section-subtitle">Vamos ver o que você aprendeu! Responda às perguntas para testar sua compreensão sobre Probabilidade e Binômio.</p>
+        </div>
+
+        <div id="quiz-area" class="w-full max-w-3xl flex flex-col items-center">
+            
+            <div id="progress-bar-container">
+                <div id="progress-bar-fill" style="width: 0%;">0%</div>
+            </div>
+            <div id="progress-label">Progresso: 0 de 40 questões dominadas</div>
+
+            <div id="quiz-container" class="quiz-container hidden">
+                <button id="help-btn" title="Pedir Dica (Revela o tópico)">?</button>
+                <div id="question-counter-display">1/10</div>
+                <h3 id="quiz-question"></h3>
+                <ul id="quiz-options"></ul>
+            </div>
+
+            <div id="quiz-results" class="quiz-container hidden">
+                <h3>Quiz Finalizado!</h3>
+                <div id="quiz-percentage">100%</div>
+                <div class="results-stats">
+                    <span id="stat-correct-count" class="stat-correct"></span>
+                    <span id="stat-incorrect-count" class="stat-incorrect"></span>
+                </div>
+                <h4 class="text-lg font-semibold mt-6 mb-2 text-gray-300">Tópicos para revisar:</h4>
+                <ul id="missed-topics-list"></ul>
+                 <button id="restart-quiz-btn">Novo Quiz</button>
+            </div>
+
+            <div id="start-area" class="flex flex-col items-center">
+                 <button id="quiz-start-btn">Começar Quiz</button>
+                 <button id="reset-progress-btn">Zerar Progresso</button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer-signature">
+        <p>Estrutura original por Rafael Chaves Sebe. Conteúdo adaptado.</p>
+    </footer>
+
+    <!-- Modal (Dark) -->
+    <div id="modal-overlay" class="fixed inset-0">
+        <div id="modal-content" class="relative">
+             <button id="modal-close-btn" class="absolute top-4 right-4 z-20">&times;</button>
+            <div id="modal-header" class="relative hidden">
+                <h3 id="modal-title"></h3>
+            </div>
+            <div id="modal-image-container" class="hidden">
+            </div>
+            <div id="modal-description"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Observer for section background changes
+            const bgObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const glowId = `bg-${entry.target.id}`;
+                    const glowEl = document.getElementById(glowId);
+                    if (glowEl) {
+                        if (entry.isIntersecting) {
+                            glowEl.style.opacity = '0.25';
+                        } else {
+                            glowEl.style.opacity = '0';
+                        }
+                    }
+                });
+            }, { threshold: 0.4 }); 
+
+            document.querySelectorAll('#probabilidade, #binomio-newton').forEach(section => {
+                bgObserver.observe(section);
+            });
+
+            // Observer for card animations
+            const cardObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else if (entry.boundingClientRect.top > 0) {
+                        // Opcional: remover 'visible' quando rola para cima
+                        // entry.target.classList.remove('visible');
+                    }
+                });
+            }, {
+                threshold: 0.01 // Anima quando 1% do card está visível
+            });
+            document.querySelectorAll('.topic-card, .section-header-card').forEach(card => {
+                cardObserver.observe(card);
+            });
+
+            // ===================================
+            // == MODAL LOGIC (CUSTOM)
+            // ===================================
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalContent = document.getElementById('modal-content');
+            const modalHeader = document.getElementById('modal-header');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalImageContainer = document.getElementById('modal-image-container');
+
+            function openModal(theme = 'conceitos') {
+                // Limpa classes de tema antigas
+                modalContent.classList.remove('theme-probabilidade', 'theme-binomio-newton', 'theme-conceitos', 'image-modal');
+                modalHeader.classList.remove('theme-probabilidade', 'theme-binomio-newton', 'theme-conceitos');
+                
+                // Adiciona novas classes de tema
+                modalContent.classList.add(`theme-${theme}`);
+                modalHeader.classList.add(`theme-${theme}`);
+
+                modalOverlay.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+            }
+
+            const closeModal = () => {
+                modalOverlay.classList.remove('visible');
+                setTimeout(() => {
+                    if (!modalOverlay.classList.contains('visible')) {
+                         document.body.style.overflow = '';
+                         modalImageContainer.innerHTML = '';
+                         // Limpa conteúdo para não vazar em info/confirm modals
+                         modalTitle.textContent = '';
+                         modalDescription.innerHTML = '';
+                         modalHeader.classList.add('hidden');
+                         modalImageContainer.classList.add('hidden');
+                    }
+                }, 400); 
+            };
+            
+            function openInfoModal(message, title = "Aviso") {
+                modalHeader.classList.remove('hidden');
+                modalImageContainer.classList.add('hidden');
+                
+                modalTitle.textContent = title;
+                modalDescription.innerHTML = `<p>${message}</p>`; // Usar innerHTML para caso tenha tags
+                
+                openModal('conceitos');
+            }
+
+            function openConfirmModal(message, onConfirm) {
+                modalHeader.classList.remove('hidden');
+                modalImageContainer.classList.add('hidden');
+                
+                modalTitle.textContent = "Confirmação";
+                modalDescription.innerHTML = `<p class="mb-4">${message}</p>`;
+                
+                const buttonGroup = document.createElement('div');
+                buttonGroup.className = 'modal-button-group';
+                
+                const confirmBtn = document.createElement('button');
+                confirmBtn.className = 'modal-button modal-button-confirm';
+                confirmBtn.textContent = 'Confirmar';
+                
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'modal-button modal-button-cancel';
+                cancelBtn.textContent = 'Cancelar';
+
+                // Remove event listeners antigos para evitar chamadas múltiplas
+                const newConfirmBtn = confirmBtn.cloneNode(true);
+                const newCancelBtn = cancelBtn.cloneNode(true);
+                
+                newConfirmBtn.addEventListener('click', () => {
+                    closeModal();
+                    onConfirm();
+                });
+                
+                newCancelBtn.addEventListener('click', closeModal);
+                
+                buttonGroup.appendChild(newCancelBtn);
+                buttonGroup.appendChild(newConfirmBtn);
+                modalDescription.appendChild(buttonGroup);
+                
+                openModal('conceitos');
+            }
+
+            // Event Listeners for Terms
+            document.querySelectorAll('.term').forEach(term => {
+                term.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const title = term.textContent;
+                    const description = term.getAttribute('data-description');
+                    const parentSection = term.closest('section');
+                    let theme = 'probabilidade'; 
+                    if (parentSection && parentSection.id) {
+                       if (parentSection.id === 'binomio-newton') theme = 'binomio-newton';
+                    }
+                    
+                    modalContent.classList.remove('image-modal');
+                    modalHeader.classList.remove('hidden');
+                    modalImageContainer.classList.add('hidden');
+                    
+                    modalTitle.textContent = title;
+                    modalDescription.textContent = description;
+                    
+                    openModal(theme);
+                });
+            });
+
+             // Event Listeners for Images/SVGs
+            document.querySelectorAll('.image-bubble').forEach(bubble => {
+                bubble.addEventListener('click', () => {
+                    const isSvg = bubble.dataset.imgSvg === 'true';
+                    const description = bubble.dataset.imgDescription;
+                    const parentSection = bubble.closest('section');
+                     let theme = 'probabilidade'; 
+                    if (parentSection && parentSection.id) {
+                       if (parentSection.id === 'binomio-newton') theme = 'binomio-newton';
+                    }
+
+                    modalContent.classList.add('image-modal');
+                    modalHeader.classList.add('hidden');
+                    modalImageContainer.classList.remove('hidden');
+                    
+                    if (isSvg) {
+                       const svgElement = bubble.querySelector('svg');
+                       modalImageContainer.innerHTML = svgElement.outerHTML;
+                    } 
+                    
+                    modalDescription.textContent = description;
+
+                    openModal(theme);
+                });
+            });
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (event) => {
+                if (event.target === modalOverlay) closeModal();
+            });
+            
+            // ===================================
+            // == ACCORDION LOGIC
+            // ===================================
+            document.querySelectorAll('.topic-card .summary').forEach(summary => {
+                summary.addEventListener('click', (e) => {
+                    const card = e.currentTarget.parentElement;
+                    toggleAccordion(card);
+                });
+            });
+
+            function toggleAccordion(cardToToggle) {
+                const contentWrapper = cardToToggle.querySelector('.topic-content-wrapper');
+                const isOpen = cardToToggle.classList.contains('is-open');
+
+                if (isOpen) {
+                    contentWrapper.style.maxHeight = '0px';
+                    cardToToggle.classList.remove('is-open');
+                } else {
+                    const content = cardToToggle.querySelector('.topic-content');
+                    contentWrapper.style.maxHeight = content.scrollHeight + 'px';
+                    cardToToggle.classList.add('is-open');
+                }
+            }
+            
+            // ===================================
+            // == QUIZ LOGIC (ADAPTADO)
+            // ===================================
+
+            const questionBank = [
+                // Probabilidade: Gráficos e Tabelas
+                { id: 1, question: "Q1: Gráfico mostra velocidade de conexão. Qual a chance de haver banda larga de pelo menos 1 Mbps?", topic: "Interpretação de Gráficos e Tabelas", options: ["0,45", "0,41", "0,30", "0,22"], correctAnswer: 1 },
+                { id: 2, question: "Q2: Gráfico sobre livros lidos. Qual a P(aluno não ter lido livro)?", topic: "Interpretação de Gráficos e Tabelas", options: ["3/40 (7,5%)", "10/40 (25%)", "3/10 (30%)", "15/40 (37,5%)"], correctAnswer: 0 }, // Total = 3+10+15+12=40. P(Nenhum) = 3/40.
+                { id: 12, question: "Q12: Tabela de votação. Qual a P(ser mulher OU ter votado na Opção 1)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["6/5", "2/3", "1/2", "1/5"], correctAnswer: 1 }, 
+                
+                // Probabilidade: Fórmula Básica
+                { id: 5, question: "Q5: Urna com 10 bolas (1 a 10). Qual a P(tirar um número par OU primo)?", topic: "Conceito-Chave: A Fórmula Básica", options: ["1,0", "0,9", "0,8", "0,7"], correctAnswer: 2 },
+                { id: 7, question: "Q7: Grupo de 4 homens e 4 mulheres. 3 são escolhidas. Qual a P(serem 1 homem e 2 mulheres)?", topic: "Contando Casos (Análise Combinatória)", options: ["1/14", "3/14", "1/7", "3/7"], correctAnswer: 3 },
+                { id: 8, question: "Q8: 3 alunos (Carlos, Daniel, Francisca) em fila. P(Carlos e Daniel fiquem juntos)?", topic: "Contando Casos (Análise Combinatória)", options: ["1/3", "2/3", "1/6", "1/2"], correctAnswer: 1 },
+                { id: 11, question: "Q11: Jogo com roleta de 10 setores (numerados 1 a 10). P(ocorrer número ímpar)?", topic: "Conceito-Chave: A Fórmula Básica", options: ["1/2", "1/5", "3/10", "2/5"], correctAnswer: 0 },
+                { id: 13, question: "Q13: Dado é lançado. P(ser maior que 3)?", topic: "Conceito-Chave: A Fórmula Básica", options: ["1/6", "1/3", "1/2", "2/3"], correctAnswer: 2 },
+
+                // Probabilidade: Eventos Sucessivos / Complementar
+                { id: 3, question: "Q3a: Dado 2x. P(primeiro número ser maior que o segundo)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/6", "5/12", "1/2", "7/12"], correctAnswer: 1 },
+                { id: 4, question: "Q4a: Moeda 3x. P(duas caras e uma coroa)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/8", "1/4", "3/8", "1/2"], correctAnswer: 2 },
+                { id: 16, question: "Q16: Moeda 5x. P(obter 'cara' 3x e 'coroa' 2x)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["5/16", "1/32", "1/16", "3/32"], correctAnswer: 0 },
+                { id: 24, question: "Q24: P(acertar) = 0.2. Em 8 tiros, P(acertar exatamente 4 vezes)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["C(8,4) * (0.2)⁴ * (0.8)⁴", "C(8,4) * (0.2)⁴", "(0.2)⁴", "(0.2)⁴ * (0.8)⁴"], correctAnswer: 0 },
+                { id: 25, question: "Q25: 10 semáforos. P(Verde)=2/3, P(Verm)=1/3. P(exatamente um sinal verde)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["(10 × 2) / 3¹⁰", "(10 × 2⁹) / 3¹⁰", "2¹⁰ / 3¹⁰⁰", "2⁹⁰ / 3¹⁰⁰"], correctAnswer: 0 },
+
+                // Probabilidade: Condicional
+                { id: 10, question: "Q10: X, Y, Z em prova. P(X vencer) = 2 * P(Y vencer). P(Y vencer) = 2 * P(Z vencer). P(Z vencer)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["1/2", "1/4", "1/7", "2/7"], correctAnswer: 2 },
+                
+                // Binômio de Newton
+                { id: 27, question: "Q27: No desenvolvimento de (5x + 2)⁵, qual o coeficiente de x³?", topic: "Como Usar a 'Chave Mestra' (Exemplo)", options: ["1000", "2000", "5000", "8000"], correctAnswer: 2 },
+                { id: 28, question: "Q28: Determine o termo central no binômio (x² - 1/x)⁸.", topic: "'Macetes' Específicos do Binômio", options: ["-70x²", "70x⁴", "70", "-70"], correctAnswer: 1 },
+                { id: 29, question: "Q29: (x/2 - y/x)⁷. Assinale o quinto termo.", topic: "'Macetes' Específicos do Binômio", options: ["35y⁴ / 8x", "-35y⁴ / 8x²", "21x³y⁴ / 16", "35x²y⁴ / 8"], correctAnswer: 0 },
+                
+                // NOVAS PERGUNTAS (ID 31-52)
+                { id: 31, question: "Ao lançar dois dados comuns, qual a probabilidade de que a soma dos números seja 7?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/6", "1/12", "7/36", "1/5"], correctAnswer: 0 },
+                { id: 32, question: "Ao lançar dois dados comuns, qual a probabilidade de que ambos os números sejam pares?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/2", "1/3", "1/4", "5/12"], correctAnswer: 2 },
+                { id: 33, question: "Uma moeda é lançada 4 vezes. Qual a probabilidade de se obter exatamente 2 caras?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/16", "1/4", "3/8", "1/2"], correctAnswer: 2 },
+                { id: 34, question: "Uma moeda é lançada 4 vezes. Qual a probabilidade de não se obter nenhuma coroa?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/16", "1/8", "1/4", "1/2"], correctAnswer: 0 },
+                { id: 35, question: "Uma urna contém 5 bolas vermelhas e 3 azuis. Qual a probabilidade de tirar 1 bola azul?", topic: "Conceito-Chave: A Fórmula Básica", options: ["5/8", "3/5", "3/8", "1/3"], correctAnswer: 2 },
+                { id: 36, question: "Urna com 5V e 3A. Retirando 2 bolas sem reposição, qual a P(ambas serem da mesma cor)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/2", "13/28", "15/56", "21/56"], correctAnswer: 1 },
+                { id: 37, question: "Um grupo tem 6 Homens e 4 Mulheres. Qual a P(de se escolher 1 pessoa e ela ser Mulher)?", topic: "Conceito-Chave: A Fórmula Básica", options: ["1/4", "1/6", "2/3", "2/5"], correctAnswer: 3 },
+                { id: 38, question: "Ao lançar um dado, qual a P(ser menor que 3 OU ser par)?", topic: "União de Eventos (A 'Regra do OU')", options: ["1/2", "2/3", "5/6", "1/6"], correctAnswer: 1 },
+                { id: 39, question: "De um baralho de 52 cartas, qual a P(tirar um Rei OU uma carta de Copas)?", topic: "União de Eventos (A 'Regra do OU')", options: ["17/52", "13/52", "16/52 (ou 4/13)", "4/13"], correctAnswer: 3 }, // Corrigido para 4/13, que é 16/52
+                { id: 40, question: "Lançando 2 dados, sabendo que a soma foi 8, qual a P(um dos dados ser 5)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["1/5", "2/5", "1/6", "1/36"], correctAnswer: 1 },
+                { id: 41, question: "Uma família tem 2 filhos. Sabendo que o primeiro é menino, qual a P(ambos serem meninos)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["1/4", "1/3", "1/2", "2/3"], correctAnswer: 2 },
+                { id: 42, question: "Uma moeda é lançada 4 vezes. Qual a P(obter pelo menos uma cara)?", topic: "O 'Macete' do 'Pelo Menos Um'", options: ["1/16", "15/16", "1/4", "3/4"], correctAnswer: 1 },
+                { id: 43, question: "A P(chover amanhã) é 30%. Qual a P(pelo menos um dia de chuva nos próximos 2 dias)?", topic: "O 'Macete' do 'Pelo Menos Um'", options: ["9%", "49%", "51%", "60%"], correctAnswer: 2 },
+                { id: 44, question: "Um atirador acerta 60% dos tiros. Em 3 tiros, qual a P(acertar exatamente 2)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["36%", "18%", "43,2%", "21,6%"], correctAnswer: 2 },
+                { id: 45, question: "Em 5 semáforos, P(Verde)=1/2. Qual a P(pegar todos verdes)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/5", "1/10", "1/16", "1/32"], correctAnswer: 3 },
+                { id: 46, question: "No desenvolvimento de (x + 3)⁴, qual o 3º termo?", topic: "O Triângulo de Pascal", options: ["27x²", "54x²", "36x²", "108x"], correctAnswer: 1 },
+                { id: 47, question: "No desenvolvimento de (x + y)⁷, qual o coeficiente de x⁵y²?", topic: "Como Usar a 'Chave Mestra' (Exemplo)", options: ["7", "21", "35", "14"], correctAnswer: 1 },
+                { id: 48, question: "Qual a soma dos coeficientes no desenvolvimento de (x - 1)⁵?", topic: "Macete: Soma dos Coeficientes", options: ["0", "1", "32", "-1"], correctAnswer: 0 },
+                { id: 49, question: "Qual o termo central de (x + 1/x)⁶?", topic: "'Macetes' Específicos do Binômio", options: ["6", "15", "20", "20x²"], correctAnswer: 2 },
+                { id: 50, question: "Qual o termo independente de x em (x² + 1/x)³?", topic: "'Macetes' Específicos do Binômio", options: ["1", "3", "6", "Não existe"], correctAnswer: 1 },
+                { id: 51, question: "Numa classe, 40% são meninos. 30% dos meninos e 20% das meninas têm olhos azuis. Qual a P(um aluno ter olhos azuis)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["24%", "25%", "26%", "30%"], correctAnswer: 0 },
+                { id: 52, question: "Qual o termo independente de x em (x + 1/x)⁴?", topic: "'Macetes' Específicos do Binômio", options: ["1", "4", "6", "Não existe"], correctAnswer: 2 }
+            ];
+            
+            // Filtra questões com dados incompletos
+            const completeQuestionBank = questionBank.filter(q => q.id !== 15 && q.id !== 26 && q.id !== 30);
+            const TOTAL_QUESTIONS = completeQuestionBank.length; // Agora 40
+
+            const startBtn = document.getElementById('quiz-start-btn');
+            const restartBtn = document.getElementById('restart-quiz-btn');
+            const resetBtn = document.getElementById('reset-progress-btn'); 
+            const startArea = document.getElementById('start-area');
+            const quizContainer = document.getElementById('quiz-container');
+            const resultsContainer = document.getElementById('quiz-results');
+            const questionEl = document.getElementById('quiz-question');
+            const optionsEl = document.getElementById('quiz-options');
+            const questionCounterDisplay = document.getElementById('question-counter-display');
+            const progressBarFill = document.getElementById('progress-bar-fill');
+            const progressLabel = document.getElementById('progress-label');
+            const helpBtn = document.getElementById('help-btn');
+            
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let missedTopics = [];
+            let activeQuiz = [];
+            let correctlyAnsweredIds = [];
+
+            function loadProgress() {
+                const savedProgress = localStorage.getItem('estatistica_quiz_progress_dark');
+                correctlyAnsweredIds = savedProgress ? JSON.parse(savedProgress) : [];
+                updateProgressBar();
+                checkCompletion();
+            }
+
+            function saveProgress() {
+                localStorage.setItem('estatistica_quiz_progress_dark', JSON.stringify(correctlyAnsweredIds));
+            }
+
+            function updateProgressBar() {
+                const totalQuestions = TOTAL_QUESTIONS;
+                const answeredCount = correctlyAnsweredIds.length;
+                const percentage = totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0;
+                
+                progressBarFill.style.width = `${percentage}%`;
+                progressBarFill.textContent = `${percentage}%`;
+                progressLabel.textContent = `Progresso: ${answeredCount} de ${totalQuestions} questões dominadas`;
+            }
+            
+            function checkCompletion() {
+                const availableQuestions = completeQuestionBank.filter(q => !correctlyAnsweredIds.includes(q.id));
+                if (availableQuestions.length === 0) {
+                    startBtn.disabled = true;
+                    startBtn.textContent = "Parabéns, você dominou tudo!";
+                } else {
+                    startBtn.disabled = false;
+                    startBtn.textContent = "Começar Quiz";
+                }
+            }
+            
+            function startQuiz() {
+                const availableQuestions = completeQuestionBank.filter(q => !correctlyAnsweredIds.includes(q.id));
+                
+                if (availableQuestions.length === 0) {
+                     checkCompletion();
+                     return;
+                }
+
+                activeQuiz = [...availableQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
+                
+                currentQuestionIndex = 0;
+                score = 0;
+                missedTopics = [];
+                
+                startArea.classList.add('hidden');
+                resultsContainer.classList.add('hidden');
+                quizContainer.classList.remove('hidden');
+                showQuestion();
+            }
+
+            function showQuestion() {
+                resetState();
+                if (currentQuestionIndex >= activeQuiz.length) {
+                    showResults();
+                    return;
+                }
+                const questionData = activeQuiz[currentQuestionIndex];
+
+                questionCounterDisplay.textContent = `${currentQuestionIndex + 1}/${activeQuiz.length}`;
+                
+                const existingSvg = quizContainer.querySelector('.quiz-question-svg');
+                if (existingSvg) existingSvg.remove();
+
+                if (questionData.svgId) {
+                    // ... (lógica para adicionar SVG, se houver)
+                }
+
+                questionEl.textContent = questionData.question;
+                
+                questionData.options.forEach((option, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = option;
+                    li.classList.add('quiz-option');
+                    li.dataset.index = index;
+                    li.addEventListener('click', selectAnswer);
+                    optionsEl.appendChild(li);
+                });
+            }
+
+            function resetState() {
+                const existingSvg = quizContainer.querySelector('.quiz-question-svg');
+                if (existingSvg) {
+                    existingSvg.remove();
+                }
+                while(optionsEl.firstChild) {
+                    optionsEl.removeChild(optionsEl.firstChild);
+                }
+                document.body.classList.remove('correct-bg', 'incorrect-bg');
+            }
+            
+            function selectAnswer(e) {
+                const selectedOption = e ? e.target : null;
+                Array.from(optionsEl.children).forEach(option => option.removeEventListener('click', selectAnswer));
+
+                const currentQuestion = activeQuiz[currentQuestionIndex];
+                const correctIndex = currentQuestion.correctAnswer;
+                let isCorrect = false;
+
+                if(selectedOption && parseInt(selectedOption.dataset.index) === correctIndex) {
+                    isCorrect = true;
+                }
+                
+                Array.from(optionsEl.children).forEach((optionNode, index) => {
+                    optionNode.classList.add('disabled');
+                    if (index === correctIndex) {
+                        optionNode.classList.add('correct-answer');
+                    }
+                });
+
+                if (isCorrect) {
+                    score++;
+                    if(selectedOption) selectedOption.classList.add('correct-answer');
+                    document.body.classList.add('correct-bg');
+                    if (!correctlyAnsweredIds.includes(currentQuestion.id)) {
+                        correctlyAnsweredIds.push(currentQuestion.id);
+                        saveProgress();
+                        updateProgressBar();
+                    }
+                } else {
+                    if (selectedOption) {
+                        selectedOption.classList.add('incorrect-answer');
+                    }
+                    missedTopics.push(currentQuestion.topic);
+                    document.body.classList.add('incorrect-bg');
+                }
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    if(currentQuestionIndex < activeQuiz.length) {
+                        showQuestion();
+                    } else {
+                        showResults();
+                    }
+                }, 2500); 
+            }
+            
+            function showResults() {
+                resetState();
+                quizContainer.classList.add('hidden');
+                resultsContainer.classList.remove('hidden');
+
+                const percentage = activeQuiz.length > 0 ? Math.round((score / activeQuiz.length) * 100) : 0;
+                document.getElementById('quiz-percentage').textContent = `${percentage}%`;
+                document.getElementById('stat-correct-count').textContent = `✔️ ${score} Acertos`;
+                document.getElementById('stat-incorrect-count').textContent = `❌ ${activeQuiz.length - score} Erros`;
+                
+                const missedListEl = document.getElementById('missed-topics-list');
+                missedListEl.innerHTML = '';
+                
+                if (missedTopics.some(t => t)) {
+                     const uniqueMissedTopics = [...new Set(missedTopics.filter(t => t))];
+                     uniqueMissedTopics.forEach(topicName => {
+                         const targetCard = Array.from(document.querySelectorAll('.topic-card .summary'))
+                             .find(s => s.textContent.trim() === topicName)?.parentElement;
+                         
+                         if (targetCard) {
+                             const bubble = document.createElement('li');
+                             bubble.textContent = topicName;
+                             bubble.classList.add('missed-topic-bubble');
+                             bubble.addEventListener('click', (e) => {
+                                 e.currentTarget.classList.add('visited-topic');
+                                 targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                 if (!targetCard.classList.contains('is-open')) {
+                                     toggleAccordion(targetCard);
+                                 }
+                             });
+                             missedListEl.appendChild(bubble);
+                         }
+                     });
+                } else {
+                     const congrats = document.createElement('li');
+                     if (activeQuiz.length > 0 && score === activeQuiz.length) {
+                         congrats.textContent = "Parabéns, você acertou tudo!";
+                         congrats.classList.add('text-green-400', 'font-semibold');
+                     } else {
+                         congrats.textContent = "Você não errou nenhuma questão com tópico associado. Bom trabalho!";
+                     }
+                     missedListEl.appendChild(congrats);
+                }
+                 checkCompletion();
+            }
+            
+            function resetProgress() {
+                openConfirmModal("Você tem certeza que deseja zerar todo o seu progresso? Esta ação não pode ser desfeita.", () => {
+                    localStorage.removeItem('estatistica_quiz_progress_dark');
+                    correctlyAnsweredIds = [];
+                    updateProgressBar();
+                    checkCompletion();
+                    openInfoModal("Seu progresso foi zerado com sucesso!");
+                });
+            }
+
+            function showHelpForQuestion() {
+                if (currentQuestionIndex >= activeQuiz.length) return;
+                
+                const questionData = activeQuiz[currentQuestionIndex];
+                const topicName = questionData.topic;
+                
+                const targetCard = Array.from(document.querySelectorAll('.topic-card .summary'))
+                    .find(s => s.textContent.trim() === topicName)?.parentElement;
+                
+                if (targetCard) {
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (!targetCard.classList.contains('is-open')) {
+                        toggleAccordion(targetCard);
+                    }
+                    // Destaca o card
+                    targetCard.style.transition = 'all 0.3s ease';
+                    targetCard.style.transform = 'scale(1.03)';
+                    
+                    // A borda já é definida pela classe 'is-open' ou pelo 'hover', mas podemos forçar
+                    const themeBorder = targetCard.closest('section').id === 'probabilidade' ? 
+                        'var(--probabilidade-border)' : 'var(--binomio-border)';
+                    targetCard.style.boxShadow = `0 10px 30px rgba(0,0,0,0.25), inset 0 0 0 3px ${themeBorder}`;
+                    
+                    setTimeout(() => {
+                        targetCard.style.transform = '';
+                        targetCard.style.boxShadow = ''; // Reseta para o boxShadow padrão do 'is-open'
+                    }, 2000);
+                }
+                
+                openInfoModal(`Esta questão se refere ao tópico: <strong>${topicName}</strong>.<br><br>O conteúdo relevante foi destacado na página para você revisar. Feche esta janela para ver.`, "Dica da Questão");
+            }
+
+            startBtn.addEventListener('click', startQuiz);
+            restartBtn.addEventListener('click', () => {
+                resultsContainer.classList.add('hidden');
+                startArea.classList.remove('hidden');
+                checkCompletion();
+            });
+            resetBtn.addEventListener('click', resetProgress);
+            helpBtn.addEventListener('click', showHelpForQuestion);
+
+            // Define o total de questões na label
+            progressLabel.textContent = `Progresso: 0 de ${TOTAL_QUESTIONS} questões dominadas`;
+            loadProgress();
+        });
+    </script>
+</body>
+</html>
+
