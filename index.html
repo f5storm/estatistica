@@ -428,6 +428,14 @@
             color: var(--text-primary);
             font-weight: 600;
         }
+        #modal-description code { /* Estilo para código dentro do modal */
+             font-family: 'monospace';
+            background-color: rgba(255,255,255,0.1); 
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-primary); 
+        }
         
         /* Botões de confirmação (Dark) */
         .modal-button-group {
@@ -788,12 +796,12 @@
             <p class="section-subtitle">A base da probabilidade: do que estamos falando? Aprenda sobre os pilares que definem o cálculo de chances.</p>
         </div>
         <div class="topics-grid">
-            <!-- NOVO TÓPICO -->
+            
             <div class="topic-card" id="topic-intro-probabilidade">
                 <div class="summary">Por que estudar Probabilidade?</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>A <span class="term" data-description="Ramo da matemática que estuda a incerteza e as chances de ocorrência de eventos.">Teoria da Probabilidade</span> é a ferramenta que usamos para entender e quantificar a <span class="term" data-description="A falta de certeza sobre um resultado futuro.">incerteza</span>.</p>
+                        <p>A <span class="term" data-description="Ramo da matemática que estuda a incerteza e as chances de ocorrência de eventos.">Teoria da Probabilidade</span> é a ferramenta que usamos para entender e <span class="term" data-description="Expressar algo em números, medir.">quantificar</span> a <span class="term" data-description="A falta de certeza sobre um resultado futuro.">incerteza</span>.</p>
                         <p>Ela é crucial em nosso cotidiano para:</p>
                         <ul>
                             <li><strong>Previsões do Tempo:</strong> "Qual a chance de chover amanhã?"</li>
@@ -802,7 +810,7 @@
                             <li><strong>Esportes:</strong> "Qual a chance do meu time ser campeão?"</li>
                             <li><strong>Jogos:</strong> "Qual a chance de ganhar na loteria?"</li>
                         </ul>
-                        <p>Ela nos permite tomar decisões melhores quando confrontados com o acaso.</p>
+                        <p>Ela nos permite tomar decisões melhores quando confrontados com o <span class="term" data-description="Eventos que acontecem sem uma causa previsível, de forma aleatória.">acaso</span>.</p>
                     </div>
                 </div>
             </div>
@@ -813,14 +821,14 @@
                     <div class="topic-content">
                         <p>Tudo começa com três definições básicas:</p>
                         <ul>
-                            <li><strong><span class="term" data-description="Um experimento que pode resultar em diferentes resultados, mesmo que repetido da mesma maneira. Ex: Lançar um dado.">Experimento Aleatório (E)</span>:</strong> Um processo que, quando repetido, pode levar a resultados diferentes e imprevisíveis.
+                            <li><strong><span class="term" data-description="Um experimento que pode resultar em diferentes resultados, mesmo que repetido da mesma maneira. Ex: Lançar um dado.">Experimento Aleatório (E)</span>:</strong> Um processo que, quando repetido, pode levar a resultados diferentes e <span class="term" data-description="Que não se pode prever com certeza.">imprevisíveis</span>.
                                 <br><em>Ex: Lançar um dado, retirar uma carta de um baralho.</em>
                             </li>
-                            <li><strong><span class="term" data-description="O conjunto de TODOS os resultados possíveis de um experimento aleatório. Representado por S ou Ω.">Espaço Amostral (S ou Ω)</span>:</strong> O conjunto de <strong>todos</strong> os resultados possíveis de um experimento.
+                            <li><strong><span class="term" data-description="O conjunto de TODOS os resultados possíveis de um experimento aleatório. Representado por S ou Ω.">Espaço Amostral (S ou Ω)</span>:</strong> O <span class="term" data-description="Na matemática, uma coleção de elementos distintos. Ex: {1, 2, 3} é um conjunto.">conjunto</span> de <strong>todos</strong> os resultados possíveis de um experimento.
                                 <br><em>Ex (Dado): S = {1, 2, 3, 4, 5, 6}</em>
                                 <br><em>Ex (Moeda): S = {Cara, Coroa}</em>
                             </li>
-                            <li><strong><span class="term" data-description="Qualquer subconjunto de um espaço amostral. É o resultado específico que estamos interessados em medir.">Evento</span>:</strong> Um subconjunto do espaço amostral. É o "resultado de interesse".
+                            <li><strong><span class="term" data-description="Qualquer subconjunto de um espaço amostral. É o resultado específico que estamos interessados em medir.">Evento</span>:</strong> Um <span class="term" data-description="Um conjunto contido dentro de outro conjunto maior. Ex: {2, 4} é um subconjunto de {1, 2, 3, 4, 5}.">subconjunto</span> do espaço amostral. É o "resultado de interesse".
                                 <br><em>Ex (Dado): Evento A = "Sair número par" -> A = {2, 4, 6}</em>
                             </li>
                         </ul>
@@ -833,16 +841,16 @@
                     <div class="topic-content">
                         <p>Podemos combinar eventos usando <span class="term" data-description="Técnicas matemáticas para combinar conjuntos, como União (OU), Interseção (E) e Complemento (NÃO).">operações de conjuntos</span>:</p>
                         <ul>
-                            <li><strong><span class="term" data-description="Evento A 'OU' Evento B. Consiste nos elementos que pertencem a A, a B, ou a ambos.">União (A ∪ B)</span>:</strong> Representa a ocorrência do evento A <strong>OU</strong> do evento B.
+                            <li><strong><span class="term" data-description="Evento A 'OU' Evento B. Consiste nos elementos que pertencem a A, a B, ou a ambos. Símbolo: ∪">União (A ∪ B)</span>:</strong> Representa a ocorrência do evento A <strong>OU</strong> do evento B.
                                 <br><em>Ex: A={Par}, B={>4}. A ∪ B = {2, 4, 5, 6}</em>
                             </li>
-                            <li><strong><span class="term" data-description="Evento A 'E' Evento B. Consiste nos elementos que pertencem a A e a B simultaneamente.">Interseção (A ∩ B)</span>:</strong> Representa a ocorrência do evento A <strong>E</strong> do evento B.
+                            <li><strong><span class="term" data-description="Evento A 'E' Evento B. Consiste nos elementos que pertencem a A e a B simultaneamente. Símbolo: ∩">Interseção (A ∩ B)</span>:</strong> Representa a ocorrência do evento A <strong>E</strong> do evento B.
                                 <br><em>Ex: A={Par}, B={>4}. A ∩ B = {6}</em>
                             </li>
-                            <li><strong><span class="term" data-description="Evento 'NÃO A'. Consiste em todos os elementos do espaço amostral (S) que não estão em A.">Complemento (Aᶜ ou $\overline{A}$)</span>:</strong> Representa a <strong>não ocorrência</strong> do evento A.
+                            <li><strong><span class="term" data-description="Evento 'NÃO A'. Consiste em todos os elementos do espaço amostral (S) que não estão em A. Símbolos: Aᶜ, Ā, A'">Complemento (Aᶜ ou $\overline{A}$)</span>:</strong> Representa a <strong>não ocorrência</strong> do evento A.
                                 <br><em>Ex: S={1,2,3,4,5,6}, A={Par}. Aᶜ = {1, 3, 5} (Ímpar)</em>
                             </li>
-                            <li><strong><span class="term" data-description="Eventos que não podem ocorrer ao mesmo tempo. A interseção é vazia (A ∩ B = Ø).">Eventos Mutuamente Exclusivos</span>:</strong> São eventos que não possuem interseção (A ∩ B = Ø). A ocorrência de um impede a do outro.
+                            <li><strong><span class="term" data-description="Eventos que não podem ocorrer ao mesmo tempo. A interseção é vazia (A ∩ B = Ø).">Eventos Mutuamente Exclusivos</span>:</strong> São eventos que não possuem interseção (<code>A ∩ B =</code> <span class="term" data-description="Símbolo que representa o conjunto vazio, ou seja, um conjunto sem nenhum elemento.">Ø</span>). A ocorrência de um impede a do outro.
                                 <br><em>Ex: "Sair Par" e "Sair Ímpar" em um dado.</em>
                             </li>
                         </ul>
@@ -855,7 +863,7 @@
                     <div class="topic-content">
                         <p>Esta é a fórmula mais comum, usada quando o espaço amostral é <span class="term" data-description="Que tem um número contável de elementos. O oposto de 'infinito'.">finito</span> e <span class="term" data-description="Significa que todos os resultados possíveis no espaço amostral têm exatamente a mesma chance de ocorrer.">equiprovável</span> (todos os resultados têm a mesma chance).</p>
                         <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                            P(A) = <span class="text-lg">f / n</span>
+                            <span class="term" data-description="Lê-se: 'Probabilidade do evento A'. É um número entre 0 e 1 (ou 0% e 100%).">P(A)</span> = <span class="text-lg"><span class="term" data-description="Número de Casos Favoráveis ao evento A.">f</span> / <span class="term" data-description="Número Total de Casos possíveis no espaço amostral.">n</span></span>
                         </p>
                         <ul>
                             <li><strong>f =</strong> Número de <span class="term" data-description="O número de resultados que satisfazem o evento desejado. É 'o que eu quero que aconteça'.">Casos Favoráveis</span> (o que eu quero).</li>
@@ -866,19 +874,19 @@
                         <ul>
                             <li><strong>Total de Casos (n):</strong> 6 faces no Dado 1 × 6 faces no Dado 2 = 36 casos.</li>
                             <li><strong>Casos Favoráveis (f):</strong> { (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) } -> 6 casos.</li>
-                            <li><strong>Probabilidade:</strong> P = 6 / 36 = 1 / 6.</li>
+                            <li><strong>Probabilidade:</strong> P = f / n = 6 / 36 = 1 / 6.</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- NOVO TÓPICO -->
+            
             <div class="topic-card" id="topic-dado-viciado">
                 <div class="summary">Exemplo: Espaços Não-Equiprováveis (Dado Viciado)</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
                         <p>O que acontece se o espaço <strong>não</strong> for <span class="term" data-description="Significa que todos os resultados possíveis no espaço amostral têm exatamente a mesma chance de ocorrer.">equiprovável</span>, como em um dado viciado?</p>
-                        <p><strong>Problema:</strong> Um dado é viciado. P(Par) = 2 * P(Ímpar). Faces pares são equiprováveis entre si, e ímpares também.</p>
+                        <p><strong>Problema:</strong> Um dado é viciado. <span class="term" data-description="A probabilidade de sair um número par (2, 4 ou 6).">P(Par)</span> = 2 * <span class="term" data-description="A probabilidade de sair um número ímpar (1, 3 ou 5).">P(Ímpar)</span>. Faces pares são equiprováveis entre si, e ímpares também.</p>
                         <p><strong>Resolução:</strong></p>
                         <ol>
                             <li>Sabemos que <span class="term" data-description="A soma das probabilidades de todos os eventos possíveis deve ser 1 (ou 100%).">P(Par) + P(Ímpar) = 1</span>.</li>
@@ -886,10 +894,10 @@
                             <li>3 * P(Ímpar) = 1  =>  <strong>P(Ímpar) = 1/3</strong>.</li>
                             <li>Logo, <strong>P(Par) = 2/3</strong>.</li>
                             <li>O evento 'Ímpar' é {1, 3, 5}. Como são equiprováveis:
-                                <br>P(1) = P(3) = P(5) = P(Ímpar) / 3 = (1/3) / 3 = <strong>1/9</strong>.
+                                <br><span class="term" data-description="Probabilidade de sair a face 1.">P(1)</span> = <span class="term" data-description="Probabilidade de sair a face 3.">P(3)</span> = <span class="term" data-description="Probabilidade de sair a face 5.">P(5)</span> = P(Ímpar) / 3 = (1/3) / 3 = <strong>1/9</strong>.
                             </li>
                              <li>O evento 'Par' é {2, 4, 6}. Como são equiprováveis:
-                                <br>P(2) = P(4) = P(6) = P(Par) / 3 = (2/3) / 3 = <strong>2/9</strong>.
+                                <br><span class="term" data-description="Probabilidade de sair a face 2.">P(2)</span> = <span class="term" data-description="Probabilidade de sair a face 4.">P(4)</span> = <span class="term" data-description="Probabilidade de sair a face 6.">P(6)</span> = P(Par) / 3 = (2/3) / 3 = <strong>2/9</strong>.
                             </li>
                         </ol>
                     </div>
@@ -902,15 +910,15 @@
                     <div class="topic-content">
                         <p>Existem outras formas de definir probabilidade:</p>
                         <ul>
-                            <li><strong><span class="term" data-description="Probabilidade 'a posteriori'. Baseia-se na frequência observada de um evento após 'n' repetições. P(A) ≈ n(A) / n.">Frequência Relativa</span>:</strong> Usada na prática. Repete-se o experimento 'n' vezes (n grande). A probabilidade é a frequência com que o evento A (<span class="term" data-description="O número de vezes que o evento A ocorreu nas 'n' repetições.">n(A)</span>) ocorreu.
+                            <li><strong><span class="term" data-description="Probabilidade 'a posteriori' (depois do experimento). Baseia-se na frequência observada de um evento após 'n' repetições. P(A) ≈ n(A) / n.">Frequência Relativa</span>:</strong> Usada na prática. Repete-se o experimento 'n' vezes (n grande). A probabilidade é a frequência com que o evento A (<span class="term" data-description="O número de vezes que o evento A ocorreu nas 'n' repetições.">n(A)</span>) ocorreu.
                                 <br><code>fr(A) = n(A) / n</code>
                                 <br>Conforme <span class="term" data-description="Lê-se: 'n tendendo ao infinito'. Significa que o número de repetições 'n' fica cada vez maior.">n → ∞</span>, <code>fr(A)</code> se aproxima de <code>P(A)</code>.
                             </li>
-                            <li><strong><span class="term" data-description="Definição moderna que define a probabilidade por 3 regras (axiomas) que ela deve obedecer.">Conceito Axiomático</span>:</strong> Define a probabilidade por 3 regras (axiomas) que ela deve satisfazer:
+                            <li><strong><span class="term" data-description="Definição formal moderna que define a probabilidade por 3 regras (axiomas) que ela deve obedecer, sem depender de equiprobabilidade ou repetições.">Conceito Axiomático</span>:</strong> Define a probabilidade por 3 regras (<span class="term" data-description="Uma verdade fundamental ou ponto de partida que não precisa ser provada.">axiomas</span>) que ela deve satisfazer:
                                 <ol>
-                                    <li><code>P(A) ≥ 0</code> (Probabilidade não é negativa)</li>
-                                    <li><code>P(S) = 1</code> (A probabilidade do espaço amostral é 100%)</li>
-                                    <li>Se A e B são <span class="term" data-description="Eventos que não podem ocorrer ao mesmo tempo. A interseção é vazia (A ∩ B = Ø).">mutuamente exclusivos</span>, então <code>P(A ∪ B) = P(A) + P(B)</code>.</li>
+                                    <li><code>P(A) ≥ 0</code> (<span class="term" data-description="A probabilidade de qualquer evento deve ser maior ou igual a zero.">Axioma da Não-negatividade</span>)</li>
+                                    <li><code>P(S) = 1</code> (<span class="term" data-description="A probabilidade de ocorrer algum resultado do espaço amostral é 100%.">Axioma da Certeza</span>)</li>
+                                    <li>Se A e B são <span class="term" data-description="Eventos que não podem ocorrer ao mesmo tempo. A interseção é vazia (A ∩ B = Ø).">mutuamente exclusivos</span>, então <code>P(A ∪ B) = P(A) + P(B)</code>. (<span class="term" data-description="Para eventos que não se sobrepõem, a probabilidade da união é a soma das probabilidades individuais.">Axioma da Aditividade</span>)</li>
                                 </ol>
                             </li>
                         </ul>
@@ -921,7 +929,7 @@
                 <div class="summary">Teoremas Importantes (Regra da Soma, Complementar)</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Dos axiomas, derivamos teoremas úteis:</p>
+                        <p>Dos axiomas, derivamos <span class="term" data-description="Resultados matemáticos importantes que podem ser provados a partir dos axiomas.">teoremas</span> úteis:</p>
                         <ul>
                             <li><strong><span class="term" data-description="A probabilidade de um evento impossível (conjunto vazio Ø) é zero.">Probabilidade do Vazio</span>:</strong> <code>P(Ø) = 0</code></li>
                             <li><strong><span class="term" data-description="P(não A) = 1 - P(A). Muito útil para calcular 'pelo menos um'.">Regra do Complementar</span>:</strong> A probabilidade de algo <strong>não</strong> acontecer é 1 menos a probabilidade de acontecer.
@@ -939,26 +947,26 @@
                 </div>
             </div>
 
-            <!-- NOVO TÓPICO -->
+            
             <div class="topic-card" id="topic-diagrama-venn">
                 <div class="summary">Resolvendo com Diagramas de Venn</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Para problemas com 2 ou 3 eventos, usar um <span class="term" data-description="Uma representação gráfica de conjuntos, usando círculos sobrepostos para mostrar as relações (como união e interseção) entre eles.">Diagrama de Venn</span> é a forma mais fácil de organizar as informações.</p>
+                        <p>Para problemas com 2 ou 3 eventos, usar um <span class="term" data-description="Uma representação gráfica de conjuntos, usando círculos (ou outras formas) dentro de um retângulo (representando o espaço amostral) para mostrar as relações (união, interseção, complemento) entre eles.">Diagrama de Venn</span> é a forma mais fácil de organizar as informações.</p>
                         <p><strong>Problema:</strong> P(Série)=0.72, P(Cinema)=0.55, P(Série OU Cinema)=0.85.</p>
                         <p><strong>Resolução (Venn):</strong></p>
                         <ol>
                             <li>Comece pela <span class="term" data-description="A região central do diagrama onde os círculos se sobrepõem, representando P(A ∩ B).">interseção</span>. Use a Regra da Soma:
-                                <br>P(S ∩ C) = P(S) + P(C) - P(S ∪ C)
-                                <br>P(S ∩ C) = 0.72 + 0.55 - 0.85 = <strong>0.42</strong>
+                                <br><code>P(S ∩ C) = P(S) + P(C) - P(S ∪ C)</code>
+                                <br>P(S ∩ C) = 0.72 + 0.55 - 0.85 = <strong>0.42</strong> (Esta é a área onde os círculos S e C se cruzam)
                             </li>
-                            <li><strong>P(Apenas Série):</strong> P(S) - P(S ∩ C)
+                            <li><strong>P(Apenas Série):</strong> <span class="term" data-description="A parte do círculo S que NÃO se sobrepõe com C.">P(S) - P(S ∩ C)</span>
                                 <br>0.72 - 0.42 = <strong>0.30</strong>
                             </li>
-                            <li><strong>P(Apenas Cinema):</strong> P(C) - P(S ∩ C)
+                            <li><strong>P(Apenas Cinema):</strong> <span class="term" data-description="A parte do círculo C que NÃO se sobrepõe com S.">P(C) - P(S ∩ C)</span>
                                 <br>0.55 - 0.42 = <strong>0.13</strong>
                             </li>
-                             <li><strong>P(Nenhum):</strong> 1 - P(S ∪ C)
+                             <li><strong>P(Nenhum):</strong> <span class="term" data-description="A área fora de ambos os círculos, representando o complementar da união.">1 - P(S ∪ C)</span>
                                 <br>1 - 0.85 = <strong>0.15</strong>
                             </li>
                         </ol>
@@ -996,11 +1004,11 @@
                     <div class="topic-content">
                         <p>Usamos quando a <strong>ordem</strong> dos elementos <strong>importa</strong>.</p>
                         <ul>
-                            <li><strong><span class="term" data-description="Usado para reordenar TODOS os 'n' elementos de um conjunto. Fórmula: P(n) = n! (n fatorial).">Permutação Simples (P<sub>n</sub>)</span>:</strong> Quantas filas ou <span class="term" data-description="Uma reordenação das letras de uma palavra. Ex: 'AMOR' tem 4! = 24 anagramas (ROMA, MORA, etc).">anagramas</span> podemos formar com 'n' elementos distintos?
-                                <br><code>P<sub>n</sub> = n!</code> (n-<span class="term" data-description="O produto de um inteiro por todos os inteiros positivos menores que ele. Ex: 4! = 4 × 3 × 2 × 1 = 24.">fatorial</span>)
+                            <li><strong><span class="term" data-description="Usado para reordenar TODOS os 'n' elementos distintos de um conjunto. Fórmula: P(n) = n! (n fatorial).">Permutação Simples (P<sub>n</sub>)</span>:</strong> Quantas filas ou <span class="term" data-description="Uma reordenação das letras de uma palavra. Ex: 'AMOR' tem 4! = 24 anagramas (ROMA, MORA, etc).">anagramas</span> podemos formar com 'n' elementos distintos?
+                                <br><code>P<sub>n</sub> = n!</code> (<span class="term" data-description="O produto de um inteiro por todos os inteiros positivos menores que ele. Ex: 4! = 4 × 3 × 2 × 1 = 24. 0! = 1 por definição.">n-fatorial</span>)
                                 <br><em>Ex: Fila com 3 pessoas (A,B,C) -> 3! = 3*2*1 = 6 filas.</em>
                             </li>
-                            <li><strong><span class="term" data-description="Usado para escolher 'p' elementos de 'n' e ordená-los. Fórmula: A(n,p) = n! / (n-p)!">Arranjo Simples (A<sub>n,p</sub>)</span>:</strong> Quantos grupos ordenados (pódios, senhas) de 'p' elementos podemos formar a partir de 'n'?
+                            <li><strong><span class="term" data-description="Usado para escolher 'p' elementos de 'n' e ordená-los. Fórmula: A(n,p) = n! / (n-p)!">Arranjo Simples (A<sub>n,p</sub>)</span>:</strong> Quantos grupos ordenados (<span class="term" data-description="Uma ordem específica de chegada (1º, 2º, 3º lugar). A ordem importa.">pódios</span>, <span class="term" data-description="Sequência de caracteres onde a ordem importa.">senhas</span>) de 'p' elementos podemos formar a partir de 'n'?
                                 <br><code>A<sub>n,p</sub> = n! / (n-p)!</code>
                                 <br><em>Ex: Pódio (1º, 2º) com 4 corredores (n=4, p=2) -> 4! / (4-2)! = 24 / 2 = 12 pódios.</em>
                             </li>
@@ -1021,11 +1029,12 @@
                                 <br><em>C<sub>4,2</sub> = 4! / (2! * 2!) = 24 / (2 * 2) = 6 comissões.</em>
                             </li>
                         </ul>
+                        <p><code>C(n,p)</code> também é chamado de <span class="term" data-description="Outro nome para Combinação C(n,p). Frequentemente escrito como (n p) em notação vertical.">Número Binomial</span>.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- NOVO TÓPICO -->
+            
             <div class="topic-card" id="topic-permutacao-repeticao">
                 <div class="summary">Permutação com Repetição</div>
                 <div class="topic-content-wrapper">
@@ -1033,7 +1042,7 @@
                         <p>Usado para encontrar o número de <span class="term" data-description="Uma reordenação das letras de uma palavra.">anagramas</span> de uma palavra que possui letras repetidas (ex: "ARARA").</p>
                         <p>Se a palavra tem 'n' letras, com uma letra se repetindo 'a' vezes, outra 'b' vezes, etc., a fórmula é:</p>
                         <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                           <span class="text-lg">P<sub>n</sub><sup>a, b, ...</sup> = n! / (a! × b! × ...)</span>
+                           <span class="text-lg">P<sub>n</sub><sup>a, b, ...</sup> = <span class="term" data-description="Fatorial do número total de letras.">n!</span> / (<span class="term" data-description="Fatorial da contagem de cada letra repetida.">a! × b! × ...</span>)</span>
                         </p>
                         <p class="font-semibold text-gray-300 mt-4">Exemplo (Anagramas de "ARARA"):</p>
                         <ul>
@@ -1050,7 +1059,7 @@
                 <div class="summary">Usando Combinatória na Probabilidade</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Em muitos problemas, usamos Combinação para achar 'f' e 'n'.</p>
+                        <p>Em muitos problemas, usamos Combinação para achar 'f' (<span class="term" data-description="Número de Casos Favoráveis.">Casos Favoráveis</span>) e 'n' (<span class="term" data-description="Número Total de Casos Possíveis.">Total de Casos</span>).</p>
                         <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
                             P(A) = <span class="text-lg">C(favoráveis) / C(total)</span>
                         </p>
@@ -1063,7 +1072,7 @@
                             <li><strong>Casos Favoráveis (f):</strong> Só existe 1 resultado que ganha (os 6 números sorteados).
                                 <br><code>f = 1</code>
                             </li>
-                            <li><strong>Probabilidade:</strong> P = 1 / 50.063.860</li>
+                            <li><strong>Probabilidade:</strong> P = f / n = 1 / 50.063.860</li>
                         </ul>
                     </div>
                 </div>
@@ -1082,18 +1091,18 @@
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
                         <p>É a probabilidade de um evento A ocorrer, <strong>dado que</strong> um evento B <strong>já ocorreu</strong>.</p>
-                        <p>A informação "B ocorreu" <span class="term" data-description="Na probabilidade condicional, o 'Total de Casos' deixa de ser S e passa a ser o evento B, que já ocorreu.">reduz o nosso espaço amostral</span>. O novo "universo" é B.</p>
+                        <p>A informação "B ocorreu" <span class="term" data-description="Na probabilidade condicional, o 'Total de Casos' deixa de ser S (o espaço amostral original) e passa a ser o evento B, que já ocorreu.">reduz o nosso espaço amostral</span>. O novo "universo" é B.</p>
                         <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                           <span class="text-lg">P(A | B) = <span class="term" data-description="Probabilidade de A e B ocorrerem juntos (a interseção).">P(A ∩ B)</span> / <span class="term" data-description="Probabilidade do evento que já ocorreu (a condição). É o novo denominador.">P(B)</span></span>
+                           <span class="text-lg"><span class="term" data-description="Lê-se: 'Probabilidade de A dado B' ou 'Probabilidade de A ocorrer sabendo que B ocorreu'.">P(A | B)</span> = <span class="term" data-description="Probabilidade de A e B ocorrerem juntos (a interseção).">P(A ∩ B)</span> / <span class="term" data-description="Probabilidade do evento que já ocorreu (a condição). É o novo denominador. Deve ser maior que zero.">P(B)</span></span>
                            <br>
-                           <span class="text-base">(Lê-se: Probabilidade de A, dado B)</span>
+                           <span class="text-base">(Importante: P(B) > 0)</span>
                         </p>
                         <p class="font-semibold text-gray-300 mt-4">Exemplo (Tabela):</p>
                         <p>P(Ser de Produção | Sabendo que foi Aprovado)?</p>
                         <ul>
                             <li><strong>Novo Total (Denominador):</strong> O total de Aprovados = 140 (dados do slide).</li>
                             <li><strong>Favoráveis (Numerador):</strong> Pessoas que são de Produção E Aprovados = 60.</li>
-                            <li><strong>Probabilidade:</strong> P = 60 / 140 = 3 / 7.</li>
+                            <li><strong>Probabilidade:</strong> P = (Casos de A e B) / (Casos de B) = 60 / 140 = 3 / 7.</li>
                         </ul>
                     </div>
                 </div>
@@ -1102,12 +1111,13 @@
                 <div class="summary">Eventos Sucessivos (Teorema do Produto)</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Usado para calcular a probabilidade de eventos em sequência (A <strong>E</strong> B), especialmente quando <strong>há dependência</strong> (ex: <span class="term" data-description="Quando um item é retirado de um conjunto (ex: urna, baralho) e não é colocado de volta. Isso muda o 'Total de Casos' para a próxima retirada.">sem reposição</span>).</p>
+                        <p>Usado para calcular a probabilidade de eventos em sequência (A <strong>E</strong> B), especialmente quando <strong>há <span class="term" data-description="A ocorrência do primeiro evento altera a probabilidade de ocorrência do segundo evento.">dependência</span></strong> (ex: <span class="term" data-description="Quando um item é retirado de um conjunto (ex: urna, baralho) e não é colocado de volta. Isso muda o 'Total de Casos' para a próxima retirada.">sem reposição</span>).</p>
                         <p>Deriva da fórmula condicional:</p>
                         <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
                            <span class="text-lg">P(A ∩ B) = P(A) × <span class="term" data-description="Probabilidade de B ocorrer, sabendo que A já ocorreu.">P(B | A)</span></span>
                         </p>
                         <p><em>(A probabilidade de A e B ocorrerem é a P(A) multiplicada pela P(B) sabendo que A já aconteceu).</em></p>
+                        <p>Para 3 eventos: <code>P(A∩B∩C) = P(A) * P(B|A) * P(C|A∩B)</code></p>
                         <p class="font-semibold text-gray-300 mt-4">Exemplo (Peças sem reposição):</p>
                         <p>10 peças, 3 defeituosas (D) e 7 perfeitas (P). P(tirar 2 perfeitas)?</p>
                         <ul>
@@ -1120,27 +1130,27 @@
                 </div>
             </div>
 
-            <!-- NOVO TÓPICO -->
+            
             <div class="topic-card" id="topic-lei-prob-total">
                 <div class="summary">Lei da Probabilidade Total (Problemas em Etapas)</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Usada para calcular a probabilidade de um evento final (ex: "ser beneficiado") que pode ocorrer através de diferentes caminhos iniciais (ex: "vencer", "empatar", "perder").</p>
-                        <p>Você "quebra" o problema nos caminhos possíveis, calcula a P(caminho ∩ evento) para cada um, e <strong>soma</strong> os resultados.</p>
+                        <p>Usada para calcular a probabilidade de um evento final (ex: "ser beneficiado") que pode ocorrer através de diferentes <span class="term" data-description="Eventos iniciais que são mutuamente exclusivos e cuja união forma todo o espaço amostral. Ex: Vencer, Empatar ou Perder um jogo.">caminhos iniciais</span> (ou partições do espaço amostral).</p>
+                        <p>Você "quebra" o problema nos caminhos possíveis (<code>C1, C2,...</code>), calcula a probabilidade de cada caminho (<span class="term" data-description="Probabilidade da interseção do Caminho i com o Evento final. Calculado como P(Ci) * P(Evento | Ci).">P(Ci ∩ Evento)</span>) usando o Teorema do Produto, e <strong>soma</strong> os resultados.</p>
                         <p class="font-semibold text-gray-300 mt-4">Exemplo (Time Beneficiado - Slide P2):</p>
                         <p>P(Time ser Beneficiado)?</p>
                         <ul>
                             <li><strong>Caminho 1 (Vencer):</strong> P(Vencer) × P(Benef. | Venceu)
-                                <br>0.50 × 0.95 = 0.475
+                                <br><code>0.50 × 0.95 = 0.475</code>
                             </li>
                              <li><strong>Caminho 2 (Empatar):</strong> P(Empatar) × P(Benef. | Empatou)
-                                <br>0.30 × 0.70 = 0.210
+                                <br><code>0.30 × 0.70 = 0.210</code>
                             </li>
                              <li><strong>Caminho 3 (Perder):</strong> P(Perder) × P(Benef. | Perdeu)
-                                <br>0.20 × 0.25 = 0.050
+                                <br><code>0.20 × 0.25 = 0.050</code>
                             </li>
-                            <li><strong>Probabilidade Total:</strong> Some os caminhos
-                                <br>0.475 + 0.210 + 0.050 = <strong>0.735 (ou 73,5%)</strong>
+                            <li><strong>Probabilidade Total (Soma):</strong>
+                                <br><code>0.475 + 0.210 + 0.050 = 0.735</code> (ou 73,5%)
                             </li>
                         </ul>
                     </div>
@@ -1151,17 +1161,18 @@
                 <div class="summary">Eventos Independentes</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Dois eventos são independentes se a ocorrência de um <strong>não afeta</strong> a probabilidade do outro. (Ex: <span class="term" data-description="Quando um item é retirado e colocado de volta. O 'Total de Casos' não muda.">com reposição</span>).</p>
-                        <p>Neste caso, a probabilidade condicional é igual à probabilidade simples: <span class="term" data-description="Se A e B são independentes, a chance de B ocorrer não muda, mesmo sabendo que A já ocorreu."><code>P(B | A) = P(B)</code></span>.</p>
+                        <p>Dois eventos são <span class="term" data-description="A ocorrência (ou não ocorrência) de um evento não altera a probabilidade de ocorrência do outro.">independentes</span> se a ocorrência de um <strong>não afeta</strong> a probabilidade do outro. (Ex: <span class="term" data-description="Quando um item é retirado e colocado de volta. O 'Total de Casos' não muda. Os eventos são independentes.">com reposição</span>).</p>
+                        <p>Neste caso, a probabilidade condicional é igual à probabilidade simples: <span class="term" data-description="Se A e B são independentes, a chance de B ocorrer não muda, mesmo sabendo que A já ocorreu."><code>P(B | A) = P(B)</code></span> e <code>P(A | B) = P(A)</code>.</p>
                         <p>Isso simplifica o Teorema do Produto para:</p>
                         <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
                            <span class="text-lg">P(A ∩ B) = P(A) × P(B)</span>
+                           <br><span class="text-sm">(Apenas se A e B forem independentes!)</span>
                         </p>
                         <p class="font-semibold text-gray-300 mt-4">Exemplo (Extintor/Ambulância):</p>
                         <p>Extintor disponível (P=0.98), Ambulância disponível (P=0.92). P(ambos disponíveis)?</p>
                         <ul>
-                            <li>São eventos independentes.</li>
-                            <li><strong>Probabilidade:</strong> 0.98 × 0.92 = 0.9016 (ou 90,16%).</li>
+                            <li>São eventos independentes (a disponibilidade de um não afeta o outro).</li>
+                            <li><strong>Probabilidade:</strong> <code>P(E ∩ A) = P(E) × P(A) = 0.98 × 0.92 = 0.9016</code> (ou 90,16%).</li>
                         </ul>
                     </div>
                 </div>
@@ -1171,12 +1182,17 @@
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
                         <p>Pergunta: "Quantas pessoas precisamos em uma sala para que a probabilidade de <i><span class="term" data-description="Significa 'duas OU mais' pessoas.">pelo menos duas</span></i> delas fazerem aniversário no mesmo dia seja maior que 50%?"</p>
-                        <p>A resposta intuitiva é alta (ex: 183), mas a resposta correta é surpreendentemente baixa: <strong>23 pessoas</strong>.</p>
+                        <p>A resposta <span class="term" data-description="O que parece lógico à primeira vista, mas nem sempre é correto matematicamente.">intuitiva</span> é alta (ex: 183), mas a resposta correta é surpreendentemente baixa: <strong>23 pessoas</strong>.</p>
                         <p><strong>Como calcular (para 23 pessoas):</strong></p>
                         <p>É um problema de <span class="term" data-description="P(Pelo Menos Um) = 1 - P(Nenhum). É mais fácil calcular o oposto ('todos fazerem aniversário em dias diferentes').">evento complementar</span>.</p>
                         <ul>
                             <li>P(pelo menos 2 iguais) = 1 - P(todos diferentes)</li>
-                            <li>P(todos diferentes) = (365/365) × (364/365) × (363/365) × ... × (343/365)</li>
+                            <li>P(todos diferentes) = 
+                                <span class="term" data-description="Probabilidade da 1ª pessoa ter um aniversário qualquer.">(365/365)</span> × 
+                                <span class="term" data-description="Probabilidade da 2ª pessoa ter um aniversário DIFERENTE da 1ª.">(364/365)</span> × 
+                                <span class="term" data-description="Probabilidade da 3ª pessoa ter um aniversário DIFERENTE das 2 primeiras.">(363/365)</span> × ... × 
+                                <span class="term" data-description="Probabilidade da 23ª pessoa ter um aniversário DIFERENTE das 22 anteriores.">(343/365)</span>
+                            </li>
                             <li>P(todos diferentes) ≈ 0.493</li>
                             <li>P(pelo menos 2 iguais) ≈ 1 - 0.493 = 0.507 (ou 50,7%)</li>
                         </ul>
@@ -1314,6 +1330,8 @@
                          modalDescription.innerHTML = '';
                          modalHeader.classList.add('hidden');
                          modalImageContainer.classList.add('hidden');
+                         // Garante que o scroll do modal description volte ao topo
+                         modalDescription.scrollTop = 0; 
                     }
                 }, 400); 
             };
@@ -1324,6 +1342,9 @@
                 
                 modalTitle.textContent = title;
                 modalDescription.innerHTML = message; // Usar innerHTML para tags <br> e <strong>
+                
+                // Garante que o scroll comece do topo
+                modalDescription.scrollTop = 0; 
                 
                 openModal(theme);
             }
@@ -1361,6 +1382,9 @@
                 buttonGroup.appendChild(newConfirmBtn);
                 modalDescription.appendChild(buttonGroup);
                 
+                // Garante que o scroll comece do topo
+                modalDescription.scrollTop = 0; 
+
                 openModal('conceitos');
             }
 
@@ -1382,7 +1406,10 @@
                     modalImageContainer.classList.add('hidden');
                     
                     modalTitle.textContent = title;
-                    modalDescription.textContent = description;
+                    // Usar innerHTML aqui também para permitir <code> na descrição
+                    modalDescription.innerHTML = description; 
+                     // Garante que o scroll comece do topo
+                    modalDescription.scrollTop = 0;
                     
                     openModal(theme);
                 });
@@ -1424,7 +1451,10 @@
                     cardToToggle.classList.remove('is-open');
                 } else {
                     const content = cardToToggle.querySelector('.topic-content');
-                    contentWrapper.style.maxHeight = content.scrollHeight + 'px';
+                    // Precisa de um pequeno timeout para garantir que o DOM atualizou antes de pegar scrollHeight
+                    setTimeout(() => {
+                         contentWrapper.style.maxHeight = content.scrollHeight + 'px';
+                    }, 0);
                     cardToToggle.classList.add('is-open');
                 }
             }
@@ -1778,6 +1808,7 @@
                              bubble.addEventListener('click', (e) => {
                                  e.currentTarget.classList.add('visited-topic');
                                  targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                 // Abre o card só se não estiver aberto
                                  if (!targetCard.classList.contains('is-open')) {
                                      toggleAccordion(targetCard);
                                  }
