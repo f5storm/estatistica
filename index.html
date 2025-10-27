@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumo: Probabilidade e Binômio de Newton</title>
+    <title>Resumo Interativo: Probabilidade</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,19 +12,19 @@
         :root {
             /* == Cores do Tema (Base) == */
             --probabilidade-color: #4f46e5;      /* Indigo-600 */
-            --binomio-color: #059669;     /* Emerald-600 */
-            --conceitos-color: #d97706;         /* Amber-600 */
+            --avancado-color: #059669;     /* Emerald-600 (Prob. Avançada) */
+            --conceitos-color: #d97706;         /* Amber-600 (Combinatória) */
 
             /* == MODO ESCURO == */
 
             /* Glow/Highlight Colors for dark theme */
             --probabilidade-glow: rgba(79, 70, 229, 0.2);
-            --binomio-glow: rgba(5, 150, 105, 0.2);
+            --avancado-glow: rgba(5, 150, 105, 0.2);
             --conceitos-glow: rgba(217, 119, 6, 0.2);
             
             /* Theme Border Colors for dark theme */
             --probabilidade-border: rgba(99, 102, 241, 0.4); /* Indigo-400 */
-            --binomio-border: rgba(52, 211, 153, 0.4); /* Emerald-400 */
+            --avancado-border: rgba(52, 211, 153, 0.4); /* Emerald-400 */
             --conceitos-border: rgba(245, 158, 11, 0.4); /* Amber-400 */
 
             /* Dark Theme Palette */
@@ -46,7 +46,7 @@
         body.correct-bg { background-color: #062e1e; } /* emerald-950 */
         body.incorrect-bg { background-color: #450a0a; } /* red-950 */
 
-        /* Animated background shapes (Sem alteração, já usam opacidade) */
+        /* Animated background shapes */
         .background-container {
             position: fixed;
             top: 0; left: 0;
@@ -63,14 +63,14 @@
         }
         .light-bubble.b1 { width: 45vw; height: 45vw; top: 5%; left: -10%; background: var(--probabilidade-color); animation-duration: 40s; }
         .light-bubble.b2 { width: 45vw; height: 45vw; top: 40%; left: 70%; background: var(--conceitos-color); animation-duration: 35s; }
-        .light-bubble.b3 { width: 50vw; height: 50vw; top: 60%; left: 10%; background: var(--binomio-color); animation-duration: 45s; }
+        .light-bubble.b3 { width: 50vw; height: 50vw; top: 60%; left: 10%; background: var(--avancado-color); animation-duration: 45s; }
 
         @keyframes moveBubble {
             0% { transform: translate(0, 0) scale(1); }
             100% { transform: translate(15vw, -20vh) scale(1.2); }
         }
         
-        /* Dynamic background glows (Sem alteração) */
+        /* Dynamic background glows */
         .dynamic-bg-glow {
             position: fixed;
             top: 50%;
@@ -84,8 +84,9 @@
             transition: opacity 1.5s ease-in-out;
             z-index: -1;
         }
-        #bg-probabilidade { background-color: var(--probabilidade-color); }
-        #bg-binomio-newton { background-color: var(--binomio-color); }
+        #bg-conceitos-fundamentais { background-color: var(--probabilidade-color); }
+        #bg-analise-combinatoria { background-color: var(--conceitos-color); }
+        #bg-probabilidade-avancada { background-color: var(--avancado-color); }
 
         .section-container {
             width: 100%;
@@ -289,41 +290,25 @@
             background-color: #1f2937 !important; /* gray-800 */
             color: var(--text-primary);
         }
-
-        .image-bubble {
-            position: relative;
-            background: rgba(255, 255, 255, 0.05); /* Alterado */
-            border-radius: 1.25rem;
-            padding: 0.75rem;
-            margin-top: 1rem;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .image-bubble:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-        }
-        .image-bubble svg {
-            width: 100%;
-            height: auto;
-            border-radius: 0.75rem;
-            display: block;
-        }
         
-        #probabilidade .topic-card.is-open {
+        /* Bordas de destaque por seção */
+        #conceitos-fundamentais .topic-card.is-open {
             box-shadow: 0 8px 25px rgba(0,0,0,0.15), inset 0 0 0 2px var(--probabilidade-border);
         }
-        #binomio-newton .topic-card.is-open {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15), inset 0 0 0 2px var(--binomio-border);
+        #analise-combinatoria .topic-card.is-open {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15), inset 0 0 0 2px var(--conceitos-border);
+        }
+        #probabilidade-avancada .topic-card.is-open {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15), inset 0 0 0 2px var(--avancado-border);
         }
         
-        #probabilidade .topic-card.is-open:hover {
+        #conceitos-fundamentais .topic-card.is-open:hover {
             box-shadow: 0 8px 25px rgba(0,0,0,0.2), inset 0 0 0 2px rgba(99, 102, 241, 0.6);
         }
-        #binomio-newton .topic-card.is-open:hover {
+        #analise-combinatoria .topic-card.is-open:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2), inset 0 0 0 2px rgba(245, 158, 11, 0.6);
+        }
+        #probabilidade-avancada .topic-card.is-open:hover {
             box-shadow: 0 8px 25px rgba(0,0,0,0.2), inset 0 0 0 2px rgba(52, 211, 153, 0.6);
         }
         
@@ -337,8 +322,9 @@
             transition: all 0.2s ease-in-out;
             text-shadow: none;
         }
-        #probabilidade .term { background-color: var(--probabilidade-glow); color: #a5b4fc; } /* indigo-300 */
-        #binomio-newton .term { background-color: var(--binomio-glow); color: #6ee7b7; } /* emerald-300 */
+        #conceitos-fundamentais .term { background-color: var(--probabilidade-glow); color: #a5b4fc; } /* indigo-300 */
+        #analise-combinatoria .term { background-color: var(--conceitos-glow); color: #fcd34d; } /* amber-300 */
+        #probabilidade-avancada .term { background-color: var(--avancado-glow); color: #6ee7b7; } /* emerald-300 */
         .term:hover { 
             filter: brightness(1.25); 
         }
@@ -380,10 +366,9 @@
             transform: scale(0.95);
             transition: transform 0.4s ease;
             overflow: hidden; 
-        }
-        
-        #modal-content.image-modal {
-             max-width: 650px;
+            max-height: 90vh; /* Para modais de ajuda longos */
+            display: flex; /* Para permitir scroll interno */
+            flex-direction: column; /* Para empilhar header e description */
         }
         
         #modal-content::before {
@@ -404,7 +389,7 @@
         }
         
         #modal-content.theme-probabilidade { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 0 0 2px var(--probabilidade-border); }
-        #modal-content.theme-binomio-newton { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 0 0 2px var(--binomio-border); }
+        #modal-content.theme-avancado { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 0 0 2px var(--avancado-border); }
         #modal-content.theme-conceitos { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 0 0 2px var(--conceitos-border); }
         
         #modal-header, #modal-description {
@@ -417,6 +402,7 @@
             background: transparent;
             text-align: center;
             padding: 1.5rem 3.5rem;
+            flex-shrink: 0; /* Header não encolhe */
         }
         
         #modal-title { 
@@ -425,10 +411,20 @@
             text-shadow: none;
         }
         #modal-header.theme-probabilidade #modal-title { color: #c7d2fe; } /* indigo-200 */
-        #modal-header.theme-binomio-newton #modal-title { color: #a7f3d0; } /* emerald-200 */
+        #modal-header.theme-avancado #modal-title { color: #a7f3d0; } /* emerald-200 */
         #modal-header.theme-conceitos #modal-title { color: #fcd34d; } /* amber-300 */
         
-        #modal-description { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; padding: 1.5rem 2rem 2rem 2rem; }
+        #modal-description { 
+            font-size: 1.05rem; 
+            color: var(--text-secondary); 
+            line-height: 1.7; 
+            padding: 1.5rem 2rem 2rem 2rem;
+            overflow-y: auto; /* Permite scroll se o conteúdo for grande */
+        }
+        #modal-description strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
         
         /* Botões de confirmação (Dark) */
         .modal-button-group {
@@ -460,16 +456,10 @@
             background-color: rgba(255,255,255,0.15); /* Alterado */
         }
 
-        #modal-image-container {
+        #modal-image-container { /* Mantido para compatibilidade, mas não usado */
             padding: 1.5rem;
             display: flex;
             justify-content: center;
-        }
-        #modal-image-container svg {
-            width: 100%;
-            max-width: 450px;
-            height: auto;
-            border-radius: 1rem;
         }
 
         #modal-close-btn {
@@ -526,7 +516,7 @@
         }
         #progress-bar-fill {
             height: 1.5rem;
-            background: linear-gradient(90deg, var(--binomio-color), var(--probabilidade-color));
+            background: linear-gradient(90deg, var(--avancado-color), var(--probabilidade-color));
             border-radius: 9999px;
             transition: width 0.5s ease-in-out;
             text-align: center;
@@ -772,421 +762,309 @@
     </style>
 </head>
 <body>
+    <!-- Conteúdo da Página -->
     <div class="background-container">
         <div class="light-bubble b1"></div>
         <div class="light-bubble b2"></div>
         <div class="light-bubble b3"></div>
-        <div class="dynamic-bg-glow" id="bg-probabilidade"></div>
-        <div class="dynamic-bg-glow" id="bg-binomio-newton"></div>
+        <div class="dynamic-bg-glow" id="bg-conceitos-fundamentais"></div>
+        <div class="dynamic-bg-glow" id="bg-analise-combinatoria"></div>
+        <div class="dynamic-bg-glow" id="bg-probabilidade-avancada"></div>
     </div>
 
     <section id="hero" class="section-container">
         <div class="section-header-card">
-            <h1>Probabilidade e Binômio</h1>
-            <p class="mt-4">Uma jornada interativa pelos conceitos fundamentais de probabilidade e a expansão do Binômio de Newton.</p>
+            <h1>Probabilidade: Conceitos e Tópicos Avançados</h1>
+            <p class="mt-4">Uma jornada interativa pelos conceitos fundamentais e avançados da Teoria da Probabilidade, baseada nos slides da Prof. Roberta.</p>
         </div>
     </section>
     
-    <section id="probabilidade" class="section-container">
+    <section id="conceitos-fundamentais" class="section-container">
         <div class="section-header-card">
-            <h2 class="section-title">Tópico Principal: Probabilidade</h2>
-            <p class="section-subtitle">A probabilidade é o ramo da matemática que estuda a chance de um determinado <span class="term" data-description="Qualquer resultado ou conjunto de resultados de um experimento (ex: 'tirar um número par', 'obter cara').">evento</span> ocorrer. A maioria das questões usa a <span class="term" data-description="A definição de probabilidade onde todos os resultados possíveis (Total de Casos) têm a mesma chance de ocorrer.">Definição Clássica (Laplace)</span>.</p>
+            <h2 class="section-title">Probabilidade (Parte 1): Conceitos Fundamentais</h2>
+            <p class="section-subtitle">A base da probabilidade: do que estamos falando? Aprenda sobre os pilares que definem o cálculo de chances.</p>
         </div>
         <div class="topics-grid">
-            <div class="topic-card" id="topic-formula-basica">
-                <div class="summary">Conceito-Chave: A Fórmula Básica</div>
+            <div class="topic-card" id="topic-exp-espaco-evento">
+                <div class="summary">Experimentos, Espaço Amostral e Eventos</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Toda questão de probabilidade simples se resume a uma fração:</p>
-                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                            P(Evento) = <br>
-                            <span class="text-lg"><span class="term" data-description="O número de resultados que satisfazem o evento desejado. É 'o que eu quero que aconteça'.">Casos Favoráveis</span> (O que eu QUERO)</span>
-                            <br> / <br> 
-                            <span class="text-lg"><span class="term" data-description="O número total de resultados possíveis em um experimento. Também chamado de 'Espaço Amostral'. É 'tudo o que pode acontecer'.">Total de Casos</span> (TUDO o que PODE)</span>
-                        </p>
-                        <p class="font-semibold text-gray-300">Exemplo (Urna com Bolas):</p>
-                        <p><span class="term" data-description="Um recipiente (geralmente opaco) usado em sorteios para conter bolas, bilhetes ou números.">Urna</span> com 10 bolas (1 a 10). Qual a P(tirar um número <span class="term" data-description="Um número inteiro que é divisível por 2 (ex: 2, 4, 6, 8, 10).">par</span> OU <span class="term" data-description="Um número natural maior que 1 que tem apenas dois divisores: 1 e ele mesmo (ex: 2, 3, 5, 7).">primo</span>)?</p>
+                        <p>Tudo começa com três definições básicas:</p>
                         <ul>
-                            <li><strong>Total de Casos:</strong> 10 bolas {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}</li>
-                            <li><strong>Casos Favoráveis:</strong>
-                                <ul>
-                                    <li>Pares: {2, 4, 6, 8, 10} -> 5 números</li>
-                                    <li>Primos: {2, 3, 5, 7} -> 4 números</li>
-                                </ul>
+                            <li><strong><span class="term" data-description="Um experimento que pode resultar em diferentes resultados, mesmo que repetido da mesma maneira. Ex: Lançar um dado.">Experimento Aleatório (E)</span>:</strong> Um processo que, quando repetido, pode levar a resultados diferentes e imprevisíveis.
+                                <br><em>Ex: Lançar um dado, retirar uma carta de um baralho.</em>
                             </li>
-                            <li><strong>Cuidado (<span class="term" data-description="A probabilidade de um evento A *ou* um evento B ocorrer. Envolve somar os casos, mas subtraindo a interseção (elementos em comum) para não contar duas vezes.">União "OU"</span>):</strong> O '2' está nas duas listas. Não podemos contá-lo duas vezes.</li>
-                            <li><strong><span class="term" data-description="Criar um novo conjunto que contém todos os elementos únicos de dois ou mais conjuntos.">Unindo os conjuntos</span>:</strong> {2, 3, 4, 5, 6, 7, 8, 10} -> 8 números.</li>
-                            <li><strong>Probabilidade:</strong> P = 8 / 10 = 4 / 5 = 80%</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="topic-card" id="topic-evento-complementar">
-                <div class="summary">O "Macete" do "Pelo Menos Um"</div>
-                <div class="topic-content-wrapper">
-                    <div class="topic-content">
-                        <p><strong>Identificação:</strong> O enunciado pede "pelo menos um", "ao menos um" ou "no mínimo um".</p>
-                        <p><strong>Conceito:</strong> Quase sempre, é muito mais fácil calcular a probabilidade do contrário (o <span class="term" data-description="O evento complementar de A é o evento em que A não ocorre. A probabilidade de A ocorrer é 1 menos a probabilidade de A não ocorrer. P(A) = 1 - P(não A).">evento complementar</span>) e subtrair o resultado de <span class="term" data-description="A probabilidade total de todos os eventos possíveis é 1 (ou 100%). P(A) + P(não A) = 1.">100% (ou 1)</span>.</p>
-                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                            P(pelo menos 1) = 1 - P(nenhum)
-                        </p>
-                        <p class="font-semibold text-gray-300">Exemplo (Lançamento de Moedas):</p>
-                        <p><span class="term" data-description="Lançar uma moeda 3 vezes. Cada lançamento tem 2 resultados (Cara/Coroa), então o total de casos é 2 × 2 × 2 = 2³ = 8.">Moeda 3x</span>. P(pelo menos duas caras)?</p>
-                        <ul>
-                            <li><strong>Total de Casos (<span class="term" data-description="Um diagrama usado para visualizar e listar todos os resultados possíveis de um experimento com múltiplas etapas (como lançar uma moeda 3x).">Árvore</span>):</strong> {CCC, CCK, CKC, CKK, KCC, KCK, KKC, KKK} -> 8 casos.</li>
-                            <li><strong>Favoráveis ("pelo menos 2 caras"):</strong> {CCC, CCK, CKC, KCC} -> 4 casos.</li>
-                            <li><strong>Probabilidade:</strong> P = 4 / 8 = 1/2.</li>
-                            <li>(Neste caso, a contagem direta foi fácil, mas o macete é vital para problemas maiores).</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="topic-card" id="topic-eventos-sucessivos">
-                <div class="summary">Eventos Sucessivos ("E") - Multiplicação</div>
-                <div class="topic-content-wrapper">
-                    <div class="topic-content">
-                        <p><strong>Identificação:</strong> Ocorrem várias coisas em sequência E uma não afeta a outra (<span class="term" data-description="Dois eventos são independentes se a ocorrência de um não afeta a probabilidade de ocorrência do outro. Ex: lançar uma moeda duas vezes.">eventos independentes</span>). Ex: lançar um dado duas vezes.</p>
-                        <p><strong>Conceito:</strong> A probabilidade de (A e B) acontecerem é o produto das suas probabilidades individuais.</p>
-                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                            P(A e B) = P(A) × P(B)
-                        </p>
-                        <p class="font-semibold text-gray-300">Exemplo (Lançamento de Dados):</p>
-                        <p><span class="term" data-description="Lançar um dado 2 vezes. Cada lançamento tem 6 resultados, então o total de casos é 6 × 6 = 6² = 36.">Dado 2x</span>. P(Primeiro > Segundo)?</p>
-                        <ul>
-                            <li><strong>Total de Casos:</strong> 6 × 6 = 36 casos. (Veja a tabela)</li>
-                            <li><strong>Casos Favoráveis:</strong> Conte na tabela: (2,1), (3,1), (3,2), (4,1), (4,2), (4,3), (5,1)...(5,4), (6,1)...(6,5). São 1+2+3+4+5 = 15 casos.</li>
-                            <li><strong>Probabilidade:</strong> P = 15 / 36 = 5 / 12.</li>
-                        </ul>
-                        <div class="image-bubble" id="svg-tabela-dados" data-img-svg="true" data-img-alt="Tabela de Lançamento de Dois Dados" data-img-description="Tabela 6x6 mostrando todos os 36 resultados possíveis ao lançar dois dados. Os casos favoráveis para 'Dado 1 > Dado 2' estão destacados.">
-                            <!-- SVG Tabela de Dados (Modo Escuro) -->
-                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="text-xs font-sans">
-                                <title>Tabela 6x6 - Lançamento de Dois Dados</title>
-                                <defs>
-                                    <rect id="cell" width="25" height="25" fill="#4b5563" stroke="#9ca3af" />
-                                    <rect id="fav-cell" width="25" height="25" fill="#1e3a8a" stroke="#60a5fa" />
-                                    <g id="headers" font-weight="bold" fill="#f3f4f6">
-                                        <text x="12.5" y="17.5" text-anchor="middle">1</text>
-                                        <text x="37.5" y="17.5" text-anchor="middle">2</text>
-                                        <text x="62.5" y="17.5" text-anchor="middle">3</text>
-                                        <text x="87.5" y="17.5" text-anchor="middle">4</text>
-                                        <text x="112.5" y="17.5" text-anchor="middle">5</text>
-                                        <text x="137.5" y="17.5" text-anchor="middle">6</text>
-                                    </g>
-                                </defs>
-                                <rect x="0" y="0" width="200" height="200" fill="#374151" />
-                                <text x="100" y="20" text-anchor="middle" font-weight="bold" font-size="14" fill="#f3f4f6">Dado 2</text>
-                                <text x="15" y="115" text-anchor="middle" font-weight="bold" font-size="14" transform="rotate(-90 15 115)" fill="#f3f4f6">Dado 1</text>
-                                <g transform="translate(30, 30)">
-                                    <g transform="translate(25, 0)"><use href="#headers"/></g>
-                                    <g transform="translate(0, 25)" writing-mode="vertical-rl" text-orientation="mixed"><use href="#headers"/></g>
-                                    <g transform="translate(25, 25)">
-                                        <use href="#cell" x="0" y="0"/> <use href="#cell" x="25" y="0"/> <use href="#cell" x="50" y="0"/> <use href="#cell" x="75" y="0"/> <use href="#cell" x="100" y="0"/> <use href="#cell" x="125" y="0"/>
-                                        <use href="#fav-cell" x="0" y="25"/> <use href="#cell" x="25" y="25"/> <use href="#cell" x="50" y="25"/> <use href="#cell" x="75" y="25"/> <use href="#cell" x="100" y="25"/> <use href="#cell" x="125" y="25"/>
-                                        <use href="#fav-cell" x="0" y="50"/> <use href="#fav-cell" x="25" y="50"/> <use href="#cell" x="50" y="50"/> <use href="#cell" x="75" y="50"/> <use href="#cell" x="100" y="50"/> <use href="#cell" x="125" y="50"/>
-                                        <use href="#fav-cell" x="0" y="75"/> <use href="#fav-cell" x="25" y="75"/> <use href="#fav-cell" x="50" y="75"/> <use href="#cell" x="75" y="75"/> <use href="#cell" x="100" y="75"/> <use href="#cell" x="125" y="75"/>
-                                        <use href="#fav-cell" x="0" y="100"/> <use href="#fav-cell" x="25" y="100"/> <use href="#fav-cell" x="50" y="100"/> <use href="#fav-cell" x="75" y="100"/> <use href="#cell" x="100" y="100"/> <use href="#cell" x="125" y="100"/>
-                                        <use href="#fav-cell" x="0" y="125"/> <use href="#fav-cell" x="25" y="125"/> <use href="#fav-cell" x="50" y="125"/> <use href="#fav-cell" x="75" y="125"/> <use href="#fav-cell" x="100" y="125"/> <use href="#cell" x="125" y="125"/>
-                                    </g>
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             <div class="topic-card" id="topic-prob-condicional">
-                <div class="summary">Probabilidade Condicional ("Sabendo que...")</div>
-                <div class="topic-content-wrapper">
-                    <div class="topic-content">
-                        <p><strong>Identificação:</strong> O enunciado dá uma informação prévia que reduz o <span class="term" data-description="O conjunto de todos os resultados possíveis (o Espaço Amostral). Na probabilidade condicional, este conjunto é reduzido pela nova informação dada.">universo total</span>. Palavras-chave: "sabendo que", "dado que", "dentre os que...".</p>
-                        <p><strong>Conceito:</strong> O seu <span class="term" data-description="O número de baixo em uma fração. Na probabilidade, representa o 'Total de Casos'. Na condicional, este número diminui.">denominador</span> (Total de Casos) muda. O novo total não é mais tudo, mas sim o grupo que satisfaz a condição dada.</p>
-                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                           <span class="term" data-description="A probabilidade de um evento A ocorrer, dado que um evento B já ocorreu. A fórmula é P(A|B) = P(A e B) / P(B).">P(A | B)</span> = P(A e B) / P(B) <br>
-                           <span class="text-base">(Lê-se: Probabilidade de A, dado que B ocorreu)</span>
-                        </p>
-                        <p><strong>Macete (Mais fácil):</strong> P = Casos (A e B) juntos / Casos da CONDIÇÃO</p>
-                        <p class="font-semibold text-gray-300">Exemplo (Pesquisa de Votação):</p>
-                        <p>P(ser mulher OU ter votado na Opção 1)?</p>
-                        <ul>
-                            <li><strong>Total de Alunos:</strong> 30</li>
-                            <li><strong>P(Mulher):</strong> (4 + 10) / 30 = 14 / 30</li>
-                            <li><strong>P(Opção 1):</strong> 10 / 30</li>
-                            <li><strong>P(Mulher E Opção 1):</strong> 4 / 30 (A <span class="term" data-description="Representa os resultados que pertencem *simultaneamente* ao evento A e ao evento B. Neste caso, 'ser mulher' E 'votar na Opção 1'.">interseção</span>)</li>
-                            <li><strong><span class="term" data-description="A Regra da Soma: P(A ou B) = P(A) + P(B) - P(A e B). Usada para calcular a probabilidade da união de eventos.">P(M ou O1) =</span></strong> P(M) + P(O1) - P(M e O1)</li>
-                            <li><strong>P =</strong> (14/30) + (10/30) - (4/30) = 20 / 30 = 2/3</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="topic-card" id="topic-graficos-tabelas">
-                <div class="summary">Interpretação de Gráficos e Tabelas</div>
-                <div class="topic-content-wrapper">
-                    <div class="topic-content">
-                        <p>Muitas questões são apenas a fórmula básica, mas os dados (Favoráveis e Total) vêm de uma tabela ou <span class="term" data-description="Uma representação visual de dados. O da Q1 é um gráfico de barras, onde a altura de cada barra representa uma porcentagem.">gráfico</span>, exigindo leitura atenta.</p>
-                        <p class="font-semibold text-gray-300">Exemplo (Gráfico de Conexão):</p>
-                        <p>P(Banda larga de pelo menos 1 Mbps)?</p>
-                        <ul>
-                            <li><strong>Total de Casos:</strong> 100% (todos os pesquisados).</li>
-                            <li><strong>Casos Favoráveis ("pelo menos 1 Mbps"):</strong>
-                                <ul>
-                                    <li>"Entre 1 e 2 Mbps": 20%</li>
-                                    <li>"Entre 2 e 4 Mbps": 15%</li>
-                                    <li>"Entre 4 e 8 Mbps": 5%</li>
-                                    <li>"Acima de 8 Mbps": 1%</li>
-                                </ul>
+                            <li><strong><span class="term" data-description="O conjunto de TODOS os resultados possíveis de um experimento aleatório. Representado por S ou Ω.">Espaço Amostral (S ou Ω)</span>:</strong> O conjunto de <strong>todos</strong> os resultados possíveis de um experimento.
+                                <br><em>Ex (Dado): S = {1, 2, 3, 4, 5, 6}</em>
+                                <br><em>Ex (Moeda): S = {Cara, Coroa}</em>
                             </li>
-                            <li><strong>Soma dos Favoráveis:</strong> 20 + 15 + 5 + 1 = 41%</li>
-                            <li><strong>Probabilidade:</strong> P = 41% / 100% = 0,41</li>
+                            <li><strong><span class="term" data-description="Qualquer subconjunto de um espaço amostral. É o resultado específico que estamos interessados em medir.">Evento</span>:</strong> Um subconjunto do espaço amostral. É o "resultado de interesse".
+                                <br><em>Ex (Dado): Evento A = "Sair número par" -> A = {2, 4, 6}</em>
+                            </li>
                         </ul>
-                        <div class="image-bubble" id="svg-grafico-q1" data-img-svg="true" data-img-alt="Gráfico da Questão 1 - Velocidade da Conexão" data-img-description="Gráfico de barras da Questão 1, mostrando os percentuais de domicílios por velocidade de conexão.">
-                           <!-- SVG Gráfico Q1 (Modo Escuro) -->
-                           <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" class="font-sans text-xs">
-                                <title>Gráfico Q1 - Velocidade de Conexão</title>
-                                <rect width="400" height="250" fill="#374151" />
-                                <line x1="50" y1="210" x2="380" y2="210" stroke="#9ca3af" stroke-width="2"/>
-                                <line x1="50" y1="210" x2="50" y2="30" stroke="#9ca3af" stroke-width="2"/>
-                                <g text-anchor="end" fill="#d1d5db">
-                                    <text x="45" y="215">0</text>
-                                    <text x="45" y="170">10</text><line x1="50" y1="170" x2="380" y2="170" stroke="#4b5563" stroke-width="1" stroke-dasharray="2"/>
-                                    <text x="45" y="125">20</text><line x1="50" y1="125" x2="380" y2="125" stroke="#4b5563" stroke-width="1" stroke-dasharray="2"/>
-                                    <text x="45" y="80">30</text><line x1="50" y1="80" x2="380" y2="80" stroke="#4b5563" stroke-width="1" stroke-dasharray="2"/>
-                                    <text x="45" y="35">40</text>
-                                </g>
-                                <g fill="#4f46e5" class="bar">
-                                    <rect x="60" y="62" width="25" height="148" fill="#a5b4fc"><title>34%</title></rect>
-                                    <rect x="90" y="125" width="25" height="85" fill="#4f46e5"><title>20%</title></rect>
-                                    <rect x="120" y="147" width="25" height="63" fill="#4f46e5"><title>15%</title></rect>
-                                    <rect x="150" y="190" width="25" height="20" fill="#4f46e5"><title>5%</title></rect>
-                                    <rect x="180" y="205" width="25" height="5" fill="#4f46e5"><title>1%</title></rect>
-                                    <rect x="210" y="190" width="25" height="20" fill="#a5b4fc"><title>5%</title></rect>
-                                    <rect x="240" y="190" width="25" height="20" fill="#a5b4fc"><title>5%</note></rect>
-                                    <rect x="270" y="181" width="25" height="29" fill="#a5b4fc"><title>6%</note></rect>
-                                    <rect x="300" y="107" width="25" height="103" fill="#a5b4fc"><title>24%</note></rect>
-                                </g>
-                                <g text-anchor="middle" fill="#f3f4f6" class="labels">
-                                    <text x="72.5" y="225">Até 1</text>
-                                    <text x="102.5" y="225">1-2</text>
-                                    <text x="132.5" y="225">2-4</text>
-                                    <text x="162.5" y="225">4-8</text>
-                                    <text x="192.5" y="225">>8</text>
-                                    <text x="222.5" y="225">...</text>
-                                    <text x="252.5" y="225">...</text>
-                                    <text x="282.5" y="225">Disc.</text>
-                                    <text x="312.5" y="225">Não Sabe</text>
-                                </g>
-                           </svg>
-                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- NOVO TÓPICO 1 -->
-            <div class="topic-card" id="topic-uniao-eventos">
-                <div class="summary">União de Eventos (A "Regra do OU")</div>
+            <div class="topic-card" id="topic-operacoes-eventos">
+                <div class="summary">Operações com Eventos (União, Interseção, Complemento)</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Frequentemente, queremos saber a probabilidade de um evento A <strong>OU</strong> um evento B ocorrer. Isso é chamado de <span class="term" data-description="A probabilidade de que *pelo menos um* de um conjunto de eventos ocorra. Representado por P(A ∪ B).">União de Eventos</span>.</p>
+                        <p>Podemos combinar eventos usando operações de conjuntos:</p>
+                        <ul>
+                            <li><strong><span class="term" data-description="Evento A 'OU' Evento B. Consiste nos elementos que pertencem a A, a B, ou a ambos.">União (A ∪ B)</span>:</strong> Representa a ocorrência do evento A <strong>OU</strong> do evento B.
+                                <br><em>Ex: A={Par}, B={>4}. A ∪ B = {2, 4, 5, 6}</em>
+                            </li>
+                            <li><strong><span class="term" data-description="Evento A 'E' Evento B. Consiste nos elementos que pertencem a A e a B simultaneamente.">Interseção (A ∩ B)</span>:</strong> Representa a ocorrência do evento A <strong>E</strong> do evento B.
+                                <br><em>Ex: A={Par}, B={>4}. A ∩ B = {6}</em>
+                            </li>
+                            <li><strong><span class="term" data-description="Evento 'NÃO A'. Consiste em todos os elementos do espaço amostral (S) que não estão em A.">Complemento (Aᶜ ou $\overline{A}$)</span>:</strong> Representa a <strong>não ocorrência</strong> do evento A.
+                                <br><em>Ex: S={1,2,3,4,5,6}, A={Par}. Aᶜ = {1, 3, 5} (Ímpar)</em>
+                            </li>
+                            <li><strong><span class="term" data-description="Eventos que não podem ocorrer ao mesmo tempo. A interseção é vazia (A ∩ B = Ø).">Eventos Mutuamente Exclusivos</span>:</strong> São eventos que não possuem interseção (A ∩ B = Ø). A ocorrência de um impede a do outro.
+                                <br><em>Ex: "Sair Par" e "Sair Ímpar" em um dado.</em>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-card" id="topic-prob-classica">
+                <div class="summary">Conceito-Chave: Probabilidade Clássica (Laplace)</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Esta é a fórmula mais comum, usada quando o espaço amostral é <strong>finito</strong> e <strong>equiprovável</strong> (todos os resultados têm a mesma chance).</p>
                         <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                           P(A ou B) = P(A) + P(B) - P(A e B)
+                            P(A) = <span class="text-lg">f / n</span>
                         </p>
                         <ul>
-                            <li><strong>P(A e B)</strong> é a <span class="term" data-description="Os resultados que pertencem *tanto* ao evento A *quanto* ao evento B. É a sobreposição dos dois conjuntos.">Interseção</span>, ou seja, os resultados que estão nos dois eventos ao mesmo tempo. Subtraímos para não contá-los duas vezes.</li>
-                            <li><strong><span class="term" data-description="Dois eventos que não podem ocorrer ao mesmo tempo. A interseção entre eles é zero (P(A e B) = 0). Ex: Tirar 'par' e 'ímpar' em um dado.">Eventos Mutuamente Exclusivos</span>:</strong> Se A e B não podem acontecer juntos (ex: ser 'par' e 'ímpar'), a interseção é zero, e a fórmula vira P(A ou B) = P(A) + P(B).</li>
+                            <li><strong>f =</strong> Número de <span class="term" data-description="O número de resultados que satisfazem o evento desejado. É 'o que eu quero que aconteça'.">Casos Favoráveis</span> (o que eu quero).</li>
+                            <li><strong>n =</strong> Número de <span class="term" data-description="O número total de resultados possíveis (o tamanho do Espaço Amostral S). É 'tudo o que pode acontecer'.">Casos Possíveis</span> (o total).</li>
                         </ul>
-                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Dado 1x):</p>
-                        <p>P(ser < 3 OU ser par)?</p>
+                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Soma de 2 Dados):</p>
+                        <p>P(Soma das faces = 7)?</p>
                         <ul>
-                            <li><strong>Total de Casos:</strong> 6 {1, 2, 3, 4, 5, 6}</li>
-                            <li><strong>P(A) (ser < 3):</strong> {1, 2} -> P(A) = 2/6</li>
-                            <li><strong>P(B) (ser par):</strong> {2, 4, 6} -> P(B) = 3/6</li>
-                            <li><strong><span class="term" data-description="O resultado que é '< 3' E 'par' ao mesmo tempo.">P(A e B)</span> (ser < 3 E par):</strong> {2} -> P(A e B) = 1/6</li>
-                            <li><strong>Probabilidade:</strong> (2/6) + (3/6) - (1/6) = 4/6 = 2/3</li>
+                            <li><strong>Total de Casos (n):</strong> 6 faces no Dado 1 × 6 faces no Dado 2 = 36 casos.</li>
+                            <li><strong>Casos Favoráveis (f):</strong> { (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) } -> 6 casos.</li>
+                            <li><strong>Probabilidade:</strong> P = 6 / 36 = 1 / 6.</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            
-            <!-- NOVO TÓPICO 2 -->
-            <div class="topic-card" id="topic-analise-combinatoria">
-                <div class="summary">Contando Casos (Análise Combinatória)</div>
+            <div class="topic-card" id="topic-outras-definicoes">
+                <div class="summary">Outras Definições: Frequência Relativa e Axiomática</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Para problemas complexos, contar o <span class="term" data-description="O número de resultados que satisfazem o evento desejado. É 'o que eu quero que aconteça'.">Total de Casos</span> e os <span class="term" data-description="O número total de resultados possíveis em um experimento. Também chamado de 'Espaço Amostral'. É 'tudo o que pode acontecer'.">Casos Favoráveis</span> exige <span class="term" data-description="O ramo da matemática focado em contagem de grupos e arranjos (permutações, combinações, etc.).">Análise Combinatória</span>.</p>
-                        <p>Os dois conceitos principais são:</p>
+                        <p>Existem outras formas de definir probabilidade:</p>
                         <ul>
-                            <li><strong><span class="term" data-description="C(n, p) = n! / (p! * (n-p)!). Usada para escolher 'p' itens de um total de 'n' onde a ORDEM NÃO IMPORTA (ex: escolher uma comissão).">Combinação</span>:</strong> A ordem NÃO importa. Usada para formar grupos, comissões, times, ou pegar cartas de um baralho.</li>
-                            <li><strong><span class="term" data-description="P(n) = n! ou A(n, p) = n! / (n-p)!. Usada quando a ORDEM IMPORTA (ex: formar uma fila, um pódio, uma senha).">Permutação/Arranjo</span>:</strong> A ordem IMPORTA. Usada para criar filas, pódios, senhas, ou anagramas.</li>
-                        </ul>
-                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Grupo de Pessoas):</p>
-                        <p>Grupo de 4 Homens e 4 Mulheres. P(escolher 3 pessoas e ser 1H e 2M)?</p>
-                        <ul>
-                            <li><strong>Total de Casos:</strong> Escolher 3 de 8 pessoas. A ordem não importa.
-                                <br>Total = <span class="term" data-description="C(8, 3) = 8! / (3! * 5!) = (8*7*6) / (3*2*1) = 56. Existem 56 grupos possíveis de 3 pessoas.">C(8, 3) = 56</span></li>
-                            <li><strong>Casos Favoráveis:</strong> Escolher 1H de 4 (<span class="term" data-description="C(4, 1) = 4. Existem 4 maneiras de escolher 1 homem.">C(4, 1)</span>) <strong>E</strong> Escolher 2M de 4 (<span class="term" data-description="C(4, 2) = 4! / (2! * 2!) = (4*3)/2 = 6. Existem 6 maneiras de escolher 2 mulheres.">C(4, 2)</span>).
-                                <br>Favoráveis = C(4, 1) × C(4, 2) = 4 × 6 = 24</li>
-                            <li><strong>Probabilidade:</strong> P = 24 / 56 = 3 / 7</li>
+                            <li><strong><span class="term" data-description="Probabilidade 'a posteriori'. Baseia-se na frequência observada de um evento após 'n' repetições. P(A) ≈ n(A) / n.">Frequência Relativa</span>:</strong> Usada na prática. Repete-se o experimento 'n' vezes (n grande). A probabilidade é a frequência com que o evento A ocorreu.
+                                <br><code>fr(A) = n(A) / n</code>
+                                <br>Conforme <code>n → ∞</code>, <code>fr(A)</code> se aproxima de <code>P(A)</code>.
+                            </li>
+                            <li><strong><span class="term" data-description="Definição moderna que define a probabilidade por 3 regras (axiomas) que ela deve obedecer.">Conceito Axiomático</span>:</strong> Define a probabilidade por 3 regras (axiomas) que ela deve satisfazer:
+                                <ol>
+                                    <li><code>P(A) ≥ 0</code> (Probabilidade não é negativa)</li>
+                                    <li><code>P(S) = 1</code> (A probabilidade do espaço amostral é 100%)</li>
+                                    <li>Se A e B são <span class="term" data-description="Eventos que não podem ocorrer ao mesmo tempo. A interseção é vazia (A ∩ B = Ø).">mutuamente exclusivos</span>, então <code>P(A ∪ B) = P(A) + P(B)</code>.</li>
+                                </ol>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-
+            <div class="topic-card" id="topic-teoremas-importantes">
+                <div class="summary">Teoremas Importantes (Regra da Soma, Complementar)</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Dos axiomas, derivamos teoremas úteis:</p>
+                        <ul>
+                            <li><strong><span class="term" data-description="A probabilidade de um evento impossível (conjunto vazio Ø) é zero.">Probabilidade do Vazio</span>:</strong> <code>P(Ø) = 0</code></li>
+                            <li><strong><span class="term" data-description="P(não A) = 1 - P(A). Muito útil para calcular 'pelo menos um'.">Regra do Complementar</span>:</strong> A probabilidade de algo <strong>não</strong> acontecer é 1 menos a probabilidade de acontecer.
+                                <br><code>P(Aᶜ) = 1 - P(A)</code>
+                            </li>
+                            <li><strong><span class="term" data-description="P(A ou B) = P(A) + P(B) - P(A e B). Subtraímos a interseção para não contar duas vezes.">Regra da Soma (União)</span>:</strong> Para <strong>quaisquer</strong> dois eventos A e B:
+                                <br><code>P(A ∪ B) = P(A) + P(B) - P(A ∩ B)</code>
+                            </li>
+                            <li><strong>Regra da Soma (3 eventos):</strong>
+                                <br><code>P(A ∪ B ∪ C) = P(A) + P(B) + P(C) - P(A∩B) - P(A∩C) - P(B∩C) + P(A∩B∩C)</code>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="binomio-newton" class="section-container">
-         <div class="section-header-card">
-            <h2 class="section-title">Tópico Secundário: Binômio de Newton</h2>
-            <p class="section-subtitle">Conceitos para encontrar termos específicos na <span class="term" data-description="O processo de reescrever uma potência, como (a+b)², na sua forma de soma, como a² + 2ab + b². O Binômio de Newton é a fórmula para (a+b)ⁿ.">expansão de (a + b)ⁿ</span> sem precisar expandir o binômio inteiro.</p>
+    <!-- NOVA SEÇÃO: ANÁLISE COMBINATÓRIA -->
+    <section id="analise-combinatoria" class="section-container">
+        <div class="section-header-card">
+            <h2 class="section-title">Tópico de Apoio: Análise Combinatória</h2>
+            <p class="section-subtitle">A arte de contar casos. Essencial para calcular o "Total de Casos" (n) e "Casos Favoráveis" (f) em problemas complexos.</p>
         </div>
         <div class="topics-grid">
-            <div class="topic-card" id="topic-termo-geral">
-                <div class="summary">Conceito-Chave: A Fórmula do Termo Geral</div>
+            <div class="topic-card" id="topic-pfc">
+                <div class="summary">Princípio Fundamental da Contagem (PFC)</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Esta <span class="term" data-description="Uma equação que permite calcular qualquer termo (T_p+1) de uma expansão binomial (a+b)^n sem precisar calcular todos os termos anteriores.">fórmula</span> é a "chave mestra" para todas as questões de binômio.</p>
-                        <div class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                            <p class="text-lg">T<sub>p+1</sub> = C(n, p) ⋅ a<sup>n-p</sup> ⋅ b<sup>p</sup></p>
-                        </div>
+                        <p>Também chamado de "Princípio Multiplicativo". Se um evento é composto por várias etapas independentes, o número total de possibilidades é o <strong>produto</strong> das possibilidades de cada etapa.</p>
+                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Montar um Lanche):</p>
+                        <p>Se você tem 3 tipos de pão, 2 tipos de queijo e 4 tipos de recheio, quantas combinações de lanche (1 pão, 1 queijo, 1 recheio) existem?</p>
                         <ul>
-                            <li><strong><span class="term" data-description="Representa o 'Termo' na posição 'p+1'. Por exemplo, T₁ é o primeiro termo (onde p=0), T₂ é o segundo (onde p=1), e assim por diante.">T<sub>p+1</sub></span>:</strong> É o termo que estamos procurando.</li>
-                            <li><strong><span class="term" data-description="O expoente total do binômio, (a+b)ⁿ. Indica o número de vezes que o binômio é multiplicado por si mesmo.">n</span>:</strong> É o expoente de fora do parêntese.</li>
-                            <li><strong><span class="term" data-description="O 'contador' que define a posição do termo. Vai de 0 até n. É sempre o expoente do segundo termo ('b').">p</span>:</strong> É o "contador" que vamos descobrir.</li>
-                            <li><strong><span class="term" data-description="O primeiro item dentro do parêntese do binômio (a+b)ⁿ.">a</span>:</strong> É o primeiro termo (ex: 5x).</li>
-                            <li><strong><span class="term" data-description="O segundo item dentro do parêntese do binômio (a+b)ⁿ.">b</span>:</strong> É o segundo termo (ex: 2).</li>
-                            <li><strong><span class="term" data-description="Também chamado de 'Número de Newton' ou C(n, p). Representa o número de formas de escolher 'p' elementos de um conjunto de 'n' elementos. Fórmula: n! / (p! * (n-p)!)">C(n, p):</span></strong> Coeficiente Binomial, calculado como <code>n! / (p! (n-p)!)</code>.</li>
+                            <li>Total = (Opções de Pão) × (Opções de Queijo) × (Opções de Recheio)</li>
+                            <li>Total = 3 × 2 × 4 = 24 lanches possíveis.</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="topic-card" id="topic-como-usar">
-                <div class="summary">Como Usar a "Chave Mestra" (Exemplo)</div>
+            <div class="topic-card" id="topic-permutacao-arranjo">
+                <div class="summary">Permutação e Arranjo (A Ordem Importa)</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p><strong>Problema Exemplo:</strong> Coeficiente de x³ em (5x + 2)⁵.</p>
-                        <ol class="list-decimal list-outside ml-4 space-y-2">
-                            <li><strong>Identificar as partes:</strong>
-                                <ul>
-                                    <li>n = 5</li>
-                                    <li>a = 5x</li>
-                                    <li>b = 2</li>
-                                </ul>
-                            </li>
-                            <li><strong>Montar a fórmula:</strong>
-                                <p>T<sub>p+1</sub> = C(5, p) ⋅ (5x)<sup>5-p</sup> ⋅ (2)<sup>p</sup></p>
-                            </li>
-                            <li><strong>Isolar o x:</strong>
-                                <p>T<sub>p+1</sub> = C(5, p) ⋅ 5<sup>5-p</sup> ⋅ <strong>x<sup>5-p</sup></strong> ⋅ 2<sup>p</sup></p>
-                            </li>
-                            <li><strong>Achar o p:</strong> O problema quer x³. Então, o <span class="term" data-description="O número 'pequeno' escrito acima e à direita de uma base (como o '3' em x³). Indica quantas vezes a base é multiplicada por ela mesma.">expoente</span> do x deve ser 3.
-                                <p><code>5 - p = 3</code><br><code>p = 2</code></p>
-                            </li>
-                            <li><strong>Calcular o <span class="term" data-description="A parte numérica que multiplica as variáveis (como 'x') em um termo. No exemplo, 5000 é o coeficiente de x³.">Coeficiente</span>:</strong> Agora que sabemos p=2, colocamos de volta na parte numérica:
-                                <p>Coeficiente = C(5, 2) ⋅ 5<sup>5-2</sup> ⋅ 2<sup>2</sup></p>
-                                <p>Coeficiente = <span class="term" data-description="C(5, 2) = 5! / (2! * 3!) = (5 * 4 * 3 * 2 * 1) / ((2 * 1) * (3 * 2 * 1)) = (5 * 4) / 2 = 10">C(5, 2)</span> ⋅ 5³ ⋅ 2²</p>
-                                <p>C(5, 2) = 5! / (2! 3!) = (5 ⋅ 4) / 2 = 10</p>
-                                <p>Coeficiente = 10 ⋅ 125 ⋅ 4 = 5000</p>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            <div class="topic-card" id="topic-macetes-binomio">
-                <div class="summary">"Macetes" Específicos do Binômio</div>
-                <div class="topic-content-wrapper">
-                    <div class="topic-content">
-                        <p class="font-semibold text-gray-300">Para achar o <span class="term" data-description="Em uma expansão (a+b)^n com 'n' par, há n+1 termos (um número ímpar), então existe um único termo central. O 'p' desse termo é p = n/2.">Termo Central</span> (Exemplo: Expoente Par)</p>
+                        <p>Usamos quando a <strong>ordem</strong> dos elementos <strong>importa</strong>.</p>
                         <ul>
-                            <li>Problema: (x² - 1/x)⁸</li>
-                            <li>O expoente <strong>n=8</strong> é par. Um binômio de expoente 8 tem <span class="term" data-description="A expansão de (a+b)ⁿ sempre terá 'n' mais um termos. Ex: (a+b)² tem 3 termos (a², 2ab, b²).">n+1 = 9 termos</span>.</li>
-                            <li>O termo central é o 5º termo (T₅).</li>
-                            <li>Se queremos o T₅, então p+1 = 5, o que significa <strong>p = 4</strong>.</li>
-                            <li><strong>Macete:</strong> Para o termo central de um expoente <strong>n</strong> par, o <strong>p</strong> será sempre <strong>p = n / 2</strong>.</li>
-                            <li>Basta calcular a fórmula para n=8 e p=4.</li>
-                        </ul>
-                        <br>
-                        <p class="font-semibold text-gray-300">Para achar o <span class="term" data-description="É o termo da expansão que não contém a variável 'x', ou seja, onde o expoente de 'x' é zero (x⁰).">Termo Independente</span> (Exemplo: Expoente Zero)</p>
-                        <ul>
-                            <li>"Termo independente de x" significa o termo onde o expoente de x é zero (x⁰).</li>
-                            <li>O processo é o mesmo da Q27: isole o x, mas desta vez iguale o expoente final a <strong>zero</strong> para achar o <strong>p</strong>.</li>
+                            <li><strong><span class="term" data-description="Usado para reordenar TODOS os 'n' elementos de um conjunto. Fórmula: P(n) = n! (n fatorial).">Permutação Simples (P<sub>n</sub>)</span>:</strong> Quantas filas (anagramas) podemos formar com 'n' elementos?
+                                <br><code>P<sub>n</sub> = n!</code>
+                                <br><em>Ex: Fila com 3 pessoas (A,B,C) -> 3! = 3*2*1 = 6 filas. (ABC, ACB, BAC, BCA, CAB, CBA)</em>
+                            </li>
+                            <li><strong><span class="term" data-description="Usado para escolher 'p' elementos de 'n' e ordená-los. Fórmula: A(n,p) = n! / (n-p)!">Arranjo Simples (A<sub>n,p</sub>)</span>:</strong> Quantos grupos ordenados (pódios, senhas) de 'p' elementos podemos formar a partir de 'n'?
+                                <br><code>A<sub>n,p</sub> = n! / (n-p)!</code>
+                                <br><em>Ex: Pódio (1º, 2º) com 4 corredores (n=4, p=2) -> 4! / (4-2)! = 24 / 2 = 12 pódios.</em>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            
-            <!-- NOVO TÓPICO 3 -->
-            <div class="topic-card" id="topic-triangulo-pascal">
-                <div class="summary">O Triângulo de Pascal</div>
+            <div class="topic-card" id="topic-combinacao">
+                <div class="summary">Combinação (A Ordem NÃO Importa)</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>É um método visual para encontrar os <span class="term" data-description="Os números C(n, p) que multiplicam as variáveis na expansão do binômio.">coeficientes binomiais</span>, especialmente útil para expoentes (<strong>n</strong>) pequenos.</p>
-                        <p><strong>Construção:</strong>
-                           <ol class="list-decimal list-outside ml-4">
-                               <li>Começa com '1' no topo (linha n=0).</li>
-                               <li>Cada nova linha começa e termina com '1'.</li>
-                               <li>Cada número no meio da linha é a <strong>soma dos dois números logo acima</strong> dele.</li>
-                           </ol>
-                        </p>
-                        <p>Esta regra de soma é chamada de <span class="term" data-description="A fórmula C(n, p) = C(n-1, p-1) + C(n-1, p), que é a base da construção do Triângulo de Pascal.">Relação de Stifel</span>.</p>
-                         <div class="image-bubble" id="svg-triangulo-pascal" data-img-svg="true" data-img-alt="Triângulo de Pascal" data-img-description="Triângulo de Pascal mostrando os coeficientes binomiais até a linha 5. Cada número é a soma dos dois números acima dele.">
-                           <!-- SVG Triângulo de Pascal (Modo Escuro) -->
-                           <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" class="font-sans" fill="#f3f4f6">
-                                <title>Triângulo de Pascal</title>
-                                <rect width="200" height="150" fill="#374151" />
-                                <g text-anchor="middle" font-family="monospace" font-size="16" font-weight="bold">
-                                    <text x="100" y="20">1</text>
-                                    <text x="90" y="45">1</text> <text x="110" y="45">1</text>
-                                    <text x="80" y="70">1</text> <text x="100" y="70">2</text> <text x="120" y="70">1</text>
-                                    <text x="70" y="95">1</text> <text x="90" y="95">3</text> <text x="110" y="95">3</text> <text x="130" y="95">1</text>
-                                    <text x="60" y="120">1</text> <text x="80" y="120">4</text> <text x="100" y="120">6</text> <text x="120" y="120">4</text> <text x="140" y="120">1</text>
-                                </g>
-                                <g text-anchor="end" font-size="10" fill="#9ca3af" font-style="italic">
-                                     <text x="50" y="20">n=0</text>
-                                     <text x="50" y="45">n=1</text>
-                                     <text x="50" y="70">n=2</text>
-                                     <text x="50" y="95">n=3</text>
-                                     <text x="50" y="120">n=4</text>
-                                </g>
-                           </svg>
-                        </div>
-                        <p class="mt-4"><strong>Exemplo:</strong> Para (a+b)⁴ (linha n=4), os coeficientes são <strong>1, 4, 6, 4, 1</strong>.</p>
-                        <p>Expansão: <strong>1</strong>a⁴ + <strong>4</strong>a³b + <strong>6</strong>a²b² + <strong>4</strong>ab³ + <strong>1</strong>b⁴</p>
+                        <p>Usamos quando a <strong>ordem</strong> dos elementos <strong>NÃO importa</strong>.</p>
+                        <ul>
+                            <li><strong><span class="term" data-description="Usado para escolher 'p' elementos de 'n', onde a ordem não importa. Fórmula: C(n,p) = n! / (p! * (n-p)!)">Combinação Simples (C<sub>n,p</sub>)</span>:</strong> Quantos grupos (comissões, times) de 'p' elementos podemos formar a partir de 'n'?
+                                <br><code>C<sub>n,p</sub> = n! / (p! * (n-p)!)</code>
+                            </li>
+                            <li><em>Ex: Comissão de 2 pessoas com 4 corredores (n=4, p=2). {A,B} é a mesma comissão que {B,A}.</em>
+                                <br><em>C<sub>4,2</sub> = 4! / (2! * 2!) = 24 / (2 * 2) = 6 comissões.</em>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            
-            <!-- NOVO TÓPICO 4 -->
-            <div class="topic-card" id="topic-soma-coeficientes">
-                <div class="summary">Macete: Soma dos Coeficientes</div>
+            <div class="topic-card" id="topic-prob-combinatoria">
+                <div class="summary">Usando Combinatória na Probabilidade</div>
                 <div class="topic-content-wrapper">
                     <div class="topic-content">
-                        <p>Para encontrar a <strong>soma de todos os coeficientes</strong> de uma expansão binomial (como em (ax + by)ⁿ), existe um truque muito simples:</p>
+                        <p>Em muitos problemas, usamos Combinação para achar 'f' e 'n'.</p>
                         <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
-                           Basta substituir todas as <span class="term" data-description="As letras da expressão, como 'x' ou 'y', que representam valores desconhecidos.">variáveis</span> por 1.
+                            P(A) = <span class="text-lg">C(favoráveis) / C(total)</span>
                         </p>
-                        <p class="font-semibold text-gray-300">Exemplo 1 (Soma = 0):</p>
-                        <p>Qual a soma dos coeficientes de (x - 1)⁵?</p>
+                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Mega-Sena):</p>
+                        <p>P(Acertar as 6 dezenas jogando 1 cartão de 6 números)?</p>
                         <ul>
-                            <li>Substitua a variável (x) por 1.</li>
-                            <li>(1 - 1)⁵ = 0⁵ = <strong>0</strong>.</li>
-                            <li>A soma de todos os coeficientes é 0.</li>
-                        </ul>
-                        <p class="font-semibold text-gray-300 mt-4">Exemplo 2 (Soma > 0):</p>
-                        <p>Qual a soma dos coeficientes de (2x + y)³?</p>
-                        <ul>
-                            <li>Substitua as variáveis (x e y) por 1.</li>
-                            <li>(2⋅1 + 1)³ = (2 + 1)³ = 3³ = <strong>27</strong>.</li>
-                            <li>(Verificação: (2x+y)³ = <strong>8</strong>x³ + <strong>12</strong>x²y + <strong>6</strong>xy² + <strong>1</strong>y³. Soma = 8+12+6+1 = 27)</li>
+                            <li><strong>Total de Casos (n):</strong> Quantos grupos de 6 números podemos formar com 60 disponíveis? A ordem não importa.
+                                <br><code>n = C(60, 6) = 50.063.860</code>
+                            </li>
+                            <li><strong>Casos Favoráveis (f):</strong> Só existe 1 resultado que ganha (os 6 números sorteados).
+                                <br><code>f = 1</code>
+                            </li>
+                            <li><strong>Probabilidade:</strong> P = 1 / 50.063.860</li>
                         </ul>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
+    <section id="probabilidade-avancada" class="section-container">
+         <div class="section-header-card">
+            <h2 class="section-title">Probabilidade (Parte 2): Tópicos Avançados</h2>
+            <p class="section-subtitle">Indo além do básico: como um evento afeta outro? Explore Probabilidade Condicional, Teorema do Produto e Independência.</p>
+        </div>
+        <div class="topics-grid">
+            <div class="topic-card" id="topic-prob-condicional">
+                <div class="summary">Probabilidade Condicional ("Sabendo que...")</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>É a probabilidade de um evento A ocorrer, <strong>dado que</strong> um evento B <strong>já ocorreu</strong>.</p>
+                        <p>A informação "B ocorreu" <span class="term" data-description="Na probabilidade condicional, o 'Total de Casos' deixa de ser S e passa a ser o evento B, que já ocorreu.">reduz o nosso espaço amostral</span>. O novo "universo" é B.</p>
+                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                           <span class="text-lg">P(A | B) = P(A ∩ B) / P(B)</span>
+                           <br>
+                           <span class="text-base">(Lê-se: Probabilidade de A, dado B)</span>
+                        </p>
+                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Tabela):</p>
+                        <p>P(Ser de Produção | Sabendo que foi Aprovado)?</p>
+                        <ul>
+                            <li><strong>Novo Total (Denominador):</strong> O total de Aprovados = 140 (dados do slide).</li>
+                            <li><strong>Favoráveis (Numerador):</strong> Pessoas que são de Produção E Aprovados = 60.</li>
+                            <li><strong>Probabilidade:</strong> P = 60 / 140 = 3 / 7.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-card" id="topic-teorema-produto">
+                <div class="summary">Eventos Sucessivos (Teorema do Produto)</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Usado para calcular a probabilidade de eventos em sequência (A <strong>E</strong> B), especialmente quando <strong>há dependência</strong> (sem reposição).</p>
+                        <p>Deriva da fórmula condicional:</p>
+                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                           <span class="text-lg">P(A ∩ B) = P(A) × P(B | A)</span>
+                        </p>
+                        <p><em>(A probabilidade de A e B ocorrerem é a P(A) multiplicada pela P(B) sabendo que A já aconteceu).</em></p>
+                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Peças sem reposição):</p>
+                        <p>10 peças, 3 defeituosas (D) e 7 perfeitas (P). P(tirar 2 perfeitas)?</p>
+                        <ul>
+                            <li>P(1ª P <strong>E</strong> 2ª P) = P(1ª P) × P(2ª P | 1ª P)</li>
+                            <li>P(1ª P) = 7/10</li>
+                            <li>P(2ª P | 1ª P) = 6/9 (Agora só restam 9 peças, 6 delas perfeitas)</li>
+                            <li><strong>Probabilidade:</strong> (7/10) × (6/9) = 42/90 = 7/15.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-card" id="topic-eventos-independentes">
+                <div class="summary">Eventos Independentes</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Dois eventos são independentes se a ocorrência de um <strong>não afeta</strong> a probabilidade do outro.</p>
+                        <p>Neste caso, <code>P(B | A) = P(B)</code>.</p>
+                        <p>Isso simplifica o Teorema do Produto para:</p>
+                        <p class="text-center font-medium my-4 p-4 bg-gray-800 rounded-lg">
+                           <span class="text-lg">P(A ∩ B) = P(A) × P(B)</span>
+                        </p>
+                        <p class="font-semibold text-gray-300 mt-4">Exemplo (Com reposição):</p>
+                        <p>Extintor disponível (P=0.98), Ambulância disponível (P=0.92). P(ambos disponíveis)?</p>
+                        <ul>
+                            <li>São eventos independentes.</li>
+                            <li><strong>Probabilidade:</strong> 0.98 × 0.92 = 0.9016 (ou 90,16%).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-card" id="topic-paradoxo-aniversario">
+                <div class="summary">Curiosidade: O Paradoxo do Aniversário</div>
+                <div class="topic-content-wrapper">
+                    <div class="topic-content">
+                        <p>Pergunta: "Quantas pessoas precisamos em uma sala para que a probabilidade de <i>pelo menos duas</i> delas fazerem aniversário no mesmo dia seja maior que 50%?"</p>
+                        <p>A resposta intuitiva é alta (ex: 183), mas a resposta correta é surpreendentemente baixa: <strong>23 pessoas</strong>.</p>
+                        <p><strong>Como calcular (para 23 pessoas):</strong></p>
+                        <p>É um problema de <span class="term" data-description="P(Pelo Menos Um) = 1 - P(Nenhum). É mais fácil calcular o oposto.">evento complementar</span>.</p>
+                        <ul>
+                            <li>P(pelo menos 2 iguais) = 1 - P(todos diferentes)</li>
+                            <li>P(todos diferentes) = (365/365) × (364/365) × (363/365) × ... × (343/365)</li>
+                            <li>P(todos diferentes) ≈ 0.493</li>
+                            <li>P(pelo menos 2 iguais) ≈ 1 - 0.493 = 0.507 (ou 50,7%)</li>
+                        </ul>
+                        <p>Com 30 pessoas, a chance já sobe para 70,6%!</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="quiz-section" class="section-container">
         <div class="section-header-card">
             <h2 class="section-title">Teste seu Conhecimento</h2>
-            <p class="section-subtitle">Vamos ver o que você aprendeu! Responda às perguntas para testar sua compreensão sobre Probabilidade e Binômio.</p>
+            <p class="section-subtitle">Vamos ver o que você aprendeu! Responda às perguntas para testar sua compreensão sobre Probabilidade.</p>
         </div>
 
         <div id="quiz-area" class="w-full max-w-3xl flex flex-col items-center">
@@ -1194,10 +1072,10 @@
             <div id="progress-bar-container">
                 <div id="progress-bar-fill" style="width: 0%;">0%</div>
             </div>
-            <div id="progress-label">Progresso: 0 de 40 questões dominadas</div>
+            <div id="progress-label">Progresso: 0 de 20 questões dominadas</div>
 
             <div id="quiz-container" class="quiz-container hidden">
-                <button id="help-btn" title="Pedir Dica (Revela o tópico)">?</button>
+                <button id="help-btn" title="Pedir Dica (Revela a Resolução)">?</button>
                 <div id="question-counter-display">1/10</div>
                 <h3 id="quiz-question"></h3>
                 <ul id="quiz-options"></ul>
@@ -1224,7 +1102,7 @@
     </section>
 
     <footer class="footer-signature">
-        <p>Feito por Rafael Chaves Sebe.</p>
+        <p>Interface original por Rafael Chaves Sebe. Conteúdo adaptado dos slides da Prof. Roberta de Amorim Ferreira (IFMG).</p>
     </footer>
 
     <!-- Modal (Dark) -->
@@ -1257,7 +1135,7 @@
                 });
             }, { threshold: 0.4 }); 
 
-            document.querySelectorAll('#probabilidade, #binomio-newton').forEach(section => {
+            document.querySelectorAll('#conceitos-fundamentais, #analise-combinatoria, #probabilidade-avancada').forEach(section => {
                 bgObserver.observe(section);
             });
 
@@ -1266,9 +1144,6 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                    } else if (entry.boundingClientRect.top > 0) {
-                        // Opcional: remover 'visible' quando rola para cima
-                        // entry.target.classList.remove('visible');
                     }
                 });
             }, {
@@ -1291,8 +1166,8 @@
 
             function openModal(theme = 'conceitos') {
                 // Limpa classes de tema antigas
-                modalContent.classList.remove('theme-probabilidade', 'theme-binomio-newton', 'theme-conceitos', 'image-modal');
-                modalHeader.classList.remove('theme-probabilidade', 'theme-binomio-newton', 'theme-conceitos');
+                modalContent.classList.remove('theme-probabilidade', 'theme-avancado', 'theme-conceitos');
+                modalHeader.classList.remove('theme-probabilidade', 'theme-avancado', 'theme-conceitos');
                 
                 // Adiciona novas classes de tema
                 modalContent.classList.add(`theme-${theme}`);
@@ -1317,14 +1192,14 @@
                 }, 400); 
             };
             
-            function openInfoModal(message, title = "Aviso") {
+            function openInfoModal(message, title = "Aviso", theme = 'conceitos') {
                 modalHeader.classList.remove('hidden');
                 modalImageContainer.classList.add('hidden');
                 
                 modalTitle.textContent = title;
-                modalDescription.innerHTML = `<p>${message}</p>`; // Usar innerHTML para caso tenha tags
+                modalDescription.innerHTML = message; // Usar innerHTML para tags <br> e <strong>
                 
-                openModal('conceitos');
+                openModal(theme);
             }
 
             function openConfirmModal(message, onConfirm) {
@@ -1372,7 +1247,8 @@
                     const parentSection = term.closest('section');
                     let theme = 'probabilidade'; 
                     if (parentSection && parentSection.id) {
-                       if (parentSection.id === 'binomio-newton') theme = 'binomio-newton';
+                       if (parentSection.id === 'analise-combinatoria') theme = 'conceitos';
+                       if (parentSection.id === 'probabilidade-avancada') theme = 'avancado';
                     }
                     
                     modalContent.classList.remove('image-modal');
@@ -1382,32 +1258,6 @@
                     modalTitle.textContent = title;
                     modalDescription.textContent = description;
                     
-                    openModal(theme);
-                });
-            });
-
-             // Event Listeners for Images/SVGs
-            document.querySelectorAll('.image-bubble').forEach(bubble => {
-                bubble.addEventListener('click', () => {
-                    const isSvg = bubble.dataset.imgSvg === 'true';
-                    const description = bubble.dataset.imgDescription;
-                    const parentSection = bubble.closest('section');
-                     let theme = 'probabilidade'; 
-                    if (parentSection && parentSection.id) {
-                       if (parentSection.id === 'binomio-newton') theme = 'binomio-newton';
-                    }
-
-                    modalContent.classList.add('image-modal');
-                    modalHeader.classList.add('hidden');
-                    modalImageContainer.classList.remove('hidden');
-                    
-                    if (isSvg) {
-                       const svgElement = bubble.querySelector('svg');
-                       modalImageContainer.innerHTML = svgElement.outerHTML;
-                    } 
-                    
-                    modalDescription.textContent = description;
-
                     openModal(theme);
                 });
             });
@@ -1445,62 +1295,175 @@
             // == QUIZ LOGIC (ADAPTADO)
             // ===================================
 
+            // NOVO BANCO DE QUESTÕES BASEADO NOS SLIDES
             const questionBank = [
-                // Probabilidade: Gráficos e Tabelas
-                { id: 1, question: "Q1: Gráfico mostra velocidade de conexão. Qual a chance de haver banda larga de pelo menos 1 Mbps?", topic: "Interpretação de Gráficos e Tabelas", options: ["0,45", "0,41", "0,30", "0,22"], correctAnswer: 1 },
-                { id: 2, question: "Q2: Gráfico sobre livros lidos. Qual a P(aluno não ter lido livro)?", topic: "Interpretação de Gráficos e Tabelas", options: ["3/40 (7,5%)", "10/40 (25%)", "3/10 (30%)", "15/40 (37,5%)"], correctAnswer: 0 }, // Total = 3+10+15+12=40. P(Nenhum) = 3/40.
-                { id: 12, question: "Q12: Tabela de votação. Qual a P(ser mulher OU ter votado na Opção 1)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["6/5", "2/3", "1/2", "1/5"], correctAnswer: 1 }, 
-                
-                // Probabilidade: Fórmula Básica
-                { id: 5, question: "Q5: Urna com 10 bolas (1 a 10). Qual a P(tirar um número par OU primo)?", topic: "Conceito-Chave: A Fórmula Básica", options: ["1,0", "0,9", "0,8", "0,7"], correctAnswer: 2 },
-                { id: 7, question: "Q7: Grupo de 4 homens e 4 mulheres. 3 são escolhidas. Qual a P(serem 1 homem e 2 mulheres)?", topic: "Contando Casos (Análise Combinatória)", options: ["1/14", "3/14", "1/7", "3/7"], correctAnswer: 3 },
-                { id: 8, question: "Q8: 3 alunos (Carlos, Daniel, Francisca) em fila. P(Carlos e Daniel fiquem juntos)?", topic: "Contando Casos (Análise Combinatória)", options: ["1/3", "2/3", "1/6", "1/2"], correctAnswer: 1 },
-                { id: 11, question: "Q11: Jogo com roleta de 10 setores (numerados 1 a 10). P(ocorrer número ímpar)?", topic: "Conceito-Chave: A Fórmula Básica", options: ["1/2", "1/5", "3/10", "2/5"], correctAnswer: 0 },
-                { id: 13, question: "Q13: Dado é lançado. P(ser maior que 3)?", topic: "Conceito-Chave: A Fórmula Básica", options: ["1/6", "1/3", "1/2", "2/3"], correctAnswer: 2 },
-
-                // Probabilidade: Eventos Sucessivos / Complementar
-                { id: 3, question: "Q3a: Dado 2x. P(primeiro número ser maior que o segundo)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/6", "5/12", "1/2", "7/12"], correctAnswer: 1 },
-                { id: 4, question: "Q4a: Moeda 3x. P(duas caras e uma coroa)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/8", "1/4", "3/8", "1/2"], correctAnswer: 2 },
-                { id: 16, question: "Q16: Moeda 5x. P(obter 'cara' 3x e 'coroa' 2x)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["5/16", "1/32", "1/16", "3/32"], correctAnswer: 0 },
-                { id: 24, question: "Q24: P(acertar) = 0.2. Em 8 tiros, P(acertar exatamente 4 vezes)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["C(8,4) * (0.2)⁴ * (0.8)⁴", "C(8,4) * (0.2)⁴", "(0.2)⁴", "(0.2)⁴ * (0.8)⁴"], correctAnswer: 0 },
-                { id: 25, question: "Q25: 10 semáforos. P(Verde)=2/3, P(Verm)=1/3. P(exatamente um sinal verde)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["(10 × 2) / 3¹⁰", "(10 × 2⁹) / 3¹⁰", "2¹⁰ / 3¹⁰⁰", "2⁹⁰ / 3¹⁰⁰"], correctAnswer: 0 },
-
-                // Probabilidade: Condicional
-                { id: 10, question: "Q10: X, Y, Z em prova. P(X vencer) = 2 * P(Y vencer). P(Y vencer) = 2 * P(Z vencer). P(Z vencer)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["1/2", "1/4", "1/7", "2/7"], correctAnswer: 2 },
-                
-                // Binômio de Newton
-                { id: 27, question: "Q27: No desenvolvimento de (5x + 2)⁵, qual o coeficiente de x³?", topic: "Como Usar a 'Chave Mestra' (Exemplo)", options: ["1000", "2000", "5000", "8000"], correctAnswer: 2 },
-                { id: 28, question: "Q28: Determine o termo central no binômio (x² - 1/x)⁸.", topic: "'Macetes' Específicos do Binômio", options: ["-70x²", "70x⁴", "70", "-70"], correctAnswer: 1 },
-                { id: 29, question: "Q29: (x/2 - y/x)⁷. Assinale o quinto termo.", topic: "'Macetes' Específicos do Binômio", options: ["35y⁴ / 8x", "-35y⁴ / 8x²", "21x³y⁴ / 16", "35x²y⁴ / 8"], correctAnswer: 0 },
-                
-                // NOVAS PERGUNTAS (ID 31-52)
-                { id: 31, question: "Ao lançar dois dados comuns, qual a probabilidade de que a soma dos números seja 7?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/6", "1/12", "7/36", "1/5"], correctAnswer: 0 },
-                { id: 32, question: "Ao lançar dois dados comuns, qual a probabilidade de que ambos os números sejam pares?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/2", "1/3", "1/4", "5/12"], correctAnswer: 2 },
-                { id: 33, question: "Uma moeda é lançada 4 vezes. Qual a probabilidade de se obter exatamente 2 caras?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/16", "1/4", "3/8", "1/2"], correctAnswer: 2 },
-                { id: 34, question: "Uma moeda é lançada 4 vezes. Qual a probabilidade de não se obter nenhuma coroa?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/16", "1/8", "1/4", "1/2"], correctAnswer: 0 },
-                { id: 35, question: "Uma urna contém 5 bolas vermelhas e 3 azuis. Qual a probabilidade de tirar 1 bola azul?", topic: "Conceito-Chave: A Fórmula Básica", options: ["5/8", "3/5", "3/8", "1/3"], correctAnswer: 2 },
-                { id: 36, question: "Urna com 5V e 3A. Retirando 2 bolas sem reposição, qual a P(ambas serem da mesma cor)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/2", "13/28", "15/56", "21/56"], correctAnswer: 1 },
-                { id: 37, question: "Um grupo tem 6 Homens e 4 Mulheres. Qual a P(de se escolher 1 pessoa e ela ser Mulher)?", topic: "Conceito-Chave: A Fórmula Básica", options: ["1/4", "1/6", "2/3", "2/5"], correctAnswer: 3 },
-                { id: 38, question: "Ao lançar um dado, qual a P(ser menor que 3 OU ser par)?", topic: "União de Eventos (A 'Regra do OU')", options: ["1/2", "2/3", "5/6", "1/6"], correctAnswer: 1 },
-                { id: 39, question: "De um baralho de 52 cartas, qual a P(tirar um Rei OU uma carta de Copas)?", topic: "União de Eventos (A 'Regra do OU')", options: ["17/52", "13/52", "16/52 (ou 4/13)", "4/13"], correctAnswer: 3 }, // Corrigido para 4/13, que é 16/52
-                { id: 40, question: "Lançando 2 dados, sabendo que a soma foi 8, qual a P(um dos dados ser 5)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["1/5", "2/5", "1/6", "1/36"], correctAnswer: 1 },
-                { id: 41, question: "Uma família tem 2 filhos. Sabendo que o primeiro é menino, qual a P(ambos serem meninos)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["1/4", "1/3", "1/2", "2/3"], correctAnswer: 2 },
-                { id: 42, question: "Uma moeda é lançada 4 vezes. Qual a P(obter pelo menos uma cara)?", topic: "O 'Macete' do 'Pelo Menos Um'", options: ["1/16", "15/16", "1/4", "3/4"], correctAnswer: 1 },
-                { id: 43, question: "A P(chover amanhã) é 30%. Qual a P(pelo menos um dia de chuva nos próximos 2 dias)?", topic: "O 'Macete' do 'Pelo Menos Um'", options: ["9%", "49%", "51%", "60%"], correctAnswer: 2 },
-                { id: 44, question: "Um atirador acerta 60% dos tiros. Em 3 tiros, qual a P(acertar exatamente 2)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["36%", "18%", "43,2%", "21,6%"], correctAnswer: 2 },
-                { id: 45, question: "Em 5 semáforos, P(Verde)=1/2. Qual a P(pegar todos verdes)?", topic: "Eventos Sucessivos ('E') - Multiplicação", options: ["1/5", "1/10", "1/16", "1/32"], correctAnswer: 3 },
-                { id: 46, question: "No desenvolvimento de (x + 3)⁴, qual o 3º termo?", topic: "O Triângulo de Pascal", options: ["27x²", "54x²", "36x²", "108x"], correctAnswer: 1 },
-                { id: 47, question: "No desenvolvimento de (x + y)⁷, qual o coeficiente de x⁵y²?", topic: "Como Usar a 'Chave Mestra' (Exemplo)", options: ["7", "21", "35", "14"], correctAnswer: 1 },
-                { id: 48, question: "Qual a soma dos coeficientes no desenvolvimento de (x - 1)⁵?", topic: "Macete: Soma dos Coeficientes", options: ["0", "1", "32", "-1"], correctAnswer: 0 },
-                { id: 49, question: "Qual o termo central de (x + 1/x)⁶?", topic: "'Macetes' Específicos do Binômio", options: ["6", "15", "20", "20x²"], correctAnswer: 2 },
-                { id: 50, question: "Qual o termo independente de x em (x² + 1/x)³?", topic: "'Macetes' Específicos do Binômio", options: ["1", "3", "6", "Não existe"], correctAnswer: 1 },
-                { id: 51, question: "Numa classe, 40% são meninos. 30% dos meninos e 20% das meninas têm olhos azuis. Qual a P(um aluno ter olhos azuis)?", topic: "Probabilidade Condicional ('Sabendo que...')", options: ["24%", "25%", "26%", "30%"], correctAnswer: 0 },
-                { id: 52, question: "Qual o termo independente de x em (x + 1/x)⁴?", topic: "'Macetes' Específicos do Binômio", options: ["1", "4", "6", "Não existe"], correctAnswer: 2 }
+                // Conceitos Fundamentais
+                { 
+                    id: 1, 
+                    question: "Ao lançar dois dados comuns, qual a probabilidade de que a soma dos números seja 7?", 
+                    topic: "Conceito-Chave: Probabilidade Clássica (Laplace)", 
+                    options: ["1/6", "1/12", "7/36", "1/5"], 
+                    correctAnswer: 0,
+                    helpText: "<strong>Dica:</strong> Liste todas as 36 combinações possíveis (1,1), (1,2), ... (6,6).<br><br><strong>Resolução:</strong> O 'Espaço Amostral' (Total de Casos) é 6 × 6 = 36.<br>Os 'Casos Favoráveis' (soma = 7) são: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1).<br>São 6 casos favoráveis.<br><strong>P = 6 / 36 = 1/6</strong>."
+                },
+                { 
+                    id: 2, 
+                    question: "Em 3 lances de uma moeda, qual a probabilidade de ocorrência de exatamente uma cara?", 
+                    topic: "Conceito-Chave: Probabilidade Clássica (Laplace)", 
+                    options: ["1/8", "1/3", "3/8", "1/2"], 
+                    correctAnswer: 2,
+                    helpText: "<strong>Dica:</strong> Liste todos os resultados possíveis.<br><br><strong>Resolução:</strong> O 'Espaço Amostral' (Total) é 2 × 2 × 2 = 8 casos.<br> S = {CCC, CCK, CKC, CKK, KCC, KCK, KKC, KKK}.<br>Os 'Casos Favoráveis' (exatamente 1 cara) são: {CKK, KCK, KKC}.<br>São 3 casos favoráveis.<br><strong>P = 3 / 8</strong>."
+                },
+                {
+                    id: 3, 
+                    question: "Numa turma de 40 alunos, o número de rapazes excede o de moças em 12. Qual a P(de sortear uma moça)?", 
+                    topic: "Conceito-Chave: Probabilidade Clássica (Laplace)", 
+                    options: ["1/40", "12/40", "7/20", "1/2"], 
+                    correctAnswer: 2,
+                    helpText: "<strong>Dica:</strong> Monte um sistema de equações. R + M = 40 e R = M + 12.<br><br><strong>Resolução:</strong> Substituindo a 2ª na 1ª: (M + 12) + M = 40.<br>2M = 28 -> M = 14 moças.<br>(R = 14 + 12 = 26 rapazes).<br>Total de Casos (n) = 40.<br>Casos Favoráveis (f) = 14.<br><strong>P = 14 / 40 = 7 / 20</strong>."
+                },
+                {
+                    id: 4, 
+                    question: "Um dado é viciado. P(Par) = 2 * P(Ímpar). As faces pares são equiprováveis entre si, assim como as ímpares. Qual a P(face 3)?", 
+                    topic: "Conceito-Chave: Probabilidade Clássica (Laplace)", 
+                    options: ["1/3", "2/3", "1/6", "1/9"], 
+                    correctAnswer: 3,
+                    helpText: "<strong>Dica:</strong> P(Par) + P(Ímpar) = 1.<br><br><strong>Resolução:</strong> 2*P(Ímpar) + P(Ímpar) = 1 -> 3*P(Ímpar) = 1 -> P(Ímpar) = 1/3.<br>O evento 'Ímpar' é {1, 3, 5}. Como são equiprováveis, P(1)=P(3)=P(5).<br>P(1)+P(3)+P(5) = P(Ímpar) = 1/3.<br>3 * P(3) = 1/3 -> <strong>P(3) = 1/9</strong>."
+                },
+                // Operações com Eventos
+                { 
+                    id: 5, 
+                    question: "No lançamento de 1 dado (S={1,2,3,4,5,6}), seja A={Par} e B={Sair nº maior que 4}. Qual é o evento A ∩ B (Interseção)?", 
+                    topic: "Operações com Eventos (União, Interseção, Complemento)", 
+                    options: ["{2, 4, 5, 6}", "{6}", "{5, 6}", "Ø"], 
+                    correctAnswer: 1,
+                    helpText: "<strong>Dica:</strong> Interseção (∩) significa 'E'. O resultado deve ser Par E maior que 4.<br><br><strong>Resolução:</strong> Evento A = {2, 4, 6}.<br>Evento B = {5, 6}.<br>O único elemento que está em A e B ao mesmo tempo é o 6.<br><strong>A ∩ B = {6}</strong>."
+                },
+                { 
+                    id: 6, 
+                    question: "No lançamento de 1 dado (S={1,2,3,4,5,6}), seja A={1} e C={Par}. A e C são ditos:", 
+                    topic: "Operações com Eventos (União, Interseção, Complemento)", 
+                    options: ["Complementares", "Mutuamente Exclusivos", "Independentes", "União"], 
+                    correctAnswer: 1,
+                    helpText: "<strong>Dica:</strong> Eventos mutuamente exclusivos são aqueles que não podem ocorrer ao mesmo tempo.<br><br><strong>Resolução:</strong> Evento A = {1}.<br>Evento C = {2, 4, 6}.<br>A interseção A ∩ C = Ø (conjunto vazio).<br>Como a interseção é vazia, eles são <strong>Mutuamente Exclusivos</strong>."
+                },
+                { 
+                    id: 7, 
+                    question: "Se P(Série)=0.72, P(Cinema)=0.55, e P(Série OU Cinema)=0.85. Qual a P(Série E Cinema)?", 
+                    topic: "Teoremas Importantes (Regra da Soma, Complementar)", 
+                    options: ["1.27", "0.15", "0.42", "0.30"], 
+                    correctAnswer: 2,
+                    helpText: "<strong>Dica:</strong> Use a Regra da Soma: P(A ∪ B) = P(A) + P(B) - P(A ∩ B).<br><br><strong>Resolução:</strong> 0.85 = 0.72 + 0.55 - P(S ∩ C).<br>0.85 = 1.27 - P(S ∩ C).<br>P(S ∩ C) = 1.27 - 0.85 = <strong>0.42</strong>."
+                },
+                { 
+                    id: 8, 
+                    question: "Se 85% dos alunos veem Série OU vão ao Cinema (P(S∪C)=0.85), qual a P(de um aluno NÃO ver série E NÃO ir ao cinema)?", 
+                    topic: "Teoremas Importantes (Regra da Soma, Complementar)", 
+                    options: ["15%", "28%", "42%", "Impossível saber"], 
+                    correctAnswer: 0,
+                    helpText: "<strong>Dica:</strong> 'Não S OU Não C' é o complementar de 'S OU C'. P( (S∪C)ᶜ ).<br><br><strong>Resolução:</strong> Pela Regra do Complementar: P(Aᶜ) = 1 - P(A).<br>P( (S∪C)ᶜ ) = 1 - P(S∪C).<br>P = 1 - 0.85 = <strong>0.15 (ou 15%)</strong>."
+                },
+                { 
+                    id: 9, 
+                    question: "Se A e B são mutuamente exclusivos, P(A∪B) é:", 
+                    topic: "Outras Definições: Frequência Relativa e Axiomática", 
+                    options: ["P(A) + P(B) - P(A∩B)", "P(A) × P(B)", "P(A) + P(B)", "0"], 
+                    correctAnswer: 2,
+                    helpText: "<strong>Dica:</strong> Este é o 3º Axioma da Probabilidade.<br><br><strong>Resolução:</strong> Se A e B são mutuamente exclusivos, a interseção P(A∩B) é 0. A Regra da Soma P(A∪B) = P(A) + P(B) - P(A∩B) se simplifica para <strong>P(A) + P(B)</strong>."
+                },
+                // Análise Combinatória
+                { 
+                    id: 10, 
+                    question: "Qual a probabilidade de ganhar na Mega-Sena (6 números) com uma aposta simples (6 números) em 60 disponíveis?", 
+                    topic: "Usando Combinatória na Probabilidade", 
+                    options: ["1 / 50.063.860", "6 / 60", "1 / 360", "1 / 720"], 
+                    correctAnswer: 0,
+                    helpText: "<strong>Dica:</strong> A ordem dos números não importa, use Combinação.<br><br><strong>Resolução:</strong> Total de Casos (n) = Quantos grupos de 6 podemos formar com 60? n = C(60, 6).<br>C(60, 6) = 60! / (6! * 54!) = 50.063.860.<br>Casos Favoráveis (f) = 1 (só existe 1 resultado).<br><strong>P = 1 / 50.063.860</strong>."
+                },
+                { 
+                    id: 11, 
+                    question: "Uma senha é formada por 4 letras distintas do alfabeto (26 letras). Você lembra que começa com K e termina com W. Qual a P(acertar de 1ª)?", 
+                    topic: "Usando Combinatória na Probabilidade", 
+                    options: ["1/26", "1/650", "1/600", "1/552"], 
+                    correctAnswer: 3,
+                    helpText: "<strong>Dica:</strong> Use o PFC (Arranjo) para o 'Total de Casos'. A senha é K _ _ W.<br><br><strong>Resolução:</strong> O 'Total de Casos' é o número de senhas que se encaixam na dica.<br>Pos 1: K (1 opção).<br>Pos 4: W (1 opção).<br>Pos 2: 24 opções (não pode ser K nem W).<br>Pos 3: 23 opções (não pode ser K, W, nem a da Pos 2).<br>Total = 1 × 24 × 23 × 1 = 552.<br>Casos Favoráveis = 1 (a sua senha).<br><strong>P = 1 / 552</strong>."
+                },
+                { 
+                    id: 12, 
+                    question: "Um grupo tem 5 Homens e 3 Mulheres. Qual a P(de se escolher 2 pessoas e ambas serem mulheres)?", 
+                    topic: "Usando Combinatória na Probabilidade", 
+                    options: ["3/28", "1/4", "3/8", "6/56"], 
+                    correctAnswer: 0,
+                    helpText: "<strong>Dica:</strong> A ordem não importa. P = C(favoráveis) / C(total).<br><br><strong>Resolução:</strong> Total de Casos (n) = Escolher 2 de 8 pessoas. n = C(8, 2) = 8! / (2! 6!) = (8*7)/2 = 28.<br>Casos Favoráveis (f) = Escolher 2 de 3 mulheres. f = C(3, 2) = 3! / (2! 1!) = 3.<br><strong>P = 3 / 28</strong>."
+                },
+                // Probabilidade Avançada (Condicional, Produto, Independência)
+                { 
+                    id: 13, 
+                    question: "Na tabela (Eng. Produção/Civil vs Aprov/Reprov), qual a P(aluno ser de Produção, DADO QUE foi aprovado)?", 
+                    topic: "Probabilidade Condicional ('Sabendo que...')", 
+                    options: ["60/110", "60/200", "60/140", "140/200"], 
+                    correctAnswer: 2,
+                    helpText: "<strong>Dica:</strong> 'Dado que foi aprovado' reduz o universo. O novo total é 140.<br><br><strong>Resolução:</strong> O espaço amostral é reduzido para 'Aprovados' (n=140).<br>Dentro desse grupo, os 'Favoráveis' (Produção) são 60.<br><strong>P = 60 / 140 = 6 / 14 = 3 / 7</strong>. (A opção 60/140 é a correta)."
+                },
+                { 
+                    id: 14, 
+                    question: "Na mesma tabela, qual a P(aluno ser Aprovado, DADO QUE é de Eng. Civil)?", 
+                    topic: "Probabilidade Condicional ('Sabendo que...')", 
+                    options: ["80/90", "80/140", "80/200", "90/200"], 
+                    correctAnswer: 0,
+                    helpText: "<strong>Dica:</strong> 'Dado que é de Eng. Civil' reduz o universo. O novo total é 90.<br><br><strong>Resolução:</strong> O espaço amostral é reduzido para 'Eng. Civil' (n=90).<br>Dentro desse grupo, os 'Favoráveis' (Aprovados) são 80.<br><strong>P = 80 / 90 = 8 / 9</strong>. (A opção 80/90 é a correta)."
+                },
+                { 
+                    id: 15, 
+                    question: "Uma caixa tem 20 peças (5 Defeituosas, 15 Perfeitas). Extraem-se 2 SEM reposição. Qual a P(ambas serem perfeitas)?", 
+                    topic: "Eventos Sucessivos (Teorema do Produto)", 
+                    options: ["(15/20) * (15/20)", "(15/20) * (14/19)", "(5/20) * (4/19)", "15/20"], 
+                    correctAnswer: 1,
+                    helpText: "<strong>Dica:</strong> São eventos dependentes. P(A ∩ B) = P(A) × P(B | A).<br><br><strong>Resolução:</strong> P(1ª Perfeita E 2ª Perfeita).<br>P(1ª P) = 15/20.<br>P(2ª P | 1ª P) = 14/19 (Restam 19 peças, 14 perfeitas).<br><strong>P = (15/20) × (14/19)</strong> = 210 / 380 = 21/38."
+                },
+                { 
+                    id: 16, 
+                    question: "Uma urna tem 2B, 3P, 4V (Total 9). Retiram-se 2 SEM reposição. Qual a P(ambas serem verdes)?", 
+                    topic: "Eventos Sucessivos (Teorema do Produto)", 
+                    options: ["4/9", "16/81", "1/6", "12/81"], 
+                    correctAnswer: 2,
+                    helpText: "<strong>Dica:</strong> Eventos dependentes. P(A ∩ B) = P(A) × P(B | A).<br><br><strong>Resolução:</strong> P(1ª V E 2ª V).<br>P(1ª V) = 4/9.<br>P(2ª V | 1ª V) = 3/8 (Restam 8 bolas, 3 verdes).<br><strong>P = (4/9) × (3/8) = 12 / 72 = 1/6</strong>."
+                },
+                { 
+                    id: 17, 
+                    question: "Um extintor tem P(disponível)=0.98 e uma ambulância P(disponível)=0.92. Os eventos são independentes. Qual a P(AMBOS estarem disponíveis)?", 
+                    topic: "Eventos Independentes", 
+                    options: ["0.98 + 0.92", "0.98", "1.00", "0.9016"], 
+                    correctAnswer: 3,
+                    helpText: "<strong>Dica:</strong> Para eventos independentes, P(A ∩ B) = P(A) × P(B).<br><br><strong>Resolução:</strong> P(Extintor E Ambulância).<br>P = P(Extintor) × P(Ambulância).<br><strong>P = 0.98 × 0.92 = 0.9016</strong> (ou 90.16%)."
+                },
+                { 
+                    id: 18, 
+                    question: "Em um grupo de 30 pessoas, a P(pelo menos duas terem o mesmo aniversário) é:", 
+                    topic: "Curiosidade: O Paradoxo do Aniversário", 
+                    options: ["Abaixo de 20%", "Entre 20% e 50%", "Acima de 70%", "Exatamente 50%"], 
+                    correctAnswer: 2,
+                    helpText: "<strong>Dica:</strong> Este é o Paradoxo do Aniversário. O resultado é surpreendentemente alto.<br><br><strong>Resolução:</strong> P(Pelo menos 2 iguais) = 1 - P(Todos diferentes).<br>Com 23 pessoas, a P > 50%.<br>Com 30 pessoas, a P é <strong>70.63%</strong> (conforme slide 15), que é 'Acima de 70%'."
+                },
+                { 
+                    id: 19, 
+                    question: "Um teste de Dengue é 95% acurado. 10% da população está infectada. Qual a P(teste dar Negativo | indivíduo ESTÁ com dengue)?", 
+                    topic: "Probabilidade Condicional ('Sabendo que...')", 
+                    options: ["95%", "10%", "5%", "85.5%"], 
+                    correctAnswer: 2,
+                    helpText: "<strong>Dica:</strong> 'Acurado' significa que dá o resultado correto (Positivo para quem tem, Negativo para quem não tem).<br><br><strong>Resolução:</strong> O teste é 95% acurado.<br>Se o indivíduo ESTÁ com dengue, o teste 'correto' seria 'Positivo' (com 95% de chance).<br>O resultado 'incorreto' (Negativo) terá a probabilidade complementar.<br>P(Negativo | Com Dengue) = 100% - P(Positivo | Com Dengue) = 100% - 95% = <strong>5%</strong>."
+                },
+                { 
+                    id: 20, 
+                    question: "Urna 5V, 3B. Tira 1 (sem repor). Coloca 2 da *outra* cor. Tira 2ª bola. Qual a P(2ª bola ser Vermelha)?", 
+                    topic: "Probabilidade Condicional ('Sabendo que...')", 
+                    options: ["5/8", "41/72", "20/72", "21/72"], 
+                    correctAnswer: 1,
+                    helpText: "<strong>Dica:</strong> Use a Lei da Probabilidade Total. Separe em 2 casos: (1ª foi V) ou (1ª foi B).<br><br><strong>Resolução:</strong><br><strong>Caso 1:</strong> 1ª V (P=5/8). Urna fica 4V, 5B (Total 9). P(2ª V | 1ª V) = 4/9.<br>P(Caso 1 ∩ 2ªV) = (5/8)*(4/9) = 20/72.<br><strong>Caso 2:</strong> 1ª B (P=3/8). Urna fica 7V, 2B (Total 9). P(2ª V | 1ª B) = 7/9.<br>P(Caso 2 ∩ 2ªV) = (3/8)*(7/9) = 21/72.<br><strong>P(Total 2ªV)</strong> = (20/72) + (21/72) = <strong>41/72</strong>."
+                }
             ];
-            
-            // Filtra questões com dados incompletos
-            const completeQuestionBank = questionBank.filter(q => q.id !== 15 && q.id !== 26 && q.id !== 30);
-            const TOTAL_QUESTIONS = completeQuestionBank.length; // Agora 40
+
+            const TOTAL_QUESTIONS = questionBank.length; // 20
 
             const startBtn = document.getElementById('quiz-start-btn');
             const restartBtn = document.getElementById('restart-quiz-btn');
@@ -1520,16 +1483,19 @@
             let missedTopics = [];
             let activeQuiz = [];
             let correctlyAnsweredIds = [];
+            
+            // Nova chave de progresso para o novo quiz
+            const PROGRESS_KEY = 'probabilidade_quiz_progress_v2'; 
 
             function loadProgress() {
-                const savedProgress = localStorage.getItem('estatistica_quiz_progress_dark');
+                const savedProgress = localStorage.getItem(PROGRESS_KEY);
                 correctlyAnsweredIds = savedProgress ? JSON.parse(savedProgress) : [];
                 updateProgressBar();
                 checkCompletion();
             }
 
             function saveProgress() {
-                localStorage.setItem('estatistica_quiz_progress_dark', JSON.stringify(correctlyAnsweredIds));
+                localStorage.setItem(PROGRESS_KEY, JSON.stringify(correctlyAnsweredIds));
             }
 
             function updateProgressBar() {
@@ -1543,7 +1509,7 @@
             }
             
             function checkCompletion() {
-                const availableQuestions = completeQuestionBank.filter(q => !correctlyAnsweredIds.includes(q.id));
+                const availableQuestions = questionBank.filter(q => !correctlyAnsweredIds.includes(q.id));
                 if (availableQuestions.length === 0) {
                     startBtn.disabled = true;
                     startBtn.textContent = "Parabéns, você dominou tudo!";
@@ -1554,13 +1520,14 @@
             }
             
             function startQuiz() {
-                const availableQuestions = completeQuestionBank.filter(q => !correctlyAnsweredIds.includes(q.id));
+                const availableQuestions = questionBank.filter(q => !correctlyAnsweredIds.includes(q.id));
                 
                 if (availableQuestions.length === 0) {
                      checkCompletion();
                      return;
                 }
 
+                // O quiz terá 10 perguntas, sorteadas das disponíveis
                 activeQuiz = [...availableQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
                 
                 currentQuestionIndex = 0;
@@ -1582,14 +1549,6 @@
                 const questionData = activeQuiz[currentQuestionIndex];
 
                 questionCounterDisplay.textContent = `${currentQuestionIndex + 1}/${activeQuiz.length}`;
-                
-                const existingSvg = quizContainer.querySelector('.quiz-question-svg');
-                if (existingSvg) existingSvg.remove();
-
-                if (questionData.svgId) {
-                    // ... (lógica para adicionar SVG, se houver)
-                }
-
                 questionEl.textContent = questionData.question;
                 
                 questionData.options.forEach((option, index) => {
@@ -1603,10 +1562,6 @@
             }
 
             function resetState() {
-                const existingSvg = quizContainer.querySelector('.quiz-question-svg');
-                if (existingSvg) {
-                    existingSvg.remove();
-                }
                 while(optionsEl.firstChild) {
                     optionsEl.removeChild(optionsEl.firstChild);
                 }
@@ -1707,7 +1662,7 @@
             
             function resetProgress() {
                 openConfirmModal("Você tem certeza que deseja zerar todo o seu progresso? Esta ação não pode ser desfeita.", () => {
-                    localStorage.removeItem('estatistica_quiz_progress_dark');
+                    localStorage.removeItem(PROGRESS_KEY);
                     correctlyAnsweredIds = [];
                     updateProgressBar();
                     checkCompletion();
@@ -1715,36 +1670,27 @@
                 });
             }
 
+            // FUNÇÃO DE AJUDA ATUALIZADA
             function showHelpForQuestion() {
                 if (currentQuestionIndex >= activeQuiz.length) return;
                 
                 const questionData = activeQuiz[currentQuestionIndex];
-                const topicName = questionData.topic;
+                const helpText = questionData.helpText;
                 
+                // Determina o tema do modal pela seção do tópico
+                const topicName = questionData.topic;
                 const targetCard = Array.from(document.querySelectorAll('.topic-card .summary'))
                     .find(s => s.textContent.trim() === topicName)?.parentElement;
                 
+                let theme = 'conceitos'; // Default
                 if (targetCard) {
-                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    if (!targetCard.classList.contains('is-open')) {
-                        toggleAccordion(targetCard);
-                    }
-                    // Destaca o card
-                    targetCard.style.transition = 'all 0.3s ease';
-                    targetCard.style.transform = 'scale(1.03)';
-                    
-                    // A borda já é definida pela classe 'is-open' ou pelo 'hover', mas podemos forçar
-                    const themeBorder = targetCard.closest('section').id === 'probabilidade' ? 
-                        'var(--probabilidade-border)' : 'var(--binomio-border)';
-                    targetCard.style.boxShadow = `0 10px 30px rgba(0,0,0,0.25), inset 0 0 0 3px ${themeBorder}`;
-                    
-                    setTimeout(() => {
-                        targetCard.style.transform = '';
-                        targetCard.style.boxShadow = ''; // Reseta para o boxShadow padrão do 'is-open'
-                    }, 2000);
+                    const parentSectionId = targetCard.closest('section').id;
+                    if (parentSectionId === 'conceitos-fundamentais') theme = 'probabilidade';
+                    if (parentSectionId === 'analise-combinatoria') theme = 'conceitos';
+                    if (parentSectionId === 'probabilidade-avancada') theme = 'avancado';
                 }
                 
-                openInfoModal(`Esta questão se refere ao tópico: <strong>${topicName}</strong>.<br><br>O conteúdo relevante foi destacado na página para você revisar. Feche esta janela para ver.`, "Dica da Questão");
+                openInfoModal(helpText, "Dica e Resolução", theme);
             }
 
             startBtn.addEventListener('click', startQuiz);
@@ -1763,4 +1709,3 @@
     </script>
 </body>
 </html>
-
